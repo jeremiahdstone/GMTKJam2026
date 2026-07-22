@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInputs : MonoBehaviour
 {
     public PlayerMovement playerMovement;
+    public PlayerAttacks playerAttacks;
     // public FreezeSelector freezeSelector;
     
     // public Animator animator;
@@ -72,7 +73,7 @@ public class PlayerInputs : MonoBehaviour
         // }
 
         // converts mouse position from screen coordinates to game coordinates  
-        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // freezeSelector.moveSelector(mousePosition);
         
         //OLD FREEZING LOGIC
@@ -98,6 +99,13 @@ public class PlayerInputs : MonoBehaviour
         //BAT FORM TOGGLE
         if (Input.GetKeyDown("space")) {
             playerMovement.ToggleBatForm();
+        }
+
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //BITE ATTACK 
+        if (Input.GetButtonDown("Fire1")) {
+            playerAttacks.BiteAttack(mousePosition);
         }
 
         //resets the level
