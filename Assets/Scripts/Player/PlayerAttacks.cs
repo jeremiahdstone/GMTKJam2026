@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 public class PlayerAttacks : MonoBehaviour
 {
-    public float biteDamage;
-    public float biteCooldown;
-    public float biteRange;
+    public float biteDamage = 10;
+    public float biteCooldown = 2;
+    public float biteRange = 5;
 
-    public float biteTimer;
+    public float biteTimer = 0;
 
     void Start()
     {
@@ -38,22 +39,24 @@ public class PlayerAttacks : MonoBehaviour
             return;
 
         // Make sure the hit object is an enemy
-        Enemy enemy = hit.GetComponent<Enemy>();
-        if (enemy == null)
+        IDamageable damageable = hit.GetComponent<IDamageable>();
+        if (damageable == null)
             return;
 
         // Check range
-        float distance = Vector2.Distance(transform.position, enemy.transform.position);
+        float distance = Vector2.Distance(transform.position, hit.transform.position);
         if (distance > biteRange)
             return;
 
         // GOOD TO ATTACK
 
         // Teleport to enemy
-        transform.position = enemy.transform.position;
+        // transform.position = hit.transform.position;
+        transform.DOMove(hit.transform.position, 0.1f).SetEase(Ease.InOutSine);
+        
 
         // Deal damage
-        enemy.TakeDamage(biteDamage);   //thisll prolly be a IDamagable interface ill need to mess with
+        damageable.Damage(biteDamage);
 
         Debug.Log("Bite attack executed");  //DEBUG
 

@@ -1,11 +1,12 @@
 using UnityEngine;
 using Pathfinding;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     [Header("Stats")]
     [SerializeField] public int cost = 1;
-    [SerializeField] private float health = 50f;
+    [SerializeField] public float maxHealth = 50f;
+    [SerializeField] public float currentHealth = 50f;
     [SerializeField] private float speed = 5f;
 
     [Header("References")]
@@ -148,5 +149,18 @@ public class Enemy : MonoBehaviour
         path.Claim(this);
 
         currentWaypoint = 0;
+    }
+    
+    public void Damage(float damage){
+        currentHealth -= damage;
+
+        if(currentHealth < 0){
+            Die();
+        }
+    }
+
+    public void Die(){
+        Destroy(gameObject);
+        LevelDirector.instance.NotifyEnemyRemoved();
     }
 }
