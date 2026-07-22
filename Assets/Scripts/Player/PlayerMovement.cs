@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float batSpeed;
+    public float batMaxSpeed;
+    public float batAcceleration;
     public float walkSpeed;
     
     public float speed;
@@ -18,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //INITIAL VALUES
-        batSpeed = 15;
+        batMaxSpeed = 15;
+        batAcceleration = 1.1f;
         walkSpeed = 5;
         speed = walkSpeed;
         batForm = false;
@@ -52,7 +54,26 @@ public class PlayerMovement : MonoBehaviour
         //moves based on the player speed, the time, and the movement direction
         //Time.fixedDeltaTime is to ensure altering frame rates do not affect speed
         //rb.MovePosition(rb.position+(speed * Time.fixedDeltaTime * direction));
-        rb.linearVelocity = direction * speed;
+        // rb.linearVelocity = direction * speed;
+
+        // walking is velocity based
+        if (!batForm)
+        {
+            rb.linearVelocity = direction * speed;
+        }
+        else // bat form is acceleration based
+        {
+            rb.AddForce(direction * batAcceleration, ForceMode2D.Impulse);
+            // max speed for bat form
+            if (rb.linearVelocity.magnitude > batMaxSpeed)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * batMaxSpeed;
+            }
+            if (direction == Vector2.zero)  //decelerate when no input is given
+            {
+                rb.linearVelocity *= 1/batAcceleration;
+            }
+        }
     }
 
     public void ToggleBatForm()
@@ -65,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
             //make pixel shadow poof
         } else  //human form, entering bat form
         {
-            speed = batSpeed;
+            speed = walkSpeed;
             batForm = true;
             //set sprite to human
             //make pixel shadow poof
