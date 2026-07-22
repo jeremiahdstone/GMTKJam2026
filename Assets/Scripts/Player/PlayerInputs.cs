@@ -72,11 +72,11 @@ public class PlayerInputs : MonoBehaviour
         // }
 
         // converts mouse position from screen coordinates to game coordinates  
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // freezeSelector.moveSelector(mousePosition);
         
         //OLD FREEZING LOGIC
-        
+
         // Collider2D hitFreeze = Physics2D.OverlapPoint(mousePosition);
         // if (hitFreeze && hitFreeze.GetComponent<IFreezable>() != null)
         // {
