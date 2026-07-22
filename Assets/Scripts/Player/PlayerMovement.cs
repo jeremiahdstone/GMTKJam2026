@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float batMaxSpeed;
-    public float batAcceleration;
-    public float walkSpeed;
+    public float batMaxSpeed = 15f;
+    public float batAcceleration = 1.1f;
+    public float walkSpeed = 5f;
     
     public float speed;
     public bool batForm;
