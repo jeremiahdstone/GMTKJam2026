@@ -4,6 +4,7 @@ using Pathfinding;
 public class Enemy : MonoBehaviour
 {
     [Header("Stats")]
+    [SerializeField] public int cost = 1;
     [SerializeField] private float health = 50f;
     [SerializeField] private float speed = 5f;
 
@@ -11,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Seeker seeker;
 
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
 
     [Header("Pathfinding")]
     [SerializeField] private float pathUpdateTime = 0.25f;
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
+        if(target == null) target = GameObject.FindGameObjectWithTag("Objective").transform;
+
     }
 
     // For when object pooling is called.
@@ -33,7 +36,6 @@ public class Enemy : MonoBehaviour
         currentWaypoint = 0;
         nextPathUpdateTime = 0f;
         UpdatePath();
-
     }
 
     private void FixedUpdate(){
