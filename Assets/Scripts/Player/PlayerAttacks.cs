@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 public class PlayerAttacks : MonoBehaviour
@@ -50,7 +51,9 @@ public class PlayerAttacks : MonoBehaviour
         // GOOD TO ATTACK
 
         // Teleport to enemy
-        transform.position = hit.transform.position;
+        // transform.position = hit.transform.position;
+        transform.DOMove(hit.transform.position, 0.1f).SetEase(Ease.InOutSine);
+        
 
         // Deal damage
         damageable.Damage(biteDamage);
