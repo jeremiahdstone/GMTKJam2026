@@ -4,7 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5;
+    public float batSpeed;
+    public float walkSpeed;
+    
+    public float speed;
+    public bool batForm;
+    
     public Rigidbody2D rb;
 
     public static string previousLevel = "NONE";
@@ -12,6 +17,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //INITIAL VALUES
+        batSpeed = 15;
+        walkSpeed = 5;
+        speed = walkSpeed;
+        batForm = false;
+
         //OLD LEVEL SPAWNING LOGIC 
 
         // //sets the player to spawn near the door the left at when they enter the main room
@@ -43,4 +54,23 @@ public class PlayerMovement : MonoBehaviour
         //rb.MovePosition(rb.position+(speed * Time.fixedDeltaTime * direction));
         rb.linearVelocity = direction * speed;
     }
+
+    public void ToggleBatForm()
+    {
+        if (batForm) //bat form, entering human form
+        {
+            speed = walkSpeed;
+            batForm = false;
+            //set sprite to bat
+            //make pixel shadow poof
+        } else  //human form, entering bat form
+        {
+            speed = batSpeed;
+            batForm = true;
+            //set sprite to human
+            //make pixel shadow poof
+            //start velocity in direction of mouse?
+        }
+    }
+
 }

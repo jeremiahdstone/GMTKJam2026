@@ -95,6 +95,11 @@ public class PlayerInputs : MonoBehaviour
         //     freezeSelector.hideSelector();
         // }
         
+        //BAT FORM TOGGLE
+        if (Input.GetKeyDown("space")) {
+            playerMovement.ToggleBatForm();
+        }
+
         //resets the level
         if (Input.GetKeyDown("r"))
         {
