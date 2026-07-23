@@ -11,7 +11,7 @@ public class BrambleTrap : Trap
         if (enemy == null)
             return;
 
-        enemy.speedMultiplier *= slowMultiplier;
+        enemy.currentSpeed *= slowMultiplier;
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -21,6 +21,6 @@ public class BrambleTrap : Trap
         if (enemy == null)
             return;
 
-        enemy.speedMultiplier /= slowMultiplier;
+        enemy.currentSpeed /= slowMultiplier;
     }
 }

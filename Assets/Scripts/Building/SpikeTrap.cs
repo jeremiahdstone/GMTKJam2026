@@ -11,7 +11,7 @@ public class SpikeTrap : Trap
         if (enemy == null)
             return;
 
-        enemy.TakeDamage(damage);
+        enemy.Damage(damage);
 
         TriggerTrap(enemy);
     }

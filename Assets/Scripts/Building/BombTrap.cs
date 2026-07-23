@@ -22,7 +22,7 @@ public class BombTrap : Trap
             Enemy e = hit.GetComponent<Enemy>();
 
             if (e != null)
-                e.TakeDamage(damage);
+                e.Damage(damage);
         }
 
         // TODO: Spawn explosion effect here
