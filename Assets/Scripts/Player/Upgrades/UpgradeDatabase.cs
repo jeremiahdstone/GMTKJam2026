@@ -52,5 +52,11 @@ public static class UpgradeDatabase
             affectedStat = PlayerStat.BiteRange,
             flatBonus = 0.5f,
         },
+
+        new DoubleBiteUpgrade
+        {
+            name = "Bite Chain",
+            description = "Chance for Bite cooldown to reset immediatley after Bite.",
+        },
     };
 }

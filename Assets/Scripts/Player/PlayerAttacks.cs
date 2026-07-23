@@ -57,6 +57,19 @@ public class PlayerAttacks : MonoBehaviour
 
         // Start cooldown
         biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
+
+        // Check for DoubleBiteUpgrade
+        // Again ideally this would be an event system
+        if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
+        {
+            // 10% chance to reset cooldown per level of DoubleBiteUpgrade
+            if (Random.value < 0.1f * playerStats.GetUpgrade<DoubleBiteUpgrade>().level)
+            {
+                biteTimer = 0;
+                Debug.Log("Double Bite triggered! Cooldown reset.");  //DEBUG
+            }
+        }
+
     }
 
 }

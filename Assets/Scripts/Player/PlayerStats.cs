@@ -37,9 +37,9 @@ public class PlayerStats : MonoBehaviour
     //     // FOR TESTING, ADD UPGRADES TO PLAYER
     //     for (int i = 0; i < 10; i++)
     //     {
-    //         upgrades.Add(UpgradeDatabase.AllUpgrades[3]);
+    //         AddUpgrade(UpgradeDatabase.AllUpgrades[6]);
     //     }
-    //     //player should now have 10 levels of quick fangs, and bite cooldown should be 0
+    //     //player should now have 10 levels of chain bite, and bite cooldown should be 0 after attack
     //     Debug.Log(GetStat(PlayerStat.BiteCooldown));  //DEBUG
     // }
 

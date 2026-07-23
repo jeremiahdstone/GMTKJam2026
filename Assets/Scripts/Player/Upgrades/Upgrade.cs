@@ -33,3 +33,9 @@ public class StatUpgrade : Upgrade
     }
 
 }
+
+// non standard upgrades are basically just 'flags' that can be checked for in the various other player files
+// this isnt great practice, but works for the jam timeline, ideally thered be some sort of event system in place
+public class DoubleBiteUpgrade : Upgrade
+{
+}
