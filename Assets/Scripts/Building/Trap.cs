@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Trap : MonoBehaviour
+public abstract class Trap : Placeable
 {
     [Header("Trap Settings")]
     public bool singleUse = false;
