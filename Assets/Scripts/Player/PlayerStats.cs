@@ -5,9 +5,10 @@ using System.Collections.Generic;
 //ALL POSSIBLE STATS GO HERE
 public enum PlayerStat
 {
-    MoveSpeed,
+    WalkSpeed,
     BatFormMaxSpeed,
     BatFormCooldown,
+    BatFormAcceleration,
     BiteDamage,
     BiteCooldown,
     BiteRange,
@@ -19,8 +20,9 @@ public class PlayerStats : MonoBehaviour
     private Dictionary<PlayerStat, float> baseStats =
         new Dictionary<PlayerStat, float>()
     {
-        { PlayerStat.MoveSpeed, 5 },
+        { PlayerStat.WalkSpeed, 5 },
         { PlayerStat.BatFormMaxSpeed, 15 },
+        { PlayerStat.BatFormAcceleration, 1.1f },
         { PlayerStat.BatFormCooldown, 2 },
         { PlayerStat.BiteDamage, 10 },
         { PlayerStat.BiteCooldown, 2 },

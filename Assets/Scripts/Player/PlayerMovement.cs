@@ -4,9 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float batMaxSpeed = 15f;
-    public float batAcceleration = 1.1f;
-    public float walkSpeed = 5f;
+    //where all the values for player stats are stored
+    public PlayerStats playerStats;
     
     public float speed;
     public bool batForm;
@@ -19,10 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //INITIAL VALUES
-        batMaxSpeed = 15;
-        batAcceleration = 1.1f;
-        walkSpeed = 5;
-        speed = walkSpeed;
+        speed = playerStats.GetStat(PlayerStat.WalkSpeed);
         batForm = false;
 
         //OLD LEVEL SPAWNING LOGIC 
@@ -59,19 +55,19 @@ public class PlayerMovement : MonoBehaviour
         // walking is velocity based
         if (!batForm)
         {
-            rb.linearVelocity = direction * speed;
+            rb.linearVelocity = direction * playerStats.GetStat(PlayerStat.WalkSpeed);
         }
         else // bat form is acceleration based
         {
-            rb.AddForce(direction * batAcceleration, ForceMode2D.Impulse);
+            rb.AddForce(direction * playerStats.GetStat(PlayerStat.BatFormAcceleration), ForceMode2D.Impulse);
             // max speed for bat form
-            if (rb.linearVelocity.magnitude > batMaxSpeed)
+            if (rb.linearVelocity.magnitude > playerStats.GetStat(PlayerStat.BatFormMaxSpeed))
             {
-                rb.linearVelocity = rb.linearVelocity.normalized * batMaxSpeed;
+                rb.linearVelocity = rb.linearVelocity.normalized * playerStats.GetStat(PlayerStat.BatFormMaxSpeed);
             }
             if (direction == Vector2.zero)  //decelerate when no input is given
             {
-                rb.linearVelocity *= 1/batAcceleration;
+                rb.linearVelocity *= 1 / playerStats.GetStat(PlayerStat.BatFormAcceleration);
             }
         }
     }
@@ -80,13 +76,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (batForm) //bat form, entering human form
         {
-            speed = walkSpeed;
+            // speed = walkSpeed;
             batForm = false;
             //set sprite to bat
             //make pixel shadow poof
         } else  //human form, entering bat form
         {
-            speed = walkSpeed;
+            // speed = walkSpeed;
             batForm = true;
             //set sprite to human
             //make pixel shadow poof

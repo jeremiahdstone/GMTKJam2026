@@ -5,18 +5,13 @@ using DG.Tweening;
 
 public class PlayerAttacks : MonoBehaviour
 {
-    public float biteDamage = 10;
-    public float biteCooldown = 2;
-    public float biteRange = 5;
+    //where all the values for player stats are stored
+    public PlayerStats playerStats;
 
     public float biteTimer = 0;
 
     void Start()
     {
-        biteDamage = 10;
-        biteCooldown = 2;
-        biteRange = 5;
-
         biteTimer = 0;
     }
 
@@ -45,7 +40,7 @@ public class PlayerAttacks : MonoBehaviour
 
         // Check range
         float distance = Vector2.Distance(transform.position, hit.transform.position);
-        if (distance > biteRange)
+        if (distance > playerStats.GetStat(PlayerStat.BiteRange))
             return;
 
         // GOOD TO ATTACK
@@ -56,12 +51,12 @@ public class PlayerAttacks : MonoBehaviour
         
 
         // Deal damage
-        damageable.Damage(biteDamage);
+        damageable.Damage(playerStats.GetStat(PlayerStat.BiteDamage));
 
         Debug.Log("Bite attack executed");  //DEBUG
 
         // Start cooldown
-        biteTimer = biteCooldown;
+        biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
     }
 
 }
