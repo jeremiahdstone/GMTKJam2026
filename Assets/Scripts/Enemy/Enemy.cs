@@ -26,8 +26,8 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float stoppingDistance = 0.15f;
 
     [Header("In-Game Stats")]
-    public float currentSpeed = 0f;
-    public float currentHealth = 50f;
+    public float currentSpeed;
+    public float currentHealth;
 
 
     private Path path;
@@ -168,7 +168,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Damage(float damage){
         currentHealth -= damage;
 
-        if(currentHealth < 0){
+        if(currentHealth <= 0){
             Die();
         }
     }

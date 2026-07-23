@@ -110,7 +110,7 @@ MonoBehaviour:
   team: 1
   cost: 1
   maxHealth: 10
-  speed: 5
+  speed: 2
   rb: {fileID: 0}
   seeker: {fileID: 0}
   target: {fileID: 0}
