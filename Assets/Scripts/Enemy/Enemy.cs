@@ -1,18 +1,17 @@
 using UnityEngine;
 using Pathfinding;
 
-public enum Team(){
+public enum Team {
     good,
     bad
 }
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    public Team team = bad;
+    public Team team = Team.bad;
     [Header("Stats")]
     [SerializeField] public int cost = 1;
     [SerializeField] public float maxHealth = 50f;
-    [SerializeField] public float currentHealth = 50f;
     [SerializeField] private float speed = 5f;
 
     [Header("References")]
@@ -26,6 +25,11 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float nextWaypointDistance = 0.2f;
     [SerializeField] private float stoppingDistance = 0.15f;
 
+    [Header("In-Game Stats")]
+    public float currentSpeed = 0f;
+    public float currentHealth = 50f;
+
+
     private Path path;
     private int currentWaypoint;
     private float nextPathUpdateTime;
@@ -33,6 +37,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void Awake(){
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
+        
 
         if(target == null) target = GameObject.FindGameObjectWithTag("Objective").transform;
 
@@ -42,6 +47,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void OnEnable(){
         currentWaypoint = 0;
         nextPathUpdateTime = 0f;
+
+        currentSpeed = speed;
+        currentHealth = maxHealth;
         UpdatePath();
     }
 

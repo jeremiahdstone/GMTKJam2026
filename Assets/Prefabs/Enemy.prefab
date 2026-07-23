@@ -107,8 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472df89e88bd8aa43983bd1a839876cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  team: 1
   cost: 1
-  health: 50
+  maxHealth: 10
   speed: 5
   rb: {fileID: 0}
   seeker: {fileID: 0}
@@ -116,6 +117,8 @@ MonoBehaviour:
   pathUpdateTime: 0.25
   nextWaypointDistance: 0.2
   stoppingDistance: 0.15
+  currentSpeed: 0
+  currentHealth: 10
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
