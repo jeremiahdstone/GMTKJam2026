@@ -1,8 +1,14 @@
 using UnityEngine;
 using Pathfinding;
 
+public enum Team(){
+    good,
+    bad
+}
+
 public class Enemy : MonoBehaviour, IDamageable
 {
+    public Team team = bad;
     [Header("Stats")]
     [SerializeField] public int cost = 1;
     [SerializeField] public float maxHealth = 50f;
