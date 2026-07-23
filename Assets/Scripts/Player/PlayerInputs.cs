@@ -7,8 +7,8 @@ public class PlayerInputs : MonoBehaviour
 {
     public PlayerMovement playerMovement;
     public PlayerAttacks playerAttacks;
-    // public FreezeSelector freezeSelector;
-    
+    public GridPlacementManager gridPlacementManager;
+
     // public Animator animator;
     
     private Vector2 movementVector;
@@ -19,6 +19,10 @@ public class PlayerInputs : MonoBehaviour
     private Vector2 lastMovedDirection;
 
     [SerializeField] private Vector2 facingDirection;
+
+    //TODO eventually this should be in like a round manager or smth,
+    //this determines whether you attack or can move objects 
+    public bool roundActive = true;
 
     void Start()
     {
@@ -72,8 +76,6 @@ public class PlayerInputs : MonoBehaviour
         //     }
         // }
 
-        // converts mouse position from screen coordinates to game coordinates  
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // freezeSelector.moveSelector(mousePosition);
         
         //OLD FREEZING LOGIC
@@ -101,11 +103,33 @@ public class PlayerInputs : MonoBehaviour
             playerMovement.ToggleBatForm();
         }
 
+        // converts mouse position from screen coordinates to game coordinates  
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        //BITE ATTACK 
-        if (Input.GetButtonDown("Fire1")) {
-            playerAttacks.BiteAttack(mousePosition);
+        // LEFT MOUSE SHENANIGNAS
+        if (roundActive) //COMBAT MODE
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                playerAttacks.BiteAttack(mousePosition);
+            }
+        }
+        else //BUILD MODE
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                gridPlacementManager.TryPickUpObject();
+            }
+
+            if (gridPlacementManager.IsHoldingObject())
+            {
+                gridPlacementManager.MoveHeldObject();
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    gridPlacementManager.TryPlaceHeldObject();
+                }
+            }
         }
 
         //resets the level
@@ -113,6 +137,12 @@ public class PlayerInputs : MonoBehaviour
         {
             //loads the current scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        //DEBUG: switches between combat/build mode
+        if (Input.GetKeyDown("e"))
+        {
+            roundActive = !roundActive;
         }
 
     }

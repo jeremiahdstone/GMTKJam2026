@@ -26,25 +26,29 @@ public class GridPlacementManager : MonoBehaviour
             mainCamera = Camera.main;
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            TryPickUpObject();
-        }
+    // private void Update()
+    // {
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         TryPickUpObject();
+    //     }
 
-        if (heldObject != null)
-        {
-            MoveHeldObject();
+    //     if (heldObject != null)
+    //     {
+    //         MoveHeldObject();
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                TryPlaceHeldObject();
-            }
-        }
+    //         if (Input.GetMouseButtonUp(0))
+    //         {
+    //             TryPlaceHeldObject();
+    //         }
+    //     }
+    // }
+
+    public bool IsHoldingObject() {
+        return heldObject != null;
     }
 
-    private void TryPickUpObject()
+    public void TryPickUpObject()
     {
         if(!canMovePlaceables) return;
         
@@ -82,7 +86,7 @@ public class GridPlacementManager : MonoBehaviour
         }
     }
 
-    private void MoveHeldObject()
+    public void MoveHeldObject()
     {
         Vector2 mouseWorldPosition = GetMouseWorldPosition();
 
@@ -93,7 +97,7 @@ public class GridPlacementManager : MonoBehaviour
             GetObjectWorldPosition(gridPosition, heldObject.Size);
     }
 
-    private void TryPlaceHeldObject()
+    public void TryPlaceHeldObject()
     {
         Vector3Int gridPosition =
             grid.WorldToCell(heldObject.transform.position);
