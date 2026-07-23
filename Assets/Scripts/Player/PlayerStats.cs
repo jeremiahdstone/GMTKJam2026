@@ -32,6 +32,18 @@ public class PlayerStats : MonoBehaviour
     public List<Upgrade> upgrades = new();
 
 
+    // void Start()
+    // {
+    //     // FOR TESTING, ADD UPGRADES TO PLAYER
+    //     for (int i = 0; i < 10; i++)
+    //     {
+    //         upgrades.Add(UpgradeDatabase.AllUpgrades[3]);
+    //     }
+    //     //player should now have 10 levels of quick fangs, and bite cooldown should be 0
+    //     Debug.Log(GetStat(PlayerStat.BiteCooldown));  //DEBUG
+    // }
+
+
     public float GetStat(PlayerStat stat)
     {
         float value = baseStats[stat];
