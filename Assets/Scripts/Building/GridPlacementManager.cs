@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class GridPlacementManager : MonoBehaviour
 {
+    public bool canMovePlaceables = true;
     [Header("References")]
     [SerializeField] private Grid grid;
     [SerializeField] private Camera mainCamera;
@@ -45,6 +46,8 @@ public class GridPlacementManager : MonoBehaviour
 
     private void TryPickUpObject()
     {
+        if(!canMovePlaceables) return;
+        
         if (EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject())
         {
