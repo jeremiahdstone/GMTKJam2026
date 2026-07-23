@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 1340283459}
   - component: {fileID: 1340283458}
   - component: {fileID: 1340283464}
+  - component: {fileID: 1340283465}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -303,9 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6912fd8b2fea81f4db82d3fbc6101f7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  batMaxSpeed: 0
-  batAcceleration: 0
-  walkSpeed: 0
+  playerStats: {fileID: 1340283465}
   speed: 5
   batForm: 0
   rb: {fileID: 1340283459}
@@ -410,10 +409,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ad6edc55f141c4fbbe0d1083b5f19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
-  biteDamage: 10
-  biteCooldown: 2
-  biteRange: 5
+  playerStats: {fileID: 1340283465}
   biteTimer: 0
+--- !u!114 &1340283465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340283457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1929ee74d8c7404ebebd379ed8db8a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
 --- !u!1 &1618422518
 GameObject:
   m_ObjectHideFlags: 0
