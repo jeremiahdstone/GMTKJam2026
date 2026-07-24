@@ -121,6 +121,7 @@ MonoBehaviour:
   stoppingDistance: 0.15
   currentSpeed: 0
   currentHealth: 10
+  bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0

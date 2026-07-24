@@ -30,6 +30,9 @@ public class Enemy : MonoBehaviour, IDamageable
     public float currentSpeed;
     public float currentHealth;
 
+    [Header("Visuals")]
+    [SerializeField] private GameObject bloodSpillEffect;
+
 
     private Path path;
     private int currentWaypoint;
@@ -181,6 +184,8 @@ public class Enemy : MonoBehaviour, IDamageable
     
     public void Damage(float damage){
         currentHealth -= damage;
+
+        Instantiate(bloodSpillEffect, transform.position, bloodSpillEffect.transform.rotation);
 
         if(currentHealth <= 0){
             Die();
