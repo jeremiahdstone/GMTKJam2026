@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Visuals")]
     [SerializeField] private GameObject bloodSpillEffect;
+    [SerializeField] private GameObject deathEffect;
 
 
     private Path path;
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if(target == null) target = GameObject.FindGameObjectWithTag("Objective").transform;
 
@@ -185,15 +186,18 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Damage(float damage){
         currentHealth -= damage;
 
-        Instantiate(bloodSpillEffect, transform.position, bloodSpillEffect.transform.rotation);
-
         if(currentHealth <= 0){
             Die();
+        }
+        else
+        {
+            Instantiate(bloodSpillEffect, transform.position, bloodSpillEffect.transform.rotation);
         }
     }
 
     public void Die(){
-        Destroy(gameObject);
+        Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
         LevelDirector.instance.NotifyEnemyRemoved();
+        Destroy(gameObject);
     }
 }

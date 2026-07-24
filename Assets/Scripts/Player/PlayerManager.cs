@@ -16,12 +16,14 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttacks playerAttacks { get; private set; }
     public PlayerInput playerInput { get; private set; }
     public PlayerMovement playerMovement { get; private set; }
+    public PlayerStats playerStats { get; private set; }
 
     void Awake()
     {
         playerAttacks = GetComponent<PlayerAttacks>();
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
 }

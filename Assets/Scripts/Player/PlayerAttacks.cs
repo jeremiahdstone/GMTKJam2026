@@ -32,6 +32,10 @@ public class PlayerAttacks : MonoBehaviour
         if (biteTimer > 0)
             return;
 
+        // Bat form check
+        if(manager.playerMovement.batForm)
+            return;
+
         // Find an enemy at the mouse position
         Collider2D hit = Physics2D.OverlapPoint(mousePosition);
         if (hit == null)

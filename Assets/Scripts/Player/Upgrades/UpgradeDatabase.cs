@@ -55,7 +55,7 @@ public static class UpgradeDatabase
 
         new StatUpgrade
         {
-            name = "Quick Lunge",
+            name = "Quick Bite",
             description = "Increase the speed of your Bite Lunge.",
             affectedStat = PlayerStat.BiteSpeedMultiplier,
             flatBonus = 0.2f,
