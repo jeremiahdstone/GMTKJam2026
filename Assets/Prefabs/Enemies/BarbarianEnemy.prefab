@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
   - component: {fileID: 2090970800905648150}
-  m_Layer: 0
-  m_Name: Enemy
+  m_Layer: 8
+  m_Name: BarbarianEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2317372448271502208, guid: e8a5a775b2f46ee4a949e6b0ddcffd34, type: 3}
+  m_Sprite: {fileID: 3558588965344292407, guid: 277b9ddc3e6ab254485eadc216c018d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   team: 1
-  cost: 1
-  maxHealth: 10
-  speed: 2
+  cost: 5
+  maxHealth: 40
+  speed: 1
   rb: {fileID: 0}
   seeker: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -210,8 +210,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.60088724}
+  m_Radius: 0.89911276
 --- !u!95 &2090970800905648150
 Animator:
   serializedVersion: 7
@@ -222,7 +222,7 @@ Animator:
   m_GameObject: {fileID: 6396696151560761607}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 4fa444ca88474004a96ba609a25ea10c, type: 2}
+  m_Controller: {fileID: 22100000, guid: e1913ff33a46baa4fa103873ad24e4bc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -1001,7 +1001,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.8530328
+  orthographic size: 7.31
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1302,6 +1302,9 @@ MonoBehaviour:
   spawnDelay: 0.5
   possibleEnemies:
   - {fileID: 6396696151560761607, guid: 07ac6ef6fcfd4fb4d98867645393bdaf, type: 3}
+  - {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
+  - {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
+  - {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
   preparedEnemies: []
   currentEnemyCount: 0
 --- !u!1 &1785392294
