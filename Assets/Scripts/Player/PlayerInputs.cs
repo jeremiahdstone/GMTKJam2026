@@ -2,21 +2,24 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
     public PlayerAttacks playerAttacks;
     public GridPlacementManager gridPlacementManager;
+    private PlayerManager manager;
 
     // public Animator animator;
-    
+
     private Vector2 movementVector;
 
     private bool mouseDown;
     private Vector2 mousePosition;
 
     private Vector2 lastMovedDirection;
+
 
     [SerializeField] private Vector2 facingDirection;
 
@@ -26,12 +29,14 @@ public class PlayerInputs : MonoBehaviour
 
     void Start()
     {
+        manager = GetComponent<PlayerManager>();
+        playerMovement = GetComponent<PlayerMovement>();
         //makes the player face toward the middle of the screen when they spawn in
         facingDirection = Vector3.zero - playerMovement.rb.transform.position;
         // animator.SetFloat("Horizontal", facingDirection.x);
         // animator.SetFloat("Vertical", facingDirection.y);
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -40,9 +45,14 @@ public class PlayerInputs : MonoBehaviour
         movementVector.y = Input.GetAxisRaw("Vertical");
         if (movementVector != Vector2.zero)
         {
-            
+            manager.anim.SetBool("isMoving", true);
             facingDirection = movementVector;
+            manager.sr.flipX = movementVector.x < 0;
             //new Vector2(Mathf.Round(movementVector.x), Mathf.Round(movementVector.y)
+        }
+        else
+        {
+            manager.anim.SetBool("isMoving", false);
         }
         movementVector.Normalize();
 
@@ -56,7 +66,7 @@ public class PlayerInputs : MonoBehaviour
         //OLD KICKING LOGIC 
 
         // if (Input.GetKeyDown("space")) {
-            
+
         //     RaycastHit2D[] hits = Physics2D.LinecastAll((Vector2)transform.position, (Vector2)transform.position + facingDirection/1.5f, LayerMask.NameToLayer("pushables"));
         //     foreach (var hit in hits)
         //     {
@@ -77,7 +87,7 @@ public class PlayerInputs : MonoBehaviour
         // }
 
         // freezeSelector.moveSelector(mousePosition);
-        
+
         //OLD FREEZING LOGIC
 
         // Collider2D hitFreeze = Physics2D.OverlapPoint(mousePosition);
@@ -97,22 +107,19 @@ public class PlayerInputs : MonoBehaviour
         // {
         //     freezeSelector.hideSelector();
         // }
-        
+
         //BAT FORM TOGGLE
-        if (Input.GetKeyDown("space")) {
+        if (Input.GetKeyDown("space"))
+        {
             playerMovement.ToggleBatForm();
         }
 
         // converts mouse position from screen coordinates to game coordinates  
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // LEFT MOUSE SHENANIGNAS
-        if (roundActive) //COMBAT MODE
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                playerAttacks.BiteAttack(mousePosition);
-            }
+        //BITE ATTACK 
+        if (Input.GetButtonDown("Fire1")) {
+            playerAttacks.BiteAttack(mousePosition);
         }
         else //BUILD MODE
         {
@@ -146,7 +153,7 @@ public class PlayerInputs : MonoBehaviour
         }
 
     }
-    
+
     private void FixedUpdate()
     {
         playerMovement.MovePlayer(movementVector);

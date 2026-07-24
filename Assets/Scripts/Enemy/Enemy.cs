@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Seeker seeker;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] public Transform target;
 
@@ -29,15 +30,21 @@ public class Enemy : MonoBehaviour, IDamageable
     public float currentSpeed;
     public float currentHealth;
 
+    [Header("Visuals")]
+    [SerializeField] private GameObject bloodSpillEffect;
+    [SerializeField] private GameObject deathEffect;
+
 
     private Path path;
     private int currentWaypoint;
     private float nextPathUpdateTime;
+    private float lastHorizontalDirection = 1f;
 
     public virtual void Awake(){
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
-        
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if(target == null) target = GameObject.FindGameObjectWithTag("Objective").transform;
 
@@ -47,6 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void OnEnable(){
         currentWaypoint = 0;
         nextPathUpdateTime = 0f;
+        lastHorizontalDirection = 1f;
 
         currentSpeed = speed;
         currentHealth = maxHealth;
@@ -95,6 +103,16 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Vector2 direction =
             (waypoint - rb.position).normalized;
+
+        if (Mathf.Abs(direction.x) > 0.01f)
+        {
+            lastHorizontalDirection = Mathf.Sign(direction.x);
+        }
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = lastHorizontalDirection < 0f;
+        }
 
         rb.linearVelocity = direction * currentSpeed;
     }
@@ -171,10 +189,15 @@ public class Enemy : MonoBehaviour, IDamageable
         if(currentHealth <= 0){
             Die();
         }
+        else
+        {
+            Instantiate(bloodSpillEffect, transform.position, bloodSpillEffect.transform.rotation);
+        }
     }
 
     public void Die(){
-        Destroy(gameObject);
+        Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
         LevelDirector.instance.NotifyEnemyRemoved();
+        Destroy(gameObject);
     }
 }

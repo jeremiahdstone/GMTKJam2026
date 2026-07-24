@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System.Collections;
 
 
 public class PlayerAttacks : MonoBehaviour
@@ -8,10 +9,13 @@ public class PlayerAttacks : MonoBehaviour
     //where all the values for player stats are stored
     public PlayerStats playerStats;
 
+    private PlayerManager manager;
+
     public float biteTimer = 0;
 
     void Start()
     {
+        manager = GetComponent<PlayerManager>();
         biteTimer = 0;
     }
 
@@ -26,6 +30,10 @@ public class PlayerAttacks : MonoBehaviour
     {
         // Cooldown check
         if (biteTimer > 0)
+            return;
+
+        // Bat form check
+        if(manager.playerMovement.batForm)
             return;
 
         // Find an enemy at the mouse position
@@ -44,14 +52,9 @@ public class PlayerAttacks : MonoBehaviour
             return;
 
         // GOOD TO ATTACK
-
-        // Teleport to enemy
-        // transform.position = hit.transform.position;
-        transform.DOMove(hit.transform.position, 0.1f).SetEase(Ease.InOutSine);
+        StartCoroutine(DoBite(hit));
+        // Call animation trigger
         
-
-        // Deal damage
-        damageable.Damage(playerStats.GetStat(PlayerStat.BiteDamage));
 
         Debug.Log("Bite attack executed");  //DEBUG
 
@@ -70,6 +73,30 @@ public class PlayerAttacks : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator DoBite(Collider2D hit)
+    {
+        float initialAnimSpeed = manager.anim.speed;
+        float speedMult = playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
+        manager.anim.speed = speedMult;
+        manager.anim.SetTrigger("Bite");
+
+        if (manager.sr != null)
+        {
+            manager.sr.flipX = hit.transform.position.x < transform.position.x;
+        }
+
+        // Teleport to enemy
+        // transform.position = hit.transform.position;
+        transform.DOMove(hit.transform.position, 0.5f / speedMult).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(0.4f / speedMult);
+        
+
+        // Deal damage
+        hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
+
+        manager.anim.speed = initialAnimSpeed;
     }
 
 }
