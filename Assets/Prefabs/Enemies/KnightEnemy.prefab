@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
   - component: {fileID: 2090970800905648150}
-  m_Layer: 0
-  m_Name: Enemy
+  m_Layer: 8
+  m_Name: KnightEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   team: 1
-  cost: 1
-  maxHealth: 10
+  cost: 2
+  maxHealth: 25
   speed: 2
   rb: {fileID: 0}
   seeker: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   stoppingDistance: 0.15
   currentSpeed: 0
   currentHealth: 10
+  bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,8 +211,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: -0.4520539}
+  m_Radius: 0.5336757
 --- !u!95 &2090970800905648150
 Animator:
   serializedVersion: 7
@@ -222,7 +223,7 @@ Animator:
   m_GameObject: {fileID: 6396696151560761607}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 4fa444ca88474004a96ba609a25ea10c, type: 2}
+  m_Controller: {fileID: 22100000, guid: 20cc989ef16c0ff46ac7589ab76a2e98, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
