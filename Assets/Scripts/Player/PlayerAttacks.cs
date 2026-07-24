@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using System.Collections;
 
 
 public class PlayerAttacks : MonoBehaviour
@@ -10,8 +11,13 @@ public class PlayerAttacks : MonoBehaviour
 
     public float biteTimer = 0;
 
+    private Animator anim;
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         biteTimer = 0;
     }
 
@@ -44,14 +50,9 @@ public class PlayerAttacks : MonoBehaviour
             return;
 
         // GOOD TO ATTACK
-
-        // Teleport to enemy
-        // transform.position = hit.transform.position;
-        transform.DOMove(hit.transform.position, 0.1f).SetEase(Ease.InOutSine);
+        StartCoroutine(DoBite(hit));
+        // Call animation trigger
         
-
-        // Deal damage
-        damageable.Damage(playerStats.GetStat(PlayerStat.BiteDamage));
 
         Debug.Log("Bite attack executed");  //DEBUG
 
@@ -70,6 +71,25 @@ public class PlayerAttacks : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator DoBite(Collider2D hit)
+    {
+        anim.SetTrigger("Bite");
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = hit.transform.position.x < transform.position.x;
+        }
+
+        // Teleport to enemy
+        // transform.position = hit.transform.position;
+        transform.DOMove(hit.transform.position, 0.5f).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(0.4f);
+        
+
+        // Deal damage
+        hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
     }
 
 }

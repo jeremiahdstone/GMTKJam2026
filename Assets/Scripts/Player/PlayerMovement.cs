@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,10 +14,14 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
     public static string previousLevel = "NONE";
+
+    private Animator anim;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        anim = GetComponent<Animator>();
+
         //INITIAL VALUES
         speed = playerStats.GetStat(PlayerStat.WalkSpeed);
         batForm = false;
@@ -80,6 +85,8 @@ public class PlayerMovement : MonoBehaviour
             batForm = false;
             //set sprite to bat
             //make pixel shadow poof
+
+            anim.SetBool("isBat", false);
         } else  //human form, entering bat form
         {
             // speed = walkSpeed;
@@ -87,6 +94,8 @@ public class PlayerMovement : MonoBehaviour
             //set sprite to human
             //make pixel shadow poof
             //start velocity in direction of mouse?
+
+            anim.SetBool("isBat", true);
         }
     }
 
