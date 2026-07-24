@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     
     public float speed;
     public bool batForm;
+    public float batFormCooldownTimer;
     
     public Rigidbody2D rb;
 
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         //INITIAL VALUES
         speed = playerStats.GetStat(PlayerStat.WalkSpeed);
         batForm = false;
+        batFormCooldownTimer = 0f;
         gameObject.layer = LayerMask.NameToLayer("Player");
 
         //OLD LEVEL SPAWNING LOGIC 
@@ -47,6 +49,14 @@ public class PlayerMovement : MonoBehaviour
         // }
 
         // previousLevel = SceneManager.GetActiveScene().name;
+    }
+
+    private void Update()
+    {
+        if (!batForm && batFormCooldownTimer > 0f)
+        {
+            batFormCooldownTimer = Mathf.Max(0f, batFormCooldownTimer - Time.deltaTime);
+        }
     }
     
     //moves the player a small increment based on the inputted direction
@@ -79,11 +89,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void ToggleBatForm()
     {
+        if (!batForm && batFormCooldownTimer > 0f)
+        {
+            return;
+        }
+
         Instantiate(manager.SmokePuffEffect, transform.position, Quaternion.identity);
         if (batForm) //bat form, entering human form
         {
             // speed = walkSpeed;
             batForm = false;
+            batFormCooldownTimer = playerStats.GetStat(PlayerStat.BatFormCooldown);
             //set sprite to bat
 
             manager.anim.SetBool("isBat", false);
@@ -94,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // speed = walkSpeed;
             batForm = true;
+            batFormCooldownTimer = 0f;
             //set sprite to human
             //start velocity in direction of mouse?
             
