@@ -265,7 +265,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.5}
   m_Radius: 0.5
 --- !u!50 &1340283459
 Rigidbody2D:
@@ -460,7 +460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   sr: {fileID: 1340283462}
   anim: {fileID: 1340283466}
-  SmokePuffEffect: {fileID: 0}
+  SmokePuffEffect: {fileID: 6582616140547153052, guid: 9c725d1288cb2674ba5dc11c00f86c14, type: 3}
+  col: {fileID: 1340283458}
 --- !u!1 &1618422518
 GameObject:
   m_ObjectHideFlags: 0
