@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AstarPathfindingProject::AstarPath
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACQn+v0Po8gWAIAABQFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VEtz2jAQ/iuMzqVjCHnQW+skpIckTEgnF18WeY01yJJHjwDJ8N+7km3s0smJ5dtvd799yJ9MKFsjd9osjMgfdY7sx4gFm30b9c4H3MNGq5X4wI7zJnJXBhJEzgs4oQmfhDCrK3RG8J9qIwM5IdArUWhT3eUbTLV1luACpEVyGe1CtCLoc8T29DOeh5ADWdPrYH2QNU9GRzI5Koemp3bEjtawvOISqhrzILknT09pG5qiZlpGEM61lMK2Spg71LHTFGrrqQ8i5AKos1g++X5DQIliU7qQcBj+XBQWXSvKwOFWGBpRk5f90s3cKrDbRtk7SB8lzKdRVZP08T//eBLdhdHVQ1d3koQarhR8+wIHDtYNBjuEb3vpkzigHcgtrCW+laie9MJor3JyOuNDqLc4ve3/nlpLS+TbHm+knoG+/no9oYdj7H6fSlGt4yRnDbCSOk48Lh8N7eY3CY6nYdsUhAYVfyy+wmZ4Q63jXhjryNV2qYK8tfYmUNk9GWHy3LtUG4VmmKBGBdIdlpTGna/wzPd11D2E19IWb33dIzgLiXDPT5Iz11LvTsuypd49oi2fvZNCYT/p4HiiOaVaqebChi11YStvCuCDsI0X+b+nxWbXV4AAcAFrmPHL+Xh2dYnr5ALg8rqAm9kFi7cnFPUJctkIbcdDW1N9ckV31n1ERgsDdbz23MBuIT4qbXumUIVecYOonpsMJ+FoqAi9y/wuFzSgFTonVNw3+8yY1HyLeXZKlMVO7/bOQNZnyVgt3rULSMbS+NXIWIBPt7w0+C5wF4p3yY7s+BdQSwMEFAAACAgAAJCf6zegQlFzAAAAhAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiBOKWZKSB2tJKJuVliamJionFiUqJJsqmlromZaWqSgXFioql5WqKFibGSjkJeaU5OLFBXSWVBql9ibipEZ0BiSUZaZl5KZl66nntRZoo7yAKY6loAUEsBAi0AFAAACAgAAJCf6/Q+jyBYAgAAFAUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAJCf6zegQlFzAAAAhAAAAAkAJAAAAAAAAAAAAAAApQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
+    dataString: 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
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -709,7 +709,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 7, y: -3, z: 0}
+  - first: {x: 9, y: -3, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
@@ -719,7 +719,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 8, y: -3, z: 0}
+  - first: {x: -9, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -729,7 +729,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -9, y: 0, z: 0}
+  - first: {x: -8, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -739,7 +739,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -8, y: 0, z: 0}
+  - first: {x: -7, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -749,17 +749,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -7, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -6, y: 0, z: 0}
+  - first: {x: -6, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 2
@@ -769,7 +759,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -5, y: 0, z: 0}
+  - first: {x: -5, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -779,7 +769,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -4, y: 0, z: 0}
+  - first: {x: -4, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 2
@@ -789,7 +779,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -3, y: 0, z: 0}
+  - first: {x: -3, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -799,7 +789,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 2, y: 0, z: 0}
+  - first: {x: 3, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 4
@@ -809,7 +799,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 3, y: 0, z: 0}
+  - first: {x: 4, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 2
@@ -819,7 +809,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 4, y: 0, z: 0}
+  - first: {x: 5, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -829,7 +819,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 5, y: 0, z: 0}
+  - first: {x: 6, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 2
@@ -839,7 +829,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 6, y: 0, z: 0}
+  - first: {x: 7, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -849,7 +839,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 7, y: 0, z: 0}
+  - first: {x: 8, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 2
@@ -859,7 +849,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 8, y: 0, z: 0}
+  - first: {x: 9, y: 2, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 3
@@ -877,7 +867,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 8367d959e8b4dfb44b3ba8dce2256401, type: 2}
   - m_RefCount: 9
     m_Data: {fileID: 11400000, guid: fcceb38dad7f7584594b1c45a6c554d5, type: 2}
-  - m_RefCount: 12
+  - m_RefCount: 11
     m_Data: {fileID: 11400000, guid: fa5313a8d96771147848aeced513323b, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: d611069c845b286488efbc7abcf241c0, type: 2}
@@ -888,12 +878,12 @@ Tilemap:
     m_Data: {fileID: 1329838028, guid: a06001d2ec64dc2449fc75710746cdd5, type: 3}
   - m_RefCount: 9
     m_Data: {fileID: 1830761703, guid: a06001d2ec64dc2449fc75710746cdd5, type: 3}
-  - m_RefCount: 12
+  - m_RefCount: 11
     m_Data: {fileID: -56558038, guid: a06001d2ec64dc2449fc75710746cdd5, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 230325376, guid: a06001d2ec64dc2449fc75710746cdd5, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 27
+  - m_RefCount: 26
     m_Data:
       e00: 1
       e01: 0
@@ -912,13 +902,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 27
+  - m_RefCount: 26
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -9, y: -7, z: 0}
-  m_Size: {x: 18, y: 12, z: 1}
+  m_Size: {x: 19, y: 12, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
