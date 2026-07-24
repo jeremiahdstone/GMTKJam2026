@@ -34,6 +34,10 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private GameObject bloodSpillEffect;
     [SerializeField] private GameObject deathEffect;
 
+    [Header("Drops")]
+    [SerializeField] private GameObject DeathDrop;
+    [SerializeField] private Vector2Int RandomNumDrops = new Vector2Int(1, 3);
+
 
     private Path path;
     private int currentWaypoint;
@@ -197,6 +201,15 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void Die(){
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+
+        //Drop items
+        int numDrops = Random.Range(RandomNumDrops.x, RandomNumDrops.y);
+
+        for(int i = 0; i < numDrops; i++)
+        {
+            Instantiate(DeathDrop, transform.position, Quaternion.identity);
+        }
+
         LevelDirector.instance.NotifyEnemyRemoved();
         Destroy(gameObject);
     }
