@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private PlayerManager manager;
     //where all the values for player stats are stored
     public PlayerStats playerStats;
     
@@ -15,16 +16,15 @@ public class PlayerMovement : MonoBehaviour
 
     public static string previousLevel = "NONE";
 
-    private Animator anim;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        anim = GetComponent<Animator>();
-
+        manager = GetComponent<PlayerManager>();
         //INITIAL VALUES
         speed = playerStats.GetStat(PlayerStat.WalkSpeed);
         batForm = false;
+        gameObject.layer = LayerMask.NameToLayer("Player");
 
         //OLD LEVEL SPAWNING LOGIC 
 
@@ -79,23 +79,28 @@ public class PlayerMovement : MonoBehaviour
 
     public void ToggleBatForm()
     {
+        Instantiate(manager.SmokePuffEffect, transform.position, Quaternion.identity);
         if (batForm) //bat form, entering human form
         {
             // speed = walkSpeed;
             batForm = false;
             //set sprite to bat
-            //make pixel shadow poof
 
-            anim.SetBool("isBat", false);
+            manager.anim.SetBool("isBat", false);
+
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            manager.sr.sortingOrder = 3;
         } else  //human form, entering bat form
         {
             // speed = walkSpeed;
             batForm = true;
             //set sprite to human
-            //make pixel shadow poof
             //start velocity in direction of mouse?
+            
+            manager.anim.SetBool("isBat", true);
 
-            anim.SetBool("isBat", true);
+            gameObject.layer = LayerMask.NameToLayer("Bat");
+            manager.sr.sortingOrder = 1;
         }
     }
 
