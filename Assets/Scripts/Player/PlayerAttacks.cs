@@ -75,6 +75,9 @@ public class PlayerAttacks : MonoBehaviour
 
     IEnumerator DoBite(Collider2D hit)
     {
+        float initialAnimSpeed = anim.speed;
+        float speedMult = playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
+        anim.speed = speedMult;
         anim.SetTrigger("Bite");
 
         if (spriteRenderer != null)
@@ -84,12 +87,14 @@ public class PlayerAttacks : MonoBehaviour
 
         // Teleport to enemy
         // transform.position = hit.transform.position;
-        transform.DOMove(hit.transform.position, 0.5f).SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(0.4f);
+        transform.DOMove(hit.transform.position, 0.5f / speedMult).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(0.4f / speedMult);
         
 
         // Deal damage
         hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
+
+        anim.speed = initialAnimSpeed;
     }
 
 }

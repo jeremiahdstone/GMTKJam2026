@@ -12,6 +12,7 @@ public enum PlayerStat
     BiteDamage,
     BiteCooldown,
     BiteRange,
+    BiteSpeedMultiplier
 }
 
 public class PlayerStats : MonoBehaviour
@@ -26,7 +27,8 @@ public class PlayerStats : MonoBehaviour
         { PlayerStat.BatFormCooldown, 2 },
         { PlayerStat.BiteDamage, 10 },
         { PlayerStat.BiteCooldown, 2 },
-        { PlayerStat.BiteRange, 5 }
+        { PlayerStat.BiteRange, 5 },
+        { PlayerStat.BiteSpeedMultiplier, 1}
     };
 
     public List<Upgrade> upgrades = new();
