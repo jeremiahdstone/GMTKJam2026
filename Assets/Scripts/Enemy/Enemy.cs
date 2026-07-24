@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector2 direction =
             (waypoint - rb.position).normalized;
 
-        rb.linearVelocity = direction * speed;
+        rb.linearVelocity = direction * currentSpeed;
     }
 
     private void OnDisable()
