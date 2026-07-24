@@ -15,6 +15,7 @@ public class BombTrap : Trap
         if (!other.TryGetComponent(out Enemy enemy))
             return;
 
+        //DAMAGE ALL ENEMIES IN RADIUS
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
 
         foreach (Collider2D hit in hits)

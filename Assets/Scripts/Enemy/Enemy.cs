@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour, IDamageable
             spriteRenderer.flipX = lastHorizontalDirection < 0f;
         }
 
-        rb.linearVelocity = direction * speed;
+        rb.linearVelocity = direction * currentSpeed;
     }
 
     private void OnDisable()

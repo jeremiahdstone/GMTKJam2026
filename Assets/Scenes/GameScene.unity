@@ -1247,7 +1247,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputs
   playerAttacks: {fileID: 1340283464}
+  gridPlacementManager: {fileID: 1785392297}
   facingDirection: {x: 0, y: 0}
+  roundActive: 1
 --- !u!212 &1340283462
 SpriteRenderer:
   serializedVersion: 2
