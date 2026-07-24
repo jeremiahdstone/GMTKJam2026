@@ -6,8 +6,9 @@ using System.Reflection;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
     public PlayerAttacks playerAttacks;
+    private PlayerManager manager;
     // public FreezeSelector freezeSelector;
 
     // public Animator animator;
@@ -19,15 +20,13 @@ public class PlayerInputs : MonoBehaviour
 
     private Vector2 lastMovedDirection;
 
-    private Animator anim;
-    private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Vector2 facingDirection;
 
     void Start()
     {
-        anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        manager = GetComponent<PlayerManager>();
+        playerMovement = GetComponent<PlayerMovement>();
         //makes the player face toward the middle of the screen when they spawn in
         facingDirection = Vector3.zero - playerMovement.rb.transform.position;
         // animator.SetFloat("Horizontal", facingDirection.x);
@@ -42,14 +41,14 @@ public class PlayerInputs : MonoBehaviour
         movementVector.y = Input.GetAxisRaw("Vertical");
         if (movementVector != Vector2.zero)
         {
-            anim.SetBool("isMoving", true);
+            manager.anim.SetBool("isMoving", true);
             facingDirection = movementVector;
-            spriteRenderer.flipX = movementVector.x < 0;
+            manager.sr.flipX = movementVector.x < 0;
             //new Vector2(Mathf.Round(movementVector.x), Mathf.Round(movementVector.y)
         }
         else
         {
-            anim.SetBool("isMoving", false);
+            manager.anim.SetBool("isMoving", false);
         }
         movementVector.Normalize();
 

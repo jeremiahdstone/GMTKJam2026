@@ -41,14 +41,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6582616140547153052}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 1.6
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -168,9 +168,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.5
-      minScalar: 5
+      minMaxState: 3
+      scalar: 1
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -287,7 +287,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -751,7 +751,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.51
+      value: 0.3
       mode: 0
       spread: 0
       speed:
@@ -980,7 +980,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 10
+        scalar: 5
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1545,11 +1545,11 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -6289002518845740846, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
     - sprite: {fileID: -951955133, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
+    - sprite: {fileID: 627923703, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
     - sprite: {fileID: -1618467259, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
-    - sprite: {fileID: -1948582347, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
-    - sprite: {fileID: -381885811, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
+    - sprite: {fileID: -403279350, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
+    - sprite: {fileID: -403279350, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
     - sprite: {fileID: 1439822068, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
     - sprite: {fileID: -1194723830, guid: a2ea54a8de8b48546addc0aa93a8e3e1, type: 3}
     flipU: 0
@@ -4867,7 +4867,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0

@@ -9,15 +9,13 @@ public class PlayerAttacks : MonoBehaviour
     //where all the values for player stats are stored
     public PlayerStats playerStats;
 
-    public float biteTimer = 0;
+    private PlayerManager manager;
 
-    private Animator anim;
-    private SpriteRenderer spriteRenderer;
+    public float biteTimer = 0;
 
     void Start()
     {
-        anim = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        manager = GetComponent<PlayerManager>();
         biteTimer = 0;
     }
 
@@ -75,14 +73,14 @@ public class PlayerAttacks : MonoBehaviour
 
     IEnumerator DoBite(Collider2D hit)
     {
-        float initialAnimSpeed = anim.speed;
+        float initialAnimSpeed = manager.anim.speed;
         float speedMult = playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
-        anim.speed = speedMult;
-        anim.SetTrigger("Bite");
+        manager.anim.speed = speedMult;
+        manager.anim.SetTrigger("Bite");
 
-        if (spriteRenderer != null)
+        if (manager.sr != null)
         {
-            spriteRenderer.flipX = hit.transform.position.x < transform.position.x;
+            manager.sr.flipX = hit.transform.position.x < transform.position.x;
         }
 
         // Teleport to enemy
@@ -94,7 +92,7 @@ public class PlayerAttacks : MonoBehaviour
         // Deal damage
         hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
 
-        anim.speed = initialAnimSpeed;
+        manager.anim.speed = initialAnimSpeed;
     }
 
 }
