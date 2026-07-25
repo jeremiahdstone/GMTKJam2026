@@ -168,7 +168,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,6 +177,28 @@ TextureImporter:
       bones: []
       spriteID: 80c872137ffbe9b4699f209a97f381a1
       internalID: -1976975176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountUIBloodLevel_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 17
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 611caf2afacd1ba4bacb79686a30c8c4
+      internalID: 1164894072
       vertices: []
       indices: 
       edges: []
@@ -198,6 +220,7 @@ TextureImporter:
       VycountUIBloodLevel_0: -7313083693432771760
       VycountUIBloodLevel_1: 5073281391422662256
       VycountUIBloodLevel_2: -1976975176
+      VycountUIBloodLevel_3: 1164894072
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

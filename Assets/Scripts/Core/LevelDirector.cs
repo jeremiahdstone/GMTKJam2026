@@ -38,6 +38,9 @@ public class LevelDirector : MonoBehaviour
     [SerializeField] private float minimumSpawnDelay = 0.08f;
     [SerializeField] private float spawnDelayReduction = 0.015f;
 
+    [Header("GameObject References")]
+    [SerializeField] private GameObject arrowObject;
+
     private Coroutine spawnCoroutine;
 
     private void Awake()
@@ -81,6 +84,8 @@ public class LevelDirector : MonoBehaviour
 
             }
         }
+
+        LivingEnemies = new List<GameObject>();
 
 
         CalculateBudget(difficulty);
@@ -192,7 +197,7 @@ public class LevelDirector : MonoBehaviour
             yPosition
         );
 
-        Instantiate(
+        GameObject EnemyGameObject=Instantiate(
             enemyPrefab,
             spawnPosition,
             Quaternion.identity
@@ -200,6 +205,7 @@ public class LevelDirector : MonoBehaviour
 
         preparedEnemies.RemoveAt(0);
         currentEnemyCount++;
+        LivingEnemies.Add(EnemyGameObject);
     }
 
     public void NotifyEnemyRemoved(Enemy enemy)
@@ -228,6 +234,23 @@ public class LevelDirector : MonoBehaviour
         if(EnemiesLeft <= 0)
         {
             GameSession.instance.EndWave();
+        }
+
+        if(EnemiesLeft <= 5)
+        {
+            SpawnArrows();
+        }
+    }
+
+    private void SpawnArrows()
+    {
+        foreach(GameObject enemyObj in LivingEnemies)
+        {
+            if(enemyObj != null)
+            {
+                EnemyArrow enemyArrow = Instantiate(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
+                enemyArrow.Initialize(enemyObj.transform);
+            }
         }
     }
 }
