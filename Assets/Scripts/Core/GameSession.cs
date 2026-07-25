@@ -34,6 +34,8 @@ public class GameSession : MonoBehaviour
 
         DisablePlayerMovement(true);
 
+        uiManager.showOpeningLetter();
+
     }
 
     public void StartRun()
