@@ -17,8 +17,9 @@ public class GameSession : MonoBehaviour
 
     public RunData run { get; private set; }
     public Phase phase { get; private set; }
+    public PlayerManager Player { get; private set; }
 
-    [Header("Blood Loss")]
+    [Header("Blood Loss During Combat")]
     public float bloodLossInterval = 1f;
     public int bloodLossIntervalAmt = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,6 +29,8 @@ public class GameSession : MonoBehaviour
             GameSession.instance = this;
         else
             Destroy(this.gameObject);
+
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
 
         StartRun();
     }
@@ -46,6 +49,8 @@ public class GameSession : MonoBehaviour
         StopAllCoroutines();
         phase = Phase.build;
         // open shop
+        uiManager.OpenBuildUI();
+        uiManager.OpenShopPanel();
     }
 
     public void StartWave()
@@ -55,6 +60,7 @@ public class GameSession : MonoBehaviour
         levelDirector.SpawnWave(run.day);
 
         uiManager.SetDay(run.day);
+        uiManager.CloseBuildUI();
 
         StartCoroutine(SubtractBloodOnInterval());
     }
@@ -113,5 +119,10 @@ public class GameSession : MonoBehaviour
         if(run.bloodCount > run.maxBloodCount) run.bloodCount = run.maxBloodCount;
 
         uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount);
+    }
+
+    public void DisablePlayerMovement(bool val)
+    {
+        Player.playerMovement.ToggleFrozen(val);
     }
 }
