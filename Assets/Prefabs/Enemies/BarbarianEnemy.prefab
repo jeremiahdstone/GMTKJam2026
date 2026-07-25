@@ -64,6 +64,7 @@ MonoBehaviour:
   currentHealth: 10
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
+  DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
   DeathDrop: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
   RandomNumDrops: {x: 6, y: 8}
 --- !u!114 &5968365646861851520

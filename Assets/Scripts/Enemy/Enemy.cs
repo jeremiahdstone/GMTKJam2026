@@ -1,7 +1,8 @@
 using UnityEngine;
 using Pathfinding;
-
-public enum Team {
+using DG.Tweening;
+public enum Team
+{
     good,
     bad
 }
@@ -33,6 +34,10 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Visuals")]
     [SerializeField] private GameObject bloodSpillEffect;
     [SerializeField] private GameObject deathEffect;
+    [SerializeField] private GameObject DamageNumEffect;
+
+    private Tween biteRangePulse;
+    private Color originalSpriteColor;
 
     [Header("Drops")]
     [SerializeField] private GameObject DeathDrop;
@@ -44,18 +49,52 @@ public class Enemy : MonoBehaviour, IDamageable
     private float nextPathUpdateTime;
     private float lastHorizontalDirection = 1f;
 
-    public virtual void Awake(){
+
+
+    public virtual void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        if(target == null) target = GameObject.FindGameObjectWithTag("Objective").transform;
+        if (spriteRenderer != null)
+            originalSpriteColor = spriteRenderer.color;
 
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("Objective").transform;
+    }
+
+    public void SetBiteRangeHighlight(bool highlighted)
+    {
+        if (spriteRenderer == null)
+            return;
+
+        // Stop any color tween already affecting this SpriteRenderer.
+        spriteRenderer.DOKill();
+
+        if (highlighted)
+        {
+            ColorUtility.TryParseHtmlString("#FF6157", out Color paletteRed);
+
+            biteRangePulse = spriteRenderer
+                .DOColor(paletteRed, 0.6f)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+        else
+        {
+            biteRangePulse = null;
+
+            spriteRenderer
+                .DOColor(originalSpriteColor, 0.15f)
+                .SetEase(Ease.OutSine);
+        }
     }
 
     // For when object pooling is called.
-    public virtual void OnEnable(){
+    public virtual void OnEnable()
+    {
         currentWaypoint = 0;
         nextPathUpdateTime = 0f;
         lastHorizontalDirection = 1f;
@@ -65,7 +104,8 @@ public class Enemy : MonoBehaviour, IDamageable
         UpdatePath();
     }
 
-    private void FixedUpdate(){
+    private void FixedUpdate()
+    {
         Move();
     }
 
@@ -123,6 +163,12 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnDisable()
     {
+        biteRangePulse?.Kill();
+        biteRangePulse = null;
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalSpriteColor;
+
         if (seeker != null)
         {
             seeker.CancelCurrentPathRequest();
@@ -186,11 +232,20 @@ public class Enemy : MonoBehaviour, IDamageable
 
         currentWaypoint = 0;
     }
-    
-    public void Damage(float damage){
+
+    public void Damage(float damage)
+    {
         currentHealth -= damage;
 
-        if(currentHealth <= 0){
+        //display damage number
+        GameObject effect = Instantiate(DamageNumEffect, transform.position, Quaternion.identity);
+
+        effect.GetComponent<DamageEffect>().DisplayDamage(damage, false);
+
+
+
+        if (currentHealth <= 0)
+        {
             Die();
         }
         else
@@ -199,13 +254,14 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(){
+    public void Die()
+    {
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
         //Drop items
         int numDrops = Random.Range(RandomNumDrops.x, RandomNumDrops.y);
 
-        for(int i = 0; i < numDrops; i++)
+        for (int i = 0; i < numDrops; i++)
         {
             Instantiate(DeathDrop, transform.position, Quaternion.identity);
         }
