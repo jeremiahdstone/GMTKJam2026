@@ -32,45 +32,44 @@ public class PlayerAttacks : MonoBehaviour
         if (biteTimer > 0)
             return;
 
-        // Bat form check
-        if(manager.playerMovement.batForm)
-            return;
+        Collider2D[] hits = Physics2D.OverlapPointAll(mousePosition);
 
-        // Find an enemy at the mouse position
-        Collider2D hit = Physics2D.OverlapPoint(mousePosition);
-        if (hit == null)
-            return;
-
-        // Make sure the hit object is an enemy
-        IDamageable damageable = hit.GetComponent<IDamageable>();
-        if (damageable == null)
-            return;
-
-        // Check range
-        float distance = Vector2.Distance(transform.position, hit.transform.position);
-        if (distance > playerStats.GetStat(PlayerStat.BiteRange))
-            return;
-
-        // GOOD TO ATTACK
-        StartCoroutine(DoBite(hit));
-        // Call animation trigger
-        
-
-        Debug.Log("Bite attack executed");  //DEBUG
-
-        // Start cooldown
-        biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
-
-        // Check for DoubleBiteUpgrade
-        // Again ideally this would be an event system
-        if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
+        foreach (Collider2D hit in hits)
         {
-            // 10% chance to reset cooldown per level of DoubleBiteUpgrade
-            if (Random.value < 0.1f * playerStats.GetUpgrade<DoubleBiteUpgrade>().level)
+            IDamageable damageable = hit.GetComponent<IDamageable>();
+
+            damageable ??= hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
+                continue;
+
+            float distance = Vector2.Distance(
+                transform.position,
+                hit.transform.position
+            );
+
+            if (distance > playerStats.GetStat(PlayerStat.BiteRange))
+                continue;
+
+            StartCoroutine(DoBite(hit));
+
+            Debug.Log($"Bite attack executed on {hit.name}");
+
+            biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
+
+            if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
             {
-                biteTimer = 0;
-                Debug.Log("Double Bite triggered! Cooldown reset.");  //DEBUG
+                int level = playerStats.GetUpgrade<DoubleBiteUpgrade>().level;
+
+                if (Random.value < 0.1f * level)
+                {
+                    biteTimer = 0;
+                    Debug.Log("Double Bite triggered! Cooldown reset.");
+                }
             }
+
+            // Only attack the first valid target found.
+            return;
         }
 
     }
@@ -91,7 +90,7 @@ public class PlayerAttacks : MonoBehaviour
         // transform.position = hit.transform.position;
         transform.DOMove(hit.transform.position, 0.5f / speedMult).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(0.4f / speedMult);
-        
+
 
         // Deal damage
         hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
