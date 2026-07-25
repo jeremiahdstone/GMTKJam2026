@@ -3,6 +3,7 @@ using UnityEngine;
 //abstract upgrade to allow for different weird upgrades in the future
 public abstract class Upgrade : IShoppable
 {
+    public string id = "";
     public string name = "Upgrade";
     public string description = "An upgrade for the player";
     public Sprite sprite;
@@ -14,6 +15,11 @@ public abstract class Upgrade : IShoppable
     public Sprite getIcon() => sprite;
 
     public int level = 1;
+
+    public virtual Upgrade Clone()
+    {
+        return (Upgrade)MemberwiseClone();
+    }
 
     public virtual float Modify(PlayerStat stat, float value)
     {

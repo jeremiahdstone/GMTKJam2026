@@ -17,6 +17,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject upgradePanelPrefab;
     [SerializeField] private GameObject trapPanelPrefab;
 
+    [SerializeField] private Sprite trapNineSlice;
+    [SerializeField] private Sprite trapBuyButtonNineSlice;
+
     void Start()
     {
         shopDatabase = new List<IShoppable>();
@@ -31,7 +34,7 @@ public class ShopManager : MonoBehaviour
         // }
 
         //CALL THIS WHENEVER YOU WANNA GENERATE AND DISPLAY A NEW SHOP
-        GenerateShop();
+        //GenerateShop();
 
     }
 
@@ -80,6 +83,11 @@ public class ShopManager : MonoBehaviour
             {
                 panel.transform.Find("upgrade/icon")
                     .GetComponent<RectTransform>().sizeDelta = new Vector2(8, 8);
+
+                panel.GetComponent<Image>().sprite = trapNineSlice;
+
+                panel.GetComponentInChildren<Button>().image.sprite = trapBuyButtonNineSlice;
+                
             }
 
             panel.transform.Find("Button/PriceText")

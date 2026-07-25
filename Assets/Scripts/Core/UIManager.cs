@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +22,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private GameObject shopOpenButton;
     [SerializeField] private GameObject nextDayButton;
+
+    [SerializeField] private TMP_Text upgradesText; 
+    [SerializeField] private GameObject upgradeList; 
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
@@ -141,6 +146,7 @@ public class UIManager : MonoBehaviour
     public void OpenShopPanel()
     {
         shopPanel.SetActive(true);
+        upgradeList.SetActive(true);
         if (shopOpenButton.activeSelf)
             shopOpenButton.GetComponent<UITween>().Hide();
         if (nextDayButton.activeSelf)
@@ -150,6 +156,8 @@ public class UIManager : MonoBehaviour
     public void CloseShopPanel()
     {
         shopPanel.GetComponent<UITween>().Hide();
+        upgradeList.GetComponent<UITween>().Hide();
+
         shopOpenButton.SetActive(true);
         nextDayButton.SetActive(true);
         GameSession.instance.DisablePlayerMovement(false);
@@ -163,5 +171,15 @@ public class UIManager : MonoBehaviour
             nextDayButton.GetComponent<UITween>().Hide();
         if (shopPanel.activeSelf)
             shopPanel.GetComponent<UITween>().Hide();
+        
+    }
+
+    public void RebuildUpgradeList(List<Upgrade> upgrades)
+    {
+        upgradesText.text = "";
+        foreach(Upgrade upgrade in upgrades)
+        {
+            upgradesText.text += upgrade.name + ":<color=#890027> LVL " + upgrade.level.ToString() + "</color>\n";
+        }
     }
 }

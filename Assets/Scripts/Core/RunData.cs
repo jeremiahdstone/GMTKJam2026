@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RunData : MonoBehaviour
+public class RunData
 {
     public int day;
     public int bloodCount;

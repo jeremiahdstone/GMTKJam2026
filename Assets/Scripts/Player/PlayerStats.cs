@@ -61,7 +61,12 @@ public class PlayerStats : MonoBehaviour
     //check if the player already has this upgrade, if so just level it up, otherwise add it to the list
     public void AddUpgrade(Upgrade upgrade)
     {
-        Upgrade existing = upgrades.Find(u => u.GetType() == upgrade.GetType());
+        if (string.IsNullOrEmpty(upgrade.id))
+        {
+            upgrade.id = upgrade.name;
+        }
+
+        Upgrade existing = upgrades.Find(u => u.id == upgrade.id);
 
         if (existing != null)
         {
@@ -69,7 +74,14 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
-            upgrades.Add(upgrade);
+            Upgrade playerUpgrade = upgrade.Clone();
+            playerUpgrade.level = 1;
+            upgrades.Add(playerUpgrade);
+        }
+
+        if (GameSession.instance != null)
+        {
+            GameSession.instance.uiManager.RebuildUpgradeList(upgrades);
         }
     }
 
