@@ -26,7 +26,6 @@ public abstract class Trap : Placeable, IShoppable
 
     public virtual void OnPurchase()
     {
-        Instantiate(this);
-        // Spawn this trap in
+        ShopManager.Instance.purchasedTraps.Enqueue(this);
     }
 }
