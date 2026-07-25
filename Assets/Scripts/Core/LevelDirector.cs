@@ -26,6 +26,7 @@ public class LevelDirector : MonoBehaviour
 
     [Header("Runtime")]
     [SerializeField] private int currentEnemyCount;
+    [SerializeField] private List<GameObject> LivingEnemies = new List<GameObject>();
 
     [Header("Difficulty Scaling")]
     [SerializeField] private int baseBudget = 8;
@@ -72,6 +73,16 @@ public class LevelDirector : MonoBehaviour
 
     public void SpawnWave(int difficulty)
     {
+        if(LivingEnemies.Count > 0)
+        {
+            foreach(GameObject enemy in LivingEnemies)
+            {
+                enemy.GetComponent<Enemy>().Die(0);
+
+            }
+        }
+
+
         CalculateBudget(difficulty);
         PrepareEnemies();
 
@@ -191,7 +202,7 @@ public class LevelDirector : MonoBehaviour
         currentEnemyCount++;
     }
 
-    public void NotifyEnemyRemoved()
+    public void NotifyEnemyRemoved(Enemy enemy)
     {
         currentEnemyCount = Mathf.Max(
             0,
@@ -208,6 +219,8 @@ public class LevelDirector : MonoBehaviour
                 SpawnWaveOverTime()
             );
         }
+
+        LivingEnemies.Remove(enemy.gameObject);
 
         EnemiesLeft--;
         GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);

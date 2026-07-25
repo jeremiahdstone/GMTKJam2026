@@ -247,7 +247,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die(true);
+            Die(1);
         }
         else
         {
@@ -255,23 +255,20 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(bool doDrops)
+    public void Die(float dropMultiplier)
     {
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
         //Drop items
-        if (doDrops)
-        {
-            int numDrops = Random.Range(RandomNumDrops.x, RandomNumDrops.y);
+        int numDrops = Mathf.RoundToInt(Random.Range(RandomNumDrops.x, RandomNumDrops.y) * dropMultiplier);
 
             for (int i = 0; i < numDrops; i++)
             {
                 Instantiate(DeathDrop, transform.position, Quaternion.identity);
             }
-        }
 
 
-        LevelDirector.instance.NotifyEnemyRemoved();
+        LevelDirector.instance.NotifyEnemyRemoved(this);
         Destroy(gameObject);
     }
 
@@ -282,7 +279,7 @@ public class Enemy : MonoBehaviour, IDamageable
             GameSession.instance.DamageCastle(attackDamage);
 
             // TEMPORARY: for now, when they reach it, they just die
-            Die(false);
+            Die(0);
         }
     }
 }
