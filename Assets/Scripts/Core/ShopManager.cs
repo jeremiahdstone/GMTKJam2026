@@ -76,6 +76,11 @@ public class ShopManager : MonoBehaviour
 
             panel.transform.Find("upgrade/icon")
                 .GetComponent<Image>().sprite = item.getIcon();
+            if (item is Trap)
+            {
+                panel.transform.Find("upgrade/icon")
+                    .GetComponent<RectTransform>().sizeDelta = new Vector2(8, 8);
+            }
 
             panel.transform.Find("Button/PriceText")
                 .GetComponent<TextMeshProUGUI>().text = item.getCost().ToString();
