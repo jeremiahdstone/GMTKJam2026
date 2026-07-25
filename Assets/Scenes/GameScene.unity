@@ -495,11 +495,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
   upgradeDatabase: {fileID: 69666266}
   trapDatabase: {fileID: 69666265}
+  manager: {fileID: 1340283467}
   shopRect: {fileID: 1534910683}
   upgradePanelPrefab: {fileID: 2093132792144833929, guid: 7995e8a6f4fa89b4490a7a153eb86ad0, type: 3}
   trapPanelPrefab: {fileID: 1448170733135355040, guid: 67ab22189e22af14d85b2d1883167257, type: 3}
   trapNineSlice: {fileID: 21300000, guid: 5ddab750b21eb7d45b0a689b7bfa5ee5, type: 3}
   trapBuyButtonNineSlice: {fileID: -1778105121, guid: c8e2f846db58c74489ce3762a3c017b3, type: 3}
+  trapBlockingLayers:
+    serializedVersion: 2
+    m_Bits: 960
 --- !u!1001 &93237971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,7 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 98501053}
   - component: {fileID: 98501052}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraConfiner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5248,6 +5252,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 69666267}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: SpawnPurchasedTraps
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &737921188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9169,7 +9185,6 @@ MonoBehaviour:
   playerAttacks: {fileID: 1340283464}
   gridPlacementManager: {fileID: 1785392297}
   facingDirection: {x: 0, y: 0}
-  roundActive: 1
 --- !u!212 &1340283462
 SpriteRenderer:
   serializedVersion: 2

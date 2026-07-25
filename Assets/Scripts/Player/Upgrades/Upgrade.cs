@@ -7,11 +7,11 @@ public abstract class Upgrade : IShoppable
     public string name = "Upgrade";
     public string description = "An upgrade for the player";
     public Sprite sprite;
-    public float cost;
+    public int cost;
 
     public string getName() => name;
     public string getDescription() => description;
-    public float getCost() => cost;
+    public int getCost() => cost;
     public Sprite getIcon() => sprite;
 
     public int level = 1;

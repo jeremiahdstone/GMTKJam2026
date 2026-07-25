@@ -8,12 +8,12 @@ public abstract class Trap : Placeable, IShoppable
     //For shop interface
     public string trapName;
     public string description;
-    public float cost;
+    public int cost;
     public Sprite icon;
 
     public string getName() => trapName;
     public string getDescription() => description;
-    public float getCost() => cost;
+    public int getCost() => cost;
     public Sprite getIcon() => icon;
 
     protected virtual void TriggerTrap(Enemy enemy)
@@ -26,7 +26,6 @@ public abstract class Trap : Placeable, IShoppable
 
     public virtual void OnPurchase()
     {
-        Instantiate(this);
-        // Spawn this trap in
+        ShopManager.Instance.purchasedTraps.Enqueue(this);
     }
 }

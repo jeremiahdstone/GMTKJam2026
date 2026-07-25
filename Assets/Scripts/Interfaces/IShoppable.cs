@@ -5,7 +5,7 @@ public interface IShoppable
     //all UI elements
     public string getName();
     public string getDescription();
-    public float getCost();
+    public int getCost();
     public Sprite getIcon();
     
     //spawn the trap or add the upgrade

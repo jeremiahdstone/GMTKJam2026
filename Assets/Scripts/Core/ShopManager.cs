@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
-
+using System.Collections;
 
 
 public class ShopManager : MonoBehaviour
@@ -12,6 +12,8 @@ public class ShopManager : MonoBehaviour
 
     public List<IShoppable> shopDatabase;
 
+    public PlayerManager manager;
+
     [Header("Shop UI")]
     [SerializeField] private Transform shopRect;
     [SerializeField] private GameObject upgradePanelPrefab;
@@ -20,11 +22,24 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Sprite trapNineSlice;
     [SerializeField] private Sprite trapBuyButtonNineSlice;
 
+    public Queue<Trap> purchasedTraps = new();
+
+    [SerializeField] private LayerMask trapBlockingLayers;
+
+    //adding a SINGLETON :bleh:
+    public static ShopManager Instance { get; private set; }
+    private void Awake()
+    {
+        Instance = this;
+        Physics2D.queriesHitTriggers = true;
+    }
+
+
     void Start()
     {
         shopDatabase = new List<IShoppable>();
 
-        shopDatabase.AddRange(upgradeDatabase.AllUpgrades); 
+        shopDatabase.AddRange(upgradeDatabase.AllUpgrades);
         shopDatabase.AddRange(trapDatabase.TrapPrefabs);
 
         //TESTING, BUY 10 SPEED UPGRADES FROM THE SHOP
@@ -38,11 +53,12 @@ public class ShopManager : MonoBehaviour
 
     }
 
-    public void GenerateShop() {
+    public void GenerateShop()
+    {
         IShoppable[] shopList = new IShoppable[3];
 
         //TODO eventually guarantee theres at least 1 trap and 1 upgrade
-        
+
         //pick shop items
         for (int i = 0; i < 3; i++)
         {
@@ -87,7 +103,7 @@ public class ShopManager : MonoBehaviour
                 panel.GetComponent<Image>().sprite = trapNineSlice;
 
                 panel.GetComponentInChildren<Button>().image.sprite = trapBuyButtonNineSlice;
-                
+
             }
 
             panel.transform.Find("Button/PriceText")
@@ -99,11 +115,92 @@ public class ShopManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 // SUBTRACT MONEY
+                GameSession.instance.SubtractBlood(purchasedItem.getCost());
                 purchasedItem.OnPurchase();
                 Destroy(panel);
             });
 
         }
+    }
+
+    public void SpawnPurchasedTraps()
+    {
+        StartCoroutine(SpawnPurchasedTrapsRoutine());
+    }
+
+    private IEnumerator SpawnPurchasedTrapsRoutine()
+    {
+        while (purchasedTraps.Count > 0)
+        {
+            Trap trap = purchasedTraps.Dequeue();
+
+            Vector2 spawnPosition = FindSpawnPosition();
+
+            Instantiate(manager.SmokePuffEffect, spawnPosition, Quaternion.identity);
+
+            yield return new WaitForSeconds(0.5f);
+
+            Trap spawnedTrap = Instantiate(
+                trap,
+                spawnPosition,
+                Quaternion.identity
+            );
+
+            Placeable placeable = spawnedTrap.GetComponent<Placeable>();
+
+            if (placeable != null)
+            {
+                GridPlacementManager.instance.RegisterPlaceable(placeable);
+            }
+        }
+    }
+
+    //probably a better spot for this somewhere but its fineee
+    private Vector2 FindSpawnPosition()
+    {
+        const int maxAttempts = 100;
+        const int minDistance = 2;
+        const int maxDistance = 4;
+        const float overlapRadius = 0.35f;
+
+        Vector2 playerPosition = manager.transform.position;
+
+        Vector2Int playerTilePosition = new Vector2Int(
+            Mathf.FloorToInt(playerPosition.x),
+            Mathf.FloorToInt(playerPosition.y)
+        );
+
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            int x = Random.Range(-maxDistance, maxDistance + 1);
+            int y = Random.Range(-maxDistance, maxDistance + 1);
+
+            Vector2Int offset = new Vector2Int(x, y);
+
+            // Prevent spawning directly on or immediately beside the player.
+            if (offset.sqrMagnitude < minDistance * minDistance)
+                continue;
+
+            Vector2 spawnPosition = new Vector2(
+                playerTilePosition.x + x + 0.5f,
+                playerTilePosition.y + y + 0.5f
+            );
+
+            Collider2D overlap = Physics2D.OverlapCircle(
+    spawnPosition,
+    overlapRadius,
+    trapBlockingLayers
+);
+
+            if (overlap == null)
+                return spawnPosition;
+        }
+
+        Debug.LogWarning(
+            "Couldn't find an empty spawn location near the player."
+        );
+
+        return playerPosition + Vector2.right * minDistance;
     }
 
 }
