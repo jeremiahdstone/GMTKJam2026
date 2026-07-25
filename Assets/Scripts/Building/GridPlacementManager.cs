@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class GridPlacementManager : MonoBehaviour
 {
+    public static GridPlacementManager instance;
     public bool canMovePlaceables = true;
     [Header("References")]
     [SerializeField] private Grid grid;
@@ -19,6 +20,11 @@ public class GridPlacementManager : MonoBehaviour
 
     private void Awake()
     {
+        if(instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+
         if (grid == null)
             grid = GetComponent<Grid>();
 
@@ -44,15 +50,16 @@ public class GridPlacementManager : MonoBehaviour
     //     }
     // }
 
-    public bool IsHoldingObject() {
+    public bool IsHoldingObject()
+    {
         return heldObject != null;
     }
 
     public void TryPickUpObject()
     {
-        if(GameSession.instance.phase == Phase.combat) return;
-        if(!canMovePlaceables) return;
-        
+        if (GameSession.instance.phase == Phase.combat) return;
+        if (!canMovePlaceables) return;
+
         if (EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject())
         {
@@ -74,7 +81,7 @@ public class GridPlacementManager : MonoBehaviour
         if (placeable == null)
             return;
 
-        if(!placeable.canPickUp)
+        if (!placeable.canPickUp)
             return;
 
         heldObject = placeable;
@@ -100,8 +107,7 @@ public class GridPlacementManager : MonoBehaviour
 
     public void TryPlaceHeldObject()
     {
-        Vector3Int gridPosition =
-            grid.WorldToCell(heldObject.transform.position);
+        Vector3Int gridPosition = GetOriginCell(heldObject);
 
         if (CanPlaceObject(heldObject, gridPosition))
         {
@@ -110,7 +116,6 @@ public class GridPlacementManager : MonoBehaviour
             return;
         }
 
-        // Return the object to its previous valid position.
         PlaceObject(heldObject, previousGridPosition);
         heldObject = null;
     }
@@ -147,6 +152,33 @@ public class GridPlacementManager : MonoBehaviour
         }
 
         placeable.SetPlaced(originCell);
+    }
+
+    public void RegisterPlaceable(Placeable placeable)
+    {
+        Vector3Int originCell = GetOriginCell(placeable);
+
+        foreach (Vector3Int cell in GetOccupiedCells(
+                     originCell,
+                     placeable.Size))
+        {
+            occupiedCells[cell] = placeable;
+        }
+
+        placeable.SetPlaced(originCell);
+    }
+
+    private Vector3Int GetOriginCell(Placeable placeable)
+    {
+        Vector3 cellSize = grid.cellSize;
+
+        Vector3 bottomLeft = placeable.transform.position - new Vector3(
+            placeable.Size.x * cellSize.x * 0.5f,
+            placeable.Size.y * cellSize.y * 0.5f,
+            0f
+        );
+
+        return grid.WorldToCell(bottomLeft);
     }
 
     private void ClearOccupiedCells(Placeable placeable)

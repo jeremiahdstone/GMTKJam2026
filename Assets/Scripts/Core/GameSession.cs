@@ -16,7 +16,7 @@ public class GameSession : MonoBehaviour
     public LevelDirector levelDirector;
 
     public RunData run { get; private set; }
-    public Phase phase { get; private set; }
+    public Phase phase;// { get; private set; }
     public PlayerManager Player { get; private set; }
 
     [Header("Blood Loss During Combat")]

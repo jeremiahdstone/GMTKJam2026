@@ -24,15 +24,22 @@ public class ShopManager : MonoBehaviour
 
     public Queue<Trap> purchasedTraps = new();
 
+    [SerializeField] private LayerMask trapBlockingLayers;
+
     //adding a SINGLETON :bleh:
     public static ShopManager Instance { get; private set; }
-    private void Awake() { Instance = this; }
+    private void Awake()
+    {
+        Instance = this;
+        Physics2D.queriesHitTriggers = true;
+    }
+
 
     void Start()
     {
         shopDatabase = new List<IShoppable>();
 
-        shopDatabase.AddRange(upgradeDatabase.AllUpgrades); 
+        shopDatabase.AddRange(upgradeDatabase.AllUpgrades);
         shopDatabase.AddRange(trapDatabase.TrapPrefabs);
 
         //TESTING, BUY 10 SPEED UPGRADES FROM THE SHOP
@@ -46,11 +53,12 @@ public class ShopManager : MonoBehaviour
 
     }
 
-    public void GenerateShop() {
+    public void GenerateShop()
+    {
         IShoppable[] shopList = new IShoppable[3];
 
         //TODO eventually guarantee theres at least 1 trap and 1 upgrade
-        
+
         //pick shop items
         for (int i = 0; i < 3; i++)
         {
@@ -95,7 +103,7 @@ public class ShopManager : MonoBehaviour
                 panel.GetComponent<Image>().sprite = trapNineSlice;
 
                 panel.GetComponentInChildren<Button>().image.sprite = trapBuyButtonNineSlice;
-                
+
             }
 
             panel.transform.Find("Button/PriceText")
@@ -107,6 +115,7 @@ public class ShopManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 // SUBTRACT MONEY
+                GameSession.instance.SubtractBlood(purchasedItem.getCost());
                 purchasedItem.OnPurchase();
                 Destroy(panel);
             });
@@ -131,7 +140,18 @@ public class ShopManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
 
-            Instantiate(trap, spawnPosition, Quaternion.identity);
+            Trap spawnedTrap = Instantiate(
+                trap,
+                spawnPosition,
+                Quaternion.identity
+            );
+
+            Placeable placeable = spawnedTrap.GetComponent<Placeable>();
+
+            if (placeable != null)
+            {
+                GridPlacementManager.instance.RegisterPlaceable(placeable);
+            }
         }
     }
 
@@ -139,20 +159,48 @@ public class ShopManager : MonoBehaviour
     private Vector2 FindSpawnPosition()
     {
         const int maxAttempts = 100;
+        const int minDistance = 2;
+        const int maxDistance = 4;
+        const float overlapRadius = 0.35f;
+
+        Vector2 playerPosition = manager.transform.position;
+
+        Vector2Int playerTilePosition = new Vector2Int(
+            Mathf.FloorToInt(playerPosition.x),
+            Mathf.FloorToInt(playerPosition.y)
+        );
 
         for (int i = 0; i < maxAttempts; i++)
         {
-            int x = Random.Range(-5, 6);
-            int y = Random.Range(-5, 6);
+            int x = Random.Range(-maxDistance, maxDistance + 1);
+            int y = Random.Range(-maxDistance, maxDistance + 1);
 
-            Vector2 pos = new Vector2(x + 0.5f, y + 0.5f);
+            Vector2Int offset = new Vector2Int(x, y);
 
-            if (Physics2D.OverlapCircle(pos, 0.35f) == null)
-                return pos;
+            // Prevent spawning directly on or immediately beside the player.
+            if (offset.sqrMagnitude < minDistance * minDistance)
+                continue;
+
+            Vector2 spawnPosition = new Vector2(
+                playerTilePosition.x + x + 0.5f,
+                playerTilePosition.y + y + 0.5f
+            );
+
+            Collider2D overlap = Physics2D.OverlapCircle(
+    spawnPosition,
+    overlapRadius,
+    trapBlockingLayers
+);
+
+            if (overlap == null)
+                return spawnPosition;
         }
 
-        Debug.LogWarning("Couldn't find an empty spawn location.");
-        return new Vector2(0.5f, 0.5f);
+        Debug.LogWarning(
+            "Couldn't find an empty spawn location near the player."
+        );
+
+        return playerPosition + Vector2.right * minDistance;
     }
 
 }

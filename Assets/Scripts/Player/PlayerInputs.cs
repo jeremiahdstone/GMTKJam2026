@@ -25,7 +25,6 @@ public class PlayerInputs : MonoBehaviour
 
     //TODO eventually this should be in like a round manager or smth,
     //this determines whether you attack or can move objects 
-    public bool roundActive = true;
 
     void Start()
     {
@@ -117,11 +116,12 @@ public class PlayerInputs : MonoBehaviour
         // converts mouse position from screen coordinates to game coordinates  
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        //BITE ATTACK 
-        if (Input.GetButtonDown("Fire1")) {
+        //BITE ATTACK
+        if (GameSession.instance != null && GameSession.instance.phase == Phase.combat && Input.GetButtonDown("Fire1"))
+        {
             playerAttacks.BiteAttack(mousePosition);
         }
-        else //BUILD MODE
+        else if (GameSession.instance.phase == Phase.build)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -130,6 +130,7 @@ public class PlayerInputs : MonoBehaviour
 
             if (gridPlacementManager.IsHoldingObject())
             {
+                // Runs every frame, so the object follows the mouse.
                 gridPlacementManager.MoveHeldObject();
 
                 if (Input.GetMouseButtonUp(0))
@@ -144,12 +145,6 @@ public class PlayerInputs : MonoBehaviour
         {
             //loads the current scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        //DEBUG: switches between combat/build mode
-        if (Input.GetKeyDown("e"))
-        {
-            roundActive = !roundActive;
         }
 
     }
