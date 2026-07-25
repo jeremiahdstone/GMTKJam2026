@@ -7430,6 +7430,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
   playerStats: {fileID: 1340283465}
+  clickSelectionRadius: 6
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 256
   biteTimer: 0
 --- !u!114 &1340283465
 MonoBehaviour:

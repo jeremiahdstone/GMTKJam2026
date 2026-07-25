@@ -1,101 +1,191 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System.Collections;
-
+using System.Collections.Generic;
 
 public class PlayerAttacks : MonoBehaviour
 {
-    //where all the values for player stats are stored
     public PlayerStats playerStats;
+
+    [Header("Targeting")]
+    [SerializeField] private float clickSelectionRadius = 1f;
+    [SerializeField] private LayerMask damageableLayers;
+
+    private readonly HashSet<Enemy> highlightedEnemies = new();
+    private readonly HashSet<Enemy> enemiesCurrentlyInRange = new();
 
     private PlayerManager manager;
 
-    public float biteTimer = 0;
+    public float biteTimer;
 
-    void Start()
+    private void Start()
     {
         manager = GetComponent<PlayerManager>();
         biteTimer = 0;
     }
 
-    void Update()
+    private void Update()
     {
-        //handle cooldowns
         if (biteTimer > 0)
             biteTimer -= Time.deltaTime;
+
+        UpdateBiteRangeHighlights();
     }
 
     public void BiteAttack(Vector2 mousePosition)
     {
-        // Cooldown check
         if (biteTimer > 0)
             return;
 
-        Collider2D[] hits = Physics2D.OverlapPointAll(mousePosition);
+        if(manager.playerMovement.batForm)
+         return;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            mousePosition,
+            clickSelectionRadius,
+            damageableLayers
+        );
+
+        Collider2D closestCollider = null;
+        IDamageable closestDamageable = null;
+
+        float closestMouseDistanceSqr = Mathf.Infinity;
+        float biteRange = playerStats.GetStat(PlayerStat.BiteRange);
+        float biteRangeSqr = biteRange * biteRange;
 
         foreach (Collider2D hit in hits)
         {
             IDamageable damageable = hit.GetComponent<IDamageable>();
-
             damageable ??= hit.GetComponentInParent<IDamageable>();
 
             if (damageable == null)
                 continue;
 
-            float distance = Vector2.Distance(
-                transform.position,
-                hit.transform.position
-            );
+            Vector2 targetPosition = hit.transform.position;
 
-            if (distance > playerStats.GetStat(PlayerStat.BiteRange))
+            // Target must be within bite range of the player.
+            float playerDistanceSqr =
+                ((Vector2)transform.position - targetPosition).sqrMagnitude;
+
+            if (playerDistanceSqr > biteRangeSqr)
                 continue;
 
-            StartCoroutine(DoBite(hit));
+            // Choose the valid target closest to the mouse click.
+            float mouseDistanceSqr =
+                (mousePosition - targetPosition).sqrMagnitude;
 
-            Debug.Log($"Bite attack executed on {hit.name}");
-
-            biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
-
-            if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
+            if (mouseDistanceSqr < closestMouseDistanceSqr)
             {
-                int level = playerStats.GetUpgrade<DoubleBiteUpgrade>().level;
-
-                if (Random.value < 0.1f * level)
-                {
-                    biteTimer = 0;
-                    Debug.Log("Double Bite triggered! Cooldown reset.");
-                }
+                closestMouseDistanceSqr = mouseDistanceSqr;
+                closestCollider = hit;
+                closestDamageable = damageable;
             }
-
-            // Only attack the first valid target found.
-            return;
         }
 
+        if (closestCollider == null || closestDamageable == null)
+            return;
+
+        StartCoroutine(DoBite(closestCollider, closestDamageable));
+
+        Debug.Log($"Bite attack executed on {closestCollider.name}");
+
+        biteTimer = playerStats.GetStat(PlayerStat.BiteCooldown);
+
+        if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
+        {
+            int level = playerStats.GetUpgrade<DoubleBiteUpgrade>().level;
+
+            if (Random.value < 0.1f * level)
+            {
+                biteTimer = 0;
+                Debug.Log("Double Bite triggered! Cooldown reset.");
+            }
+        }
     }
 
-    IEnumerator DoBite(Collider2D hit)
+    private IEnumerator DoBite(
+        Collider2D targetCollider,
+        IDamageable damageable)
     {
         float initialAnimSpeed = manager.anim.speed;
-        float speedMult = playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
+        float speedMult =
+            playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
+
         manager.anim.speed = speedMult;
         manager.anim.SetTrigger("Bite");
 
         if (manager.sr != null)
         {
-            manager.sr.flipX = hit.transform.position.x < transform.position.x;
+            manager.sr.flipX =
+                targetCollider.transform.position.x < transform.position.x;
         }
 
-        // Teleport to enemy
-        // transform.position = hit.transform.position;
-        transform.DOMove(hit.transform.position, 0.5f / speedMult).SetEase(Ease.InOutSine);
+        Vector3 targetPosition = targetCollider.transform.position;
+
+        transform
+            .DOMove(targetPosition, 0.5f / speedMult)
+            .SetEase(Ease.InOutSine);
+
         yield return new WaitForSeconds(0.4f / speedMult);
 
-
-        // Deal damage
-        hit.GetComponent<IDamageable>().Damage(playerStats.GetStat(PlayerStat.BiteDamage));
+        if (targetCollider != null)
+        {
+            damageable.Damage(
+                playerStats.GetStat(PlayerStat.BiteDamage)
+            );
+        }
 
         manager.anim.speed = initialAnimSpeed;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(
+            transform.position,
+            playerStats != null
+                ? playerStats.GetStat(PlayerStat.BiteRange)
+                : 0f
+        );
+    }
+
+    private void UpdateBiteRangeHighlights()
+    {
+        float biteRange = playerStats.GetStat(PlayerStat.BiteRange);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            biteRange,
+            damageableLayers
+        );
+
+        enemiesCurrentlyInRange.Clear();
+
+        foreach (Collider2D hit in hits)
+        {
+            Enemy enemy = hit.GetComponent<Enemy>();
+            enemy ??= hit.GetComponentInParent<Enemy>();
+
+            if (enemy == null)
+                continue;
+
+            enemiesCurrentlyInRange.Add(enemy);
+
+            if (highlightedEnemies.Add(enemy))
+            {
+                enemy.SetBiteRangeHighlight(true);
+            }
+        }
+
+        highlightedEnemies.RemoveWhere(enemy =>
+        {
+            if (enemy == null)
+                return true;
+
+            if (enemiesCurrentlyInRange.Contains(enemy))
+                return false;
+
+            enemy.SetBiteRangeHighlight(false);
+            return true;
+        });
+    }
 }
