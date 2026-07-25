@@ -146,6 +146,6 @@ MonoBehaviour:
   singleUse: 0
   trapName: Spike Trap
   description: Deals 10 damage to enemies that step on it.
-  cost: 25
+  cost: 15
   icon: {fileID: 619983064346436887, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   damage: 5

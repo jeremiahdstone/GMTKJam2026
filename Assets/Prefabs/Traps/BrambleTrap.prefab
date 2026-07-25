@@ -146,6 +146,6 @@ MonoBehaviour:
   singleUse: 0
   trapName: Bramble Trap
   description: Slows enemies while they move through it.
-  cost: 25
+  cost: 12
   icon: {fileID: -4129208072717313571, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   slowMultiplier: 0.5
