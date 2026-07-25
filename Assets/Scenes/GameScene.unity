@@ -504,6 +504,7 @@ MonoBehaviour:
   trapBlockingLayers:
     serializedVersion: 2
     m_Bits: 960
+  shopItemCount: 3
 --- !u!1 &92671569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,7 +2417,10 @@ MonoBehaviour:
   positionComposer: {fileID: 313883840}
   triggerY: 20
   horizonOffsetY: 8
-  transitionSpeed: 1
+  moveUpDuration: 8
+  moveDownDuration: 2
+  moveUpEase: 4
+  moveDownEase: 4
 --- !u!4 &315350744 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
@@ -22505,7 +22509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1789498669
 RectTransform:
   m_ObjectHideFlags: 0
