@@ -26,6 +26,8 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private LayerMask trapBlockingLayers;
 
+    public int shopItemCount = 3; 
+
     //adding a SINGLETON :bleh:
     public static ShopManager Instance { get; private set; }
     private void Awake()
@@ -55,12 +57,16 @@ public class ShopManager : MonoBehaviour
 
     public void GenerateShop()
     {
-        IShoppable[] shopList = new IShoppable[3];
+        IShoppable[] shopList = new IShoppable[shopItemCount];
 
-        //TODO eventually guarantee theres at least 1 trap and 1 upgrade
+        // ensure first item is always an upgrade
+        shopList[0] = upgradeDatabase.AllUpgrades[Random.Range(0, upgradeDatabase.AllUpgrades.Count)];
 
-        //pick shop items
-        for (int i = 0; i < 3; i++)
+        // ensure last item is always a trap
+        shopList[shopItemCount-1] = trapDatabase.TrapPrefabs[Random.Range(0, trapDatabase.TrapPrefabs.Count)];
+
+        //pick random shop items for everything else (rn thats just the 1 middle item)
+        for (int i = 1; i < shopItemCount-1; i++)
         {
             shopList[i] = shopDatabase[Random.Range(0, shopDatabase.Count)];
         }
