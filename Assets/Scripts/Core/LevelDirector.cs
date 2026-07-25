@@ -6,14 +6,14 @@ public class LevelDirector : MonoBehaviour
 {
     public static LevelDirector instance;
 
-    
+
     [Header("Valid Spawn Area")]
     [SerializeField] private float yPosition = -7f;
     [SerializeField] private Vector2 xMinMaxPosition = new Vector2(-9f, 9f);
 
     [Header("Wave Settings")]
-    [SerializeField] private int budget = 10;
-    [SerializeField] private int maxEnemies = 5;
+    [SerializeField] private int budget;
+    [SerializeField] private int maxEnemies;
     [SerializeField] private float spawnDelay = 0.5f;
 
     [Header("Enemies")]
@@ -22,24 +22,57 @@ public class LevelDirector : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> preparedEnemies = new List<GameObject>();
+    public int EnemiesLeft;
 
     [Header("Runtime")]
     [SerializeField] private int currentEnemyCount;
 
+    [Header("Difficulty Scaling")]
+    [SerializeField] private int baseBudget = 8;
+    [SerializeField] private float budgetGrowthRate = 1.12f;
+
+    [SerializeField] private int baseMaxEnemies = 8;
+    [SerializeField] private float enemiesPerDifficulty = 0.75f;
+
+    [SerializeField] private float minimumSpawnDelay = 0.08f;
+    [SerializeField] private float spawnDelayReduction = 0.015f;
+
     private Coroutine spawnCoroutine;
 
-    private void Start()
+    private void Awake()
     {
-        if(LevelDirector.instance == null)
+        if (LevelDirector.instance == null)
             LevelDirector.instance = this;
         else
             Destroy(this.gameObject);
 
-        SpawnWave();
     }
 
-    public void SpawnWave()
+    private void CalculateBudget(int difficulty)
     {
+        difficulty = Mathf.Max(1, difficulty);
+
+        budget = Mathf.RoundToInt(
+            baseBudget *
+            Mathf.Pow(budgetGrowthRate, difficulty - 1)
+        );
+
+        // Increase the number allowed on screen more slowly.
+        maxEnemies = baseMaxEnemies +
+            Mathf.FloorToInt(
+                (difficulty - 1) * enemiesPerDifficulty
+            );
+
+        // Gradually make enemies enter the arena faster.
+        spawnDelay = Mathf.Max(
+            minimumSpawnDelay,
+            0.5f - ((difficulty - 1) * spawnDelayReduction)
+        );
+    }
+
+    public void SpawnWave(int difficulty)
+    {
+        CalculateBudget(difficulty);
         PrepareEnemies();
 
         if (
@@ -96,6 +129,9 @@ public class LevelDirector : MonoBehaviour
             currentBudget -= enemy.cost;
             preparedEnemies.Add(chosenEnemy);
         }
+
+        EnemiesLeft = preparedEnemies.Count;
+        GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
     }
 
     private List<GameObject> GetAffordableEnemies(
@@ -171,6 +207,14 @@ public class LevelDirector : MonoBehaviour
             spawnCoroutine = StartCoroutine(
                 SpawnWaveOverTime()
             );
+        }
+
+        EnemiesLeft--;
+        GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
+
+        if(EnemiesLeft <= 0)
+        {
+            GameSession.instance.EndWave();
         }
     }
 }

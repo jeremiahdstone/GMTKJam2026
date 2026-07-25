@@ -7278,6 +7278,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
   m_PrefabInstance: {fileID: 1541663496}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1334211384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334211386}
+  - component: {fileID: 1334211385}
+  m_Layer: 0
+  m_Name: GameSession
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1334211385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334211384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728f5c9a0e1771c40b2df5a85a342149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  uiManager: {fileID: 1518207762}
+  levelDirector: {fileID: 1766094389}
+--- !u!4 &1334211386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334211384}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.50351, y: 6.50701, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340283457
 GameObject:
   m_ObjectHideFlags: 0
@@ -8700,6 +8746,8 @@ MonoBehaviour:
   bloodAmountSlider: {fileID: 743549499}
   attackCooldownImage: {fileID: 896619233}
   batFormCoolDownImage: {fileID: 136113462}
+  dayText: {fileID: 1894129461}
+  enemyCountText: {fileID: 1474128782}
 --- !u!1001 &1520483102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15536,7 +15584,14 @@ MonoBehaviour:
   - {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
   - {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
   preparedEnemies: []
+  EnemiesLeft: 0
   currentEnemyCount: 0
+  baseBudget: 8
+  budgetGrowthRate: 1.12
+  baseMaxEnemies: 8
+  enemiesPerDifficulty: 0.75
+  minimumSpawnDelay: 0.08
+  spawnDelayReduction: 0.015
 --- !u!4 &1767170363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
@@ -67877,3 +67932,4 @@ SceneRoots:
   - {fileID: 313883842}
   - {fileID: 2061227821}
   - {fileID: 1661608922}
+  - {fileID: 1334211386}
