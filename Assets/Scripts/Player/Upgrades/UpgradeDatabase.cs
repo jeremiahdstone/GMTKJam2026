@@ -19,6 +19,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[0],
                 affectedStat = PlayerStat.WalkSpeed,
                 flatBonus = 1f,
+                cost = 8,
             },
 
             new StatUpgrade
@@ -29,6 +30,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[2],
                 affectedStat = PlayerStat.BatFormMaxSpeed,
                 flatBonus = 2.5f,
+                cost = 8,
             },
 
             new StatUpgrade
@@ -39,6 +41,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[4],
                 affectedStat = PlayerStat.BatFormCooldown,
                 flatBonus = -0.25f,
+                cost = 10,
             },
 
             new StatUpgrade
@@ -49,6 +52,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[3],
                 affectedStat = PlayerStat.BiteCooldown,
                 flatBonus = -0.2f,
+                cost = 14,
             },
 
             new StatUpgrade
@@ -59,6 +63,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[1],
                 affectedStat = PlayerStat.BiteDamage,
                 flatBonus = 2f,
+                cost = 10,
             },
 
             new StatUpgrade
@@ -69,6 +74,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[5],
                 affectedStat = PlayerStat.BiteRange,
                 flatBonus = 0.5f,
+                cost = 10,
             },
 
             new StatUpgrade
@@ -79,6 +85,7 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[6],
                 affectedStat = PlayerStat.BiteSpeedMultiplier,
                 flatBonus = 0.2f,
+                cost = 12,
             },
 
             new DoubleBiteUpgrade
@@ -87,6 +94,7 @@ public class UpgradeDatabase : MonoBehaviour
                 name = "Bite Chain",
                 description = "Chance for Bite cooldown to reset immediatley after Bite.",
                 sprite = upgradeIcons[7],
+                cost = 16,
             },
         };
     }

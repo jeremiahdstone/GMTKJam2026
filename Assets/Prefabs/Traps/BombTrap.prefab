@@ -145,8 +145,8 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   singleUse: 1
   trapName: Bomb Trap
-  description: Explodes when enemies get close, once per wave.
-  cost: 25
+  description: Explodes when enemies get close, one time use.
+  cost: 10
   icon: {fileID: -5300929159689610213, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   damage: 20
   radius: 3
