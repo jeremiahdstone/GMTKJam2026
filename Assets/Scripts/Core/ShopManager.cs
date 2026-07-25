@@ -7,9 +7,7 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    // public UpgradeDatabase upgradeDatabase; 
-    // access with 'UpgradeDatabase.AllUpgrades'
-    // yeah i shouldve used scriptable objects for this i dont like how these are different...
+    public UpgradeDatabase upgradeDatabase;
     public TrapDatabase trapDatabase;
 
     public List<IShoppable> shopDatabase;
@@ -23,7 +21,7 @@ public class ShopManager : MonoBehaviour
     {
         shopDatabase = new List<IShoppable>();
 
-        shopDatabase.AddRange(UpgradeDatabase.AllUpgrades); 
+        shopDatabase.AddRange(upgradeDatabase.AllUpgrades); 
         shopDatabase.AddRange(trapDatabase.TrapPrefabs);
 
         //TESTING, BUY 10 SPEED UPGRADES FROM THE SHOP
@@ -47,10 +45,6 @@ public class ShopManager : MonoBehaviour
         {
             shopList[i] = shopDatabase[Random.Range(0, shopDatabase.Count)];
         }
-
-        Debug.Log(shopList[0]);
-        Debug.Log(shopList[1]);
-        Debug.Log(shopList[2]);
 
         DisplayShop(shopList);
     }

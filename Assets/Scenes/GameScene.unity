@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 69666264}
   - component: {fileID: 69666266}
   - component: {fileID: 69666265}
+  - component: {fileID: 69666267}
   m_Layer: 5
   m_Name: ShopUI
   m_TagString: Untagged
