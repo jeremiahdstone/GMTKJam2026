@@ -5,6 +5,9 @@ public class Pickup : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
 
+    [Header("Value")]
+    [SerializeField] private int bloodAmount = 1;
+
     [Header("Spawn Movement")]
     [SerializeField] private float minSpawnForce = 0.5f;
     [SerializeField] private float maxSpawnForce = 1.5f;
@@ -21,7 +24,10 @@ public class Pickup : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            // add to time
+            // add to blood
+            GameSession.instance.AddBlood(bloodAmount);
+
+            
             Destroy(this.gameObject);
             // pickup effect
         }

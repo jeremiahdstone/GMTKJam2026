@@ -8,12 +8,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
 
     [Header("UI Components")]
-    [SerializeField] private Slider bloodAmountSlider;
     [SerializeField] private Image attackCooldownImage;
     [SerializeField] private Image batFormCoolDownImage;
 
     [SerializeField] private TMP_Text dayText;
     [SerializeField] private TMP_Text enemyCountText;
+    [SerializeField] private Slider bloodAmountSlider;
+    [SerializeField] private TMP_Text bloodAmountText;
 
     private RectTransform attackCooldownRect;
     private RectTransform batFormCooldownRect;
@@ -118,5 +119,13 @@ public class UIManager : MonoBehaviour
         }
 
         enemyCountText.text = count.ToString();
+    }
+
+    public void SetBloodSlider(int value, int maxValue)
+    {
+        bloodAmountSlider.maxValue = maxValue;
+        bloodAmountSlider.value = value;
+
+        bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
     }
 }
