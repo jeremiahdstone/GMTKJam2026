@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -47,6 +47,14 @@ public class UIManager : MonoBehaviour
     private float attackCooldownStartingY;
     private float batFormCooldownFullHeight;
     private float batFormCooldownStartingY;
+
+
+    //Tweens
+    private Tween bloodTween;
+    private Tween bloodPunchTween;
+    private Tween dayPunchTween;
+    private Tween enemyCountPunchTween;
+    private Tween refreshPricePunchTween;
 
     private void Start()
     {
@@ -131,11 +139,21 @@ public class UIManager : MonoBehaviour
 
     public void SetDay(int day)
     {
-        dayText.text = "Day " + day.ToString();
+        dayText.text = "Day " + day;
+
+        dayPunchTween?.Kill();
+        dayText.transform.localScale = Vector3.one;
+
+        dayPunchTween = dayText.transform
+            .DOPunchScale(Vector3.one * 0.2f, 0.35f, 6, 0.5f)
+            .SetUpdate(true);
     }
+
 
     public void SetEnemyCount(int count)
     {
+        enemyCountPunchTween?.Kill();
+
         if (count == 0)
         {
             enemyCountText.text = "";
@@ -143,14 +161,43 @@ public class UIManager : MonoBehaviour
         }
 
         enemyCountText.text = count.ToString();
+
+        enemyCountText.transform.localScale = Vector3.one;
+
+        enemyCountPunchTween = enemyCountText.transform
+            .DOPunchScale(Vector3.one * 0.12f, 0.2f, 5, 0.4f)
+            .SetUpdate(true);
     }
 
     public void SetBloodSlider(int value, int maxValue)
     {
-        bloodAmountSlider.maxValue = maxValue;
-        bloodAmountSlider.value = value;
+        bloodTween?.Kill();
+        bloodPunchTween?.Kill();
 
-        bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
+        bloodAmountSlider.maxValue = maxValue;
+
+        float startingValue = bloodAmountSlider.value;
+
+        bloodTween = DOTween.To(
+                () => startingValue,
+                currentValue =>
+                {
+                    bloodAmountSlider.value = currentValue;
+
+                    int displayedValue = Mathf.RoundToInt(currentValue);
+                    bloodAmountText.text = displayedValue + "/" + maxValue;
+                },
+                value,
+                0.45f
+            )
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true);
+
+        bloodAmountText.transform.localScale = Vector3.one;
+
+        bloodPunchTween = bloodAmountText.transform
+            .DOPunchScale(Vector3.one * 0.12f, 0.3f, 5, 0.4f)
+            .SetUpdate(true);
     }
 
     public void OpenShopPanel()
@@ -196,12 +243,24 @@ public class UIManager : MonoBehaviour
     public void ResetRefreshPrice()
     {
         refreshPrice = startingRefreshPrice;
+        AnimateRefreshPrice();
+    }
+
+    private void AnimateRefreshPrice()
+    {
         refreshPriceText.text = refreshPrice.ToString();
+
+        refreshPricePunchTween?.Kill();
+        refreshPriceText.transform.localScale = Vector3.one;
+
+        refreshPricePunchTween = refreshPriceText.transform
+            .DOPunchScale(Vector3.one * 0.15f, 0.25f, 5, 0.4f)
+            .SetUpdate(true);
     }
 
     public void RefreshShop()
     {
-        
+
 
         if (GameSession.instance.run.bloodCount > refreshPrice)
         {
