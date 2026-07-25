@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerManager playerManager;
 
-    [Header("UI Components")]
+    [Header("Game UI Components")]
     [SerializeField] private Image attackCooldownImage;
     [SerializeField] private Image batFormCoolDownImage;
 
@@ -15,6 +15,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text enemyCountText;
     [SerializeField] private Slider bloodAmountSlider;
     [SerializeField] private TMP_Text bloodAmountText;
+
+    [Header("Build UI Components")]
+    [SerializeField] private GameObject shopPanel;
+    [SerializeField] private GameObject shopOpenButton;
+    [SerializeField] private GameObject nextDayButton;
+
+    [Header("UI Sections")]
+    [SerializeField] private GameObject buildUI;
+    
 
     private RectTransform attackCooldownRect;
     private RectTransform batFormCooldownRect;
@@ -127,5 +136,30 @@ public class UIManager : MonoBehaviour
         bloodAmountSlider.value = value;
 
         bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
+    }
+
+    public void OpenBuildUI()
+    {
+        buildUI.SetActive(true);
+    }
+
+    public void OpenShopPanel()
+    {
+        shopPanel.SetActive(true);
+        shopOpenButton.SetActive(false);
+        nextDayButton.SetActive(false);
+        GameSession.instance.DisablePlayerMovement(true);
+    }
+    public void CloseShopPanel()
+    {
+        shopPanel.SetActive(false);
+        shopOpenButton.SetActive(true);
+        nextDayButton.SetActive(true);
+        GameSession.instance.DisablePlayerMovement(false);
+    }
+
+    public void CloseBuildUI()
+    {
+        buildUI.SetActive(false);
     }
 }

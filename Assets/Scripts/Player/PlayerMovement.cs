@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private bool isFrozen = false;
     private PlayerManager manager;
     //where all the values for player stats are stored
     public PlayerStats playerStats;
@@ -51,6 +52,12 @@ public class PlayerMovement : MonoBehaviour
         // previousLevel = SceneManager.GetActiveScene().name;
     }
 
+    public void ToggleFrozen(bool val)
+    {
+        isFrozen = val;
+        if(isFrozen) rb.linearVelocity = Vector2.zero;
+    }
+
     private void Update()
     {
         if (!batForm && batFormCooldownTimer > 0f)
@@ -62,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
     //moves the player a small increment based on the inputted direction
     public void MovePlayer(Vector2 direction)
     {
+        if(isFrozen) {
+
+            return;
+        }
         //moves based on the player speed, the time, and the movement direction
         //Time.fixedDeltaTime is to ensure altering frame rates do not affect speed
         //rb.MovePosition(rb.position+(speed * Time.fixedDeltaTime * direction));
@@ -105,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
             manager.anim.SetBool("isBat", false);
 
             gameObject.layer = LayerMask.NameToLayer("Player");
-            manager.sr.sortingOrder = 3;
+            manager.sr.sortingOrder = 0;
         } else  //human form, entering bat form
         {
             // speed = walkSpeed;
@@ -117,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
             manager.anim.SetBool("isBat", true);
 
             gameObject.layer = LayerMask.NameToLayer("Bat");
-            manager.sr.sortingOrder = 1;
+            manager.sr.sortingOrder = 3;
         }
     }
 
