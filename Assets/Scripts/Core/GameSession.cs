@@ -32,7 +32,10 @@ public class GameSession : MonoBehaviour
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
 
-        StartRun();
+        DisablePlayerMovement(true);
+
+        uiManager.showOpeningLetter();
+
     }
 
     public void StartRun()

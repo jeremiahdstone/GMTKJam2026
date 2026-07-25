@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 
 public enum UITweenDirection
 {
@@ -28,6 +29,7 @@ public class UITween : MonoBehaviour
 
     [Header("Behavior")]
     [SerializeField] private bool showOnEnable = true;
+    [SerializeField] private bool ShowOnAwake = false;
     [SerializeField] private bool useUnscaledTime = true;
     [SerializeField] private bool disableAfterHiding = true;
 
@@ -50,6 +52,14 @@ public class UITween : MonoBehaviour
     private void Awake()
     {
         Initialize();
+
+        
+    }
+
+    private void Start()
+    {
+        if (ShowOnAwake)
+            StartCoroutine(StartOnAwake());
     }
 
     private void OnEnable()
@@ -60,6 +70,19 @@ public class UITween : MonoBehaviour
         {
             Show();
         }
+    }
+
+    private IEnumerator StartOnAwake()
+    {
+        if (!ShowOnAwake)
+            yield break;
+
+        rectTransform.anchoredPosition = hiddenPosition;
+
+        yield return null;
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        Show();
     }
 
     private void Initialize()

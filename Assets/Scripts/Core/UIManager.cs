@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
+    [SerializeField] private GameObject openingLetter;
 
     [Header("Shop Refresh")]
     [SerializeField] private int startingRefreshPrice = 5;
@@ -212,5 +213,10 @@ public class UIManager : MonoBehaviour
         }
 
 
+    }
+
+    public void showOpeningLetter()
+    {
+        openingLetter.SetActive(true);
     }
 }
