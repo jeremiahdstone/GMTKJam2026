@@ -1,17 +1,31 @@
 using UnityEngine;
 
 //abstract upgrade to allow for different weird upgrades in the future
-public abstract class Upgrade
+public abstract class Upgrade : IShoppable
 {
     public string name = "Upgrade";
     public string description = "An upgrade for the player";
     public Sprite sprite;
+    public float cost;
+
+    public string getName() => name;
+    public string getDescription() => description;
+    public float getCost() => cost;
+    public Sprite getIcon() => sprite;
 
     public int level = 1;
 
     public virtual float Modify(PlayerStat stat, float value)
     {
         return value;
+    }
+
+    public virtual void OnPurchase()
+    {
+        // Add to player upgrade list
+        //uggh i hate this im def doing something wrong here this feels nasty in terms of coupling
+        Object.FindFirstObjectByType<PlayerStats>().AddUpgrade(this);
+
     }
 }
 
