@@ -1665,10 +1665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 8
   m_ScaleFactor: 3.2727273
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 320, y: 180}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1688,7 +1688,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1707439051}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -1770,7 +1770,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10.0868225}
+  m_AnchoredPosition: {x: 0, y: -10.086792}
   m_SizeDelta: {x: 0, y: -20.174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1534910684
@@ -5077,63 +5077,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &2806281261883768245
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_Name
-      value: BloodOrb
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.7436438
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.815476
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9019420383702677000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5148,4 +5091,3 @@ SceneRoots:
   - {fileID: 1518207761}
   - {fileID: 1645066679}
   - {fileID: 313883842}
-  - {fileID: 2806281261883768245}
