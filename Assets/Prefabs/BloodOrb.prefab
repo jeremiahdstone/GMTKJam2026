@@ -129,7 +129,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.35
+  m_Radius: 0.65
 --- !u!114 &4278798147719007510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7de116959c57fa438fcc9007a04205d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1536
   rb: {fileID: 3945882530927039110}
+  bloodAmount: 1
   minSpawnForce: 0.5
   maxSpawnForce: 1.5
 --- !u!50 &3945882530927039110

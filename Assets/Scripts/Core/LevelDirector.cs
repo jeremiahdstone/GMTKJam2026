@@ -24,9 +24,14 @@ public class LevelDirector : MonoBehaviour
     private List<GameObject> preparedEnemies = new List<GameObject>();
     public int EnemiesLeft;
 
+    [Header("Enemy Unlocking")]
+    [SerializeField] private int wavesPerEnemyUnlock = 2;
+
     [Header("Runtime")]
     [SerializeField] private int currentEnemyCount;
     [SerializeField] private List<GameObject> LivingEnemies = new List<GameObject>();
+
+    private int currentDifficulty;
 
     [Header("Difficulty Scaling")]
     [SerializeField] private int baseBudget = 8;
@@ -76,29 +81,25 @@ public class LevelDirector : MonoBehaviour
 
     public void SpawnWave(int difficulty)
     {
-        if(LivingEnemies.Count > 0)
-        {
-            foreach(GameObject enemy in LivingEnemies)
-            {
-                enemy.GetComponent<Enemy>().Die(0);
+        currentDifficulty = Mathf.Max(1, difficulty);
 
+        if (LivingEnemies.Count > 0)
+        {
+            foreach (GameObject enemy in LivingEnemies)
+            {
+                if (enemy != null)
+                    enemy.GetComponent<Enemy>().Die(0);
             }
         }
 
         LivingEnemies = new List<GameObject>();
 
-
-        CalculateBudget(difficulty);
+        CalculateBudget(currentDifficulty);
         PrepareEnemies();
 
-        if (
-            spawnCoroutine == null &&
-            preparedEnemies.Count > 0
-        )
+        if (spawnCoroutine == null && preparedEnemies.Count > 0)
         {
-            spawnCoroutine = StartCoroutine(
-                SpawnWaveOverTime()
-            );
+            spawnCoroutine = StartCoroutine(SpawnWaveOverTime());
         }
     }
 
@@ -150,15 +151,22 @@ public class LevelDirector : MonoBehaviour
         GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
     }
 
-    private List<GameObject> GetAffordableEnemies(
-        int currentBudget
-    )
+    private List<GameObject> GetAffordableEnemies(int currentBudget)
     {
-        List<GameObject> affordableEnemies =
-            new List<GameObject>();
+        List<GameObject> affordableEnemies = new List<GameObject>();
 
-        foreach (GameObject enemyObject in possibleEnemies)
+        // Wave 1 only allows index 0.
+        // Every few waves, another enemy is added.
+        int unlockedEnemyCount = Mathf.Clamp(
+            1 + ((currentDifficulty - 1) / wavesPerEnemyUnlock),
+            1,
+            possibleEnemies.Count
+        );
+
+        for (int i = 0; i < unlockedEnemyCount; i++)
         {
+            GameObject enemyObject = possibleEnemies[i];
+
             if (enemyObject == null)
                 continue;
 
@@ -197,7 +205,7 @@ public class LevelDirector : MonoBehaviour
             yPosition
         );
 
-        GameObject EnemyGameObject=Instantiate(
+        GameObject EnemyGameObject = Instantiate(
             enemyPrefab,
             spawnPosition,
             Quaternion.identity
@@ -231,12 +239,12 @@ public class LevelDirector : MonoBehaviour
         EnemiesLeft--;
         GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
 
-        if(EnemiesLeft <= 0)
+        if (EnemiesLeft <= 0)
         {
             GameSession.instance.EndWave();
         }
 
-        if(EnemiesLeft <= 5)
+        if (EnemiesLeft <= 5)
         {
             SpawnArrows();
         }
@@ -244,9 +252,9 @@ public class LevelDirector : MonoBehaviour
 
     private void SpawnArrows()
     {
-        foreach(GameObject enemyObj in LivingEnemies)
+        foreach (GameObject enemyObj in LivingEnemies)
         {
-            if(enemyObj != null)
+            if (enemyObj != null)
             {
                 EnemyArrow enemyArrow = Instantiate(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
                 enemyArrow.Initialize(enemyObj.transform);
