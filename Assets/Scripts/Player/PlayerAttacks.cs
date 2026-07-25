@@ -136,6 +136,8 @@ public class PlayerAttacks : MonoBehaviour
             );
         }
 
+        CameraShake.Instance.Shake(0.5f);
+
         manager.anim.speed = initialAnimSpeed;
     }
 
