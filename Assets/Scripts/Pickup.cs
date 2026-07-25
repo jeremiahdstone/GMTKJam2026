@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Rigidbody2D rb;
+
 
     [Header("Value")]
     [SerializeField] private int bloodAmount = 1;
@@ -22,7 +24,7 @@ public class Pickup : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if ((playerLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
             // add to blood
             GameSession.instance.AddBlood(bloodAmount);
