@@ -25,10 +25,10 @@ public class ShopManager : MonoBehaviour
         shopDatabase.AddRange(trapDatabase.TrapPrefabs);
 
         //TESTING, BUY 10 SPEED UPGRADES FROM THE SHOP
-        for (int i = 0; i < 10; i++)
-        {
-            shopDatabase[0].OnPurchase();
-        }
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     shopDatabase[0].OnPurchase();
+        // }
 
         //CALL THIS WHENEVER YOU WANNA GENERATE AND DISPLAY A NEW SHOP
         GenerateShop();
@@ -84,6 +84,17 @@ public class ShopManager : MonoBehaviour
 
             panel.transform.Find("Button/PriceText")
                 .GetComponent<TextMeshProUGUI>().text = item.getCost().ToString();
+
+            Button button = panel.transform.Find("Button").GetComponent<Button>();
+
+            IShoppable purchasedItem = item;
+            button.onClick.AddListener(() =>
+            {
+                // SUBTRACT MONEY
+                purchasedItem.OnPurchase();
+                Destroy(panel);
+            });
+
         }
     }
 
