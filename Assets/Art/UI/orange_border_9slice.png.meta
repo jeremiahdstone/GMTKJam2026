@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: e9b11dd128d86f14690d6b69c0dee3eb
+guid: 5ddab750b21eb7d45b0a689b7bfa5ee5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7313083693432771760
-    second: VycountUIBloodLevel_0
-  - first:
-      213: 5073281391422662256
-    second: VycountUIBloodLevel_1
+      213: 2860795261343121622
+    second: orange_border_9slice_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,13 +46,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 8
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 7, y: 7, z: 7, w: 7}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -116,67 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VycountUIBloodLevel_0
+      name: orange_border_9slice_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 56
+        width: 24
+        height: 24
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 7, y: 23, z: 7, w: 22}
+      border: {x: 7, y: 7, z: 7, w: 7}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 05bec309025b28a90800000000000000
-      internalID: -7313083693432771760
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: VycountUIBloodLevel_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 48
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 2}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 076e85dcb8ae76640800000000000000
-      internalID: 5073281391422662256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: VycountUIBloodLevel_2
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 80c872137ffbe9b4699f209a97f381a1
-      internalID: -1976975176
+      spriteID: 6d04a7f022693b720800000000000000
+      internalID: 2860795261343121622
       vertices: []
       indices: 
       edges: []
@@ -185,8 +138,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ee1a286c327dcff4ba41f63b6837612e
-    internalID: 0
+    spriteID: 431b95b2329da784794cbb5c924e5aae
+    internalID: -927498891
     vertices: []
     indices: 
     edges: []
@@ -195,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      VycountUIBloodLevel_0: -7313083693432771760
-      VycountUIBloodLevel_1: 5073281391422662256
-      VycountUIBloodLevel_2: -1976975176
+      orange_border_9slice_0: 2860795261343121622
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

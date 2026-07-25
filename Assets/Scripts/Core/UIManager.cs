@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] public ShopManager shopManager;
 
     [Header("Game UI Components")]
     [SerializeField] private Image attackCooldownImage;
@@ -21,9 +25,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopOpenButton;
     [SerializeField] private GameObject nextDayButton;
 
+    [SerializeField] private TMP_Text upgradesText; 
+    [SerializeField] private GameObject upgradeList; 
+
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
-    
+
+    [Header("Shop Refresh")]
+    [SerializeField] private int startingRefreshPrice = 5;
+    [SerializeField] private int refreshPriceIncrement = 1;
+    [SerializeField] private TMP_Text refreshPriceText;
+
+    private int refreshPrice = 5;
+
 
     private RectTransform attackCooldownRect;
     private RectTransform batFormCooldownRect;
@@ -121,7 +135,7 @@ public class UIManager : MonoBehaviour
 
     public void SetEnemyCount(int count)
     {
-        if(count == 0)
+        if (count == 0)
         {
             enemyCountText.text = "";
             return;
@@ -138,21 +152,21 @@ public class UIManager : MonoBehaviour
         bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
     }
 
-    public void OpenBuildUI()
-    {
-        buildUI.SetActive(true);
-    }
-
     public void OpenShopPanel()
     {
         shopPanel.SetActive(true);
-        shopOpenButton.SetActive(false);
-        nextDayButton.SetActive(false);
+        upgradeList.SetActive(true);
+        if (shopOpenButton.activeSelf)
+            shopOpenButton.GetComponent<UITween>().Hide();
+        if (nextDayButton.activeSelf)
+            nextDayButton.GetComponent<UITween>().Hide();
         GameSession.instance.DisablePlayerMovement(true);
     }
     public void CloseShopPanel()
     {
-        shopPanel.SetActive(false);
+        shopPanel.GetComponent<UITween>().Hide();
+        upgradeList.GetComponent<UITween>().Hide();
+
         shopOpenButton.SetActive(true);
         nextDayButton.SetActive(true);
         GameSession.instance.DisablePlayerMovement(false);
@@ -160,6 +174,36 @@ public class UIManager : MonoBehaviour
 
     public void CloseBuildUI()
     {
-        buildUI.SetActive(false);
+        if (shopOpenButton.activeSelf)
+            shopOpenButton.GetComponent<UITween>().Hide();
+        if (nextDayButton.activeSelf)
+            nextDayButton.GetComponent<UITween>().Hide();
+        if (shopPanel.activeSelf)
+            shopPanel.GetComponent<UITween>().Hide();
+        
+    }
+
+    public void RebuildUpgradeList(List<Upgrade> upgrades)
+    {
+        upgradesText.text = "";
+        foreach(Upgrade upgrade in upgrades)
+        {
+            upgradesText.text += upgrade.name + ":<color=#890027> LVL " + upgrade.level.ToString() + "</color>\n";
+        }
+    }
+
+    public void ResetRefreshPrice()
+    {
+        refreshPrice = startingRefreshPrice;
+        refreshPriceText.text = refreshPrice.ToString();
+    }
+
+    public void RefreshShop()
+    {
+        shopManager.GenerateShop();
+        GameSession.instance.SubtractBlood(refreshPrice);
+        refreshPrice += refreshPriceIncrement;
+        refreshPriceText.text = refreshPrice.ToString();
+
     }
 }

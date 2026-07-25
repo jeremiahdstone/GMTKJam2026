@@ -120,12 +120,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 32
+        y: 56
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 5, z: 5, w: 5}
+      border: {x: 5, y: 7, z: 5, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -142,12 +142,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 8
+        y: 32
         width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 5, z: 5, w: 5}
+      border: {x: 5, y: 7, z: 5, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -155,6 +155,28 @@ TextureImporter:
       bones: []
       spriteID: 9c37417a673301110800000000000000
       internalID: 1229539282974438345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VyCountButton9slices_2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 7, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0adf3abfe67235748a7f387b91ad5814
+      internalID: -1778105121
       vertices: []
       indices: 
       edges: []
@@ -177,6 +199,7 @@ TextureImporter:
     nameFileIdTable:
       VyCountButton9slices_0: 5265514454885740128
       VyCountButton9slices_1: 1229539282974438345
+      VyCountButton9slices_2: -1778105121
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

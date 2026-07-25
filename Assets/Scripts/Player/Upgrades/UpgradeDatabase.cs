@@ -13,6 +13,7 @@ public class UpgradeDatabase : MonoBehaviour
         {
             new StatUpgrade
             {
+                id = "swift_feet",
                 name = "Swift Feet",
                 description = "Move faster while walking.",
                 sprite = upgradeIcons[0],
@@ -22,6 +23,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "stronger_wings",
                 name = "Stronger Wings",
                 description = "Increase your maximum bat flight speed.",
                 sprite = upgradeIcons[2],
@@ -31,6 +33,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "rapid_shift",
                 name = "Rapid Shift",
                 description = "Reduce the cooldown before entering bat form again.",
                 sprite = upgradeIcons[4],
@@ -40,6 +43,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "quick_fangs",
                 name = "Quick Fangs",
                 description = "Reduce the cooldown of Bite.",
                 sprite = upgradeIcons[3],
@@ -49,6 +53,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "sharpened_fangs",
                 name = "Sharpened Fangs",
                 description = "Increase the damage dealt by Bite.",
                 sprite = upgradeIcons[1],
@@ -58,6 +63,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "lunging_bite",
                 name = "Lunging Bite",
                 description = "Increase the range of Bite.",
                 sprite = upgradeIcons[5],
@@ -67,6 +73,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new StatUpgrade
             {
+                id = "quick_bite",
                 name = "Quick Bite",
                 description = "Increase the speed of your Bite Lunge.",
                 sprite = upgradeIcons[6],
@@ -76,6 +83,7 @@ public class UpgradeDatabase : MonoBehaviour
 
             new DoubleBiteUpgrade
             {
+                id = "bite_chain",
                 name = "Bite Chain",
                 description = "Chance for Bite cooldown to reset immediatley after Bite.",
                 sprite = upgradeIcons[7],
