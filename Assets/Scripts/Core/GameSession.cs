@@ -49,7 +49,6 @@ public class GameSession : MonoBehaviour
         StopAllCoroutines();
         phase = Phase.build;
         // open shop
-        uiManager.OpenBuildUI();
         uiManager.OpenShopPanel();
     }
 
@@ -71,6 +70,11 @@ public class GameSession : MonoBehaviour
         if (Input.GetKeyDown("p") && phase == Phase.build)
         {
             StartWave();
+        }
+
+        if (Input.GetKeyDown("o") && phase == Phase.combat)
+        {
+            EndWave();
         }
     }
 

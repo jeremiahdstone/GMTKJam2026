@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &69666264
 RectTransform:
   m_ObjectHideFlags: 0
@@ -736,6 +736,7 @@ GameObject:
   - component: {fileID: 146945916}
   - component: {fileID: 146945918}
   - component: {fileID: 146945917}
+  - component: {fileID: 146945919}
   m_Layer: 5
   m_Name: ShopPanel
   m_TagString: Untagged
@@ -803,6 +804,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146945915}
   m_CullTransparentMesh: 1
+--- !u!114 &146945919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146945915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446eb8d190792354eb3b36c09e5ea0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITween
+  direction: 0
+  offscreenDistance: 200
+  showDuration: 0.6
+  showEase: 9
+  hideDuration: 0.25
+  hideEase: 8
+  showOnEnable: 1
+  useUnscaledTime: 1
+  disableAfterHiding: 1
 --- !u!4 &150203536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
@@ -2921,13 +2943,14 @@ GameObject:
   - component: {fileID: 544770993}
   - component: {fileID: 544770992}
   - component: {fileID: 544770991}
+  - component: {fileID: 544770994}
   m_Layer: 5
   m_Name: Shop Open Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &544770990
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3042,6 +3065,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544770989}
   m_CullTransparentMesh: 1
+--- !u!114 &544770994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544770989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446eb8d190792354eb3b36c09e5ea0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITween
+  direction: 3
+  offscreenDistance: 60
+  showDuration: 0.4
+  showEase: 9
+  hideDuration: 0.25
+  hideEase: 8
+  showOnEnable: 1
+  useUnscaledTime: 1
+  disableAfterHiding: 1
 --- !u!1001 &559892117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6268,13 +6312,14 @@ GameObject:
   - component: {fileID: 989885629}
   - component: {fileID: 989885628}
   - component: {fileID: 989885627}
+  - component: {fileID: 989885630}
   m_Layer: 5
   m_Name: Next Day Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &989885626
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6389,6 +6434,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989885625}
   m_CullTransparentMesh: 1
+--- !u!114 &989885630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989885625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446eb8d190792354eb3b36c09e5ea0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITween
+  direction: 1
+  offscreenDistance: 20
+  showDuration: 0.4
+  showEase: 9
+  hideDuration: 0.25
+  hideEase: 8
+  showOnEnable: 1
+  useUnscaledTime: 1
+  disableAfterHiding: 1
 --- !u!4 &990031361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}

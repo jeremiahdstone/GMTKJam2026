@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
-    
+
 
     private RectTransform attackCooldownRect;
     private RectTransform batFormCooldownRect;
@@ -121,7 +121,7 @@ public class UIManager : MonoBehaviour
 
     public void SetEnemyCount(int count)
     {
-        if(count == 0)
+        if (count == 0)
         {
             enemyCountText.text = "";
             return;
@@ -138,21 +138,18 @@ public class UIManager : MonoBehaviour
         bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
     }
 
-    public void OpenBuildUI()
-    {
-        buildUI.SetActive(true);
-    }
-
     public void OpenShopPanel()
     {
         shopPanel.SetActive(true);
-        shopOpenButton.SetActive(false);
-        nextDayButton.SetActive(false);
+        if (shopOpenButton.activeSelf)
+            shopOpenButton.GetComponent<UITween>().Hide();
+        if (nextDayButton.activeSelf)
+            nextDayButton.GetComponent<UITween>().Hide();
         GameSession.instance.DisablePlayerMovement(true);
     }
     public void CloseShopPanel()
     {
-        shopPanel.SetActive(false);
+        shopPanel.GetComponent<UITween>().Hide();
         shopOpenButton.SetActive(true);
         nextDayButton.SetActive(true);
         GameSession.instance.DisablePlayerMovement(false);
@@ -160,6 +157,11 @@ public class UIManager : MonoBehaviour
 
     public void CloseBuildUI()
     {
-        buildUI.SetActive(false);
+        if (shopOpenButton.activeSelf)
+            shopOpenButton.GetComponent<UITween>().Hide();
+        if (nextDayButton.activeSelf)
+            nextDayButton.GetComponent<UITween>().Hide();
+        if (shopPanel.activeSelf)
+            shopPanel.GetComponent<UITween>().Hide();
     }
 }
