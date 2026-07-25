@@ -234,7 +234,7 @@ public class Enemy : MonoBehaviour, IDamageable
         currentWaypoint = 0;
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage, Transform attacker = null)
     {
         currentHealth -= damage;
 
@@ -247,7 +247,18 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die(1);
+            if (attacker != null && attacker.tag == "Player") {
+                //bite attack, give 2x blood
+                // if you add an extra modifier for blood drops from bites it should go here
+                Die(2);
+                Debug.Log("extra blood drop");
+            } else
+            {
+                // any other death
+                // if you add an extra modifier for blood drops in general it should go here (and above also ig)
+                Die(1);
+            }
+
         }
         else
         {

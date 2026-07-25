@@ -131,7 +131,8 @@ public class PlayerAttacks : MonoBehaviour
         if (targetCollider != null)
         {
             damageable.Damage(
-                playerStats.GetStat(PlayerStat.BiteDamage)
+                playerStats.GetStat(PlayerStat.BiteDamage),
+                this.transform
             );
         }
 
