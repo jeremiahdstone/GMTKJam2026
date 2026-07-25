@@ -50,6 +50,7 @@ public class GridPlacementManager : MonoBehaviour
 
     public void TryPickUpObject()
     {
+        if(GameSession.instance.phase == Phase.combat) return;
         if(!canMovePlaceables) return;
         
         if (EventSystem.current != null &&

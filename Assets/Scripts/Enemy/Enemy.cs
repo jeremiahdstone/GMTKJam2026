@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] public int cost = 1;
     [SerializeField] public float maxHealth = 50f;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private int attackDamage = 5;
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
@@ -246,7 +247,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die();
+            Die(true);
         }
         else
         {
@@ -254,19 +255,34 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die()
+    public void Die(bool doDrops)
     {
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
         //Drop items
-        int numDrops = Random.Range(RandomNumDrops.x, RandomNumDrops.y);
-
-        for (int i = 0; i < numDrops; i++)
+        if (doDrops)
         {
-            Instantiate(DeathDrop, transform.position, Quaternion.identity);
+            int numDrops = Random.Range(RandomNumDrops.x, RandomNumDrops.y);
+
+            for (int i = 0; i < numDrops; i++)
+            {
+                Instantiate(DeathDrop, transform.position, Quaternion.identity);
+            }
         }
+
 
         LevelDirector.instance.NotifyEnemyRemoved();
         Destroy(gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Objective")
+        {
+            GameSession.instance.DamageCastle(attackDamage);
+
+            // TEMPORARY: for now, when they reach it, they just die
+            Die(false);
+        }
     }
 }

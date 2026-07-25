@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +8,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
 
     [Header("UI Components")]
-    [SerializeField] private Slider bloodAmountSlider;
     [SerializeField] private Image attackCooldownImage;
     [SerializeField] private Image batFormCoolDownImage;
+
+    [SerializeField] private TMP_Text dayText;
+    [SerializeField] private TMP_Text enemyCountText;
+    [SerializeField] private Slider bloodAmountSlider;
+    [SerializeField] private TMP_Text bloodAmountText;
 
     private RectTransform attackCooldownRect;
     private RectTransform batFormCooldownRect;
@@ -98,5 +103,29 @@ public class UIManager : MonoBehaviour
         position.y = batFormCooldownStartingY - removedHeight * 0.5f;
 
         batFormCooldownRect.anchoredPosition = position;
+    }
+
+    public void SetDay(int day)
+    {
+        dayText.text = "Day " + day.ToString();
+    }
+
+    public void SetEnemyCount(int count)
+    {
+        if(count == 0)
+        {
+            enemyCountText.text = "";
+            return;
+        }
+
+        enemyCountText.text = count.ToString();
+    }
+
+    public void SetBloodSlider(int value, int maxValue)
+    {
+        bloodAmountSlider.maxValue = maxValue;
+        bloodAmountSlider.value = value;
+
+        bloodAmountText.text = value.ToString() + "/" + maxValue.ToString();
     }
 }
