@@ -150,3 +150,4 @@ MonoBehaviour:
   icon: {fileID: -5300929159689610213, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   damage: 20
   radius: 3
+  ExplosionEffect: {fileID: 3999954187018070181, guid: 1a723e1e122c555449dcb9bc65f9229d, type: 3}

@@ -1,9 +1,11 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class BombTrap : Trap
 {
     public float damage = 40f;
     public float radius = 3f;
+    [SerializeField] private GameObject ExplosionEffect;
 
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class BombTrap : Trap
                 e.Damage(damage);
         }
 
-        // TODO: Spawn explosion effect here
+        Instantiate(ExplosionEffect, transform.position, ExplosionEffect.transform.rotation);
 
         TriggerTrap(enemy);
     }
