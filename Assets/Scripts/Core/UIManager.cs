@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] public ShopManager shopManager;
 
     [Header("Game UI Components")]
     [SerializeField] private Image attackCooldownImage;
@@ -28,6 +30,13 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
+
+    [Header("Shop Refresh")]
+    [SerializeField] private int startingRefreshPrice = 5;
+    [SerializeField] private int refreshPriceIncrement = 1;
+    [SerializeField] private TMP_Text refreshPriceText;
+
+    private int refreshPrice = 5;
 
 
     private RectTransform attackCooldownRect;
@@ -181,5 +190,20 @@ public class UIManager : MonoBehaviour
         {
             upgradesText.text += upgrade.name + ":<color=#890027> LVL " + upgrade.level.ToString() + "</color>\n";
         }
+    }
+
+    public void ResetRefreshPrice()
+    {
+        refreshPrice = startingRefreshPrice;
+        refreshPriceText.text = refreshPrice.ToString();
+    }
+
+    public void RefreshShop()
+    {
+        shopManager.GenerateShop();
+        GameSession.instance.SubtractBlood(refreshPrice);
+        refreshPrice += refreshPriceIncrement;
+        refreshPriceText.text = refreshPrice.ToString();
+
     }
 }

@@ -46,10 +46,11 @@ public class GameSession : MonoBehaviour
 
     public void EndWave()
     {
-        uiManager.GetComponentInChildren<ShopManager>().GenerateShop();
+        uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
         phase = Phase.build;
         // open shop
+        uiManager.ResetRefreshPrice();
         uiManager.OpenShopPanel();
     }
 
