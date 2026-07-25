@@ -26,6 +26,7 @@ public class LevelDirector : MonoBehaviour
 
     [Header("Runtime")]
     [SerializeField] private int currentEnemyCount;
+    [SerializeField] private List<GameObject> LivingEnemies = new List<GameObject>();
 
     [Header("Difficulty Scaling")]
     [SerializeField] private int baseBudget = 8;
@@ -36,6 +37,9 @@ public class LevelDirector : MonoBehaviour
 
     [SerializeField] private float minimumSpawnDelay = 0.08f;
     [SerializeField] private float spawnDelayReduction = 0.015f;
+
+    [Header("GameObject References")]
+    [SerializeField] private GameObject arrowObject;
 
     private Coroutine spawnCoroutine;
 
@@ -72,6 +76,18 @@ public class LevelDirector : MonoBehaviour
 
     public void SpawnWave(int difficulty)
     {
+        if(LivingEnemies.Count > 0)
+        {
+            foreach(GameObject enemy in LivingEnemies)
+            {
+                enemy.GetComponent<Enemy>().Die(0);
+
+            }
+        }
+
+        LivingEnemies = new List<GameObject>();
+
+
         CalculateBudget(difficulty);
         PrepareEnemies();
 
@@ -181,7 +197,7 @@ public class LevelDirector : MonoBehaviour
             yPosition
         );
 
-        Instantiate(
+        GameObject EnemyGameObject=Instantiate(
             enemyPrefab,
             spawnPosition,
             Quaternion.identity
@@ -189,9 +205,10 @@ public class LevelDirector : MonoBehaviour
 
         preparedEnemies.RemoveAt(0);
         currentEnemyCount++;
+        LivingEnemies.Add(EnemyGameObject);
     }
 
-    public void NotifyEnemyRemoved()
+    public void NotifyEnemyRemoved(Enemy enemy)
     {
         currentEnemyCount = Mathf.Max(
             0,
@@ -209,12 +226,31 @@ public class LevelDirector : MonoBehaviour
             );
         }
 
+        LivingEnemies.Remove(enemy.gameObject);
+
         EnemiesLeft--;
         GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
 
         if(EnemiesLeft <= 0)
         {
             GameSession.instance.EndWave();
+        }
+
+        if(EnemiesLeft <= 5)
+        {
+            SpawnArrows();
+        }
+    }
+
+    private void SpawnArrows()
+    {
+        foreach(GameObject enemyObj in LivingEnemies)
+        {
+            if(enemyObj != null)
+            {
+                EnemyArrow enemyArrow = Instantiate(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
+                enemyArrow.Initialize(enemyObj.transform);
+            }
         }
     }
 }

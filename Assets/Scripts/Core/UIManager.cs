@@ -25,8 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopOpenButton;
     [SerializeField] private GameObject nextDayButton;
 
-    [SerializeField] private TMP_Text upgradesText; 
-    [SerializeField] private GameObject upgradeList; 
+    [SerializeField] private TMP_Text upgradesText;
+    [SerializeField] private GameObject upgradeList;
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
@@ -180,13 +180,13 @@ public class UIManager : MonoBehaviour
             nextDayButton.GetComponent<UITween>().Hide();
         if (shopPanel.activeSelf)
             shopPanel.GetComponent<UITween>().Hide();
-        
+
     }
 
     public void RebuildUpgradeList(List<Upgrade> upgrades)
     {
         upgradesText.text = "";
-        foreach(Upgrade upgrade in upgrades)
+        foreach (Upgrade upgrade in upgrades)
         {
             upgradesText.text += upgrade.name + ":<color=#890027> LVL " + upgrade.level.ToString() + "</color>\n";
         }
@@ -200,10 +200,17 @@ public class UIManager : MonoBehaviour
 
     public void RefreshShop()
     {
-        shopManager.GenerateShop();
-        GameSession.instance.SubtractBlood(refreshPrice);
-        refreshPrice += refreshPriceIncrement;
-        refreshPriceText.text = refreshPrice.ToString();
+        
+
+        if (GameSession.instance.run.bloodCount > refreshPrice)
+        {
+            GameSession.instance.SubtractBlood(refreshPrice);
+            refreshPrice += refreshPriceIncrement;
+            refreshPriceText.text = refreshPrice.ToString();
+
+            shopManager.GenerateShop();
+        }
+
 
     }
 }

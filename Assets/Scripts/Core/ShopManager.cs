@@ -115,9 +115,13 @@ public class ShopManager : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 // SUBTRACT MONEY
-                GameSession.instance.SubtractBlood(purchasedItem.getCost());
-                purchasedItem.OnPurchase();
-                Destroy(panel);
+                if (GameSession.instance.run.bloodCount > purchasedItem.getCost())
+                {
+                    GameSession.instance.SubtractBlood(purchasedItem.getCost());
+                    purchasedItem.OnPurchase();
+                    Destroy(panel);
+                }
+
             });
 
         }
