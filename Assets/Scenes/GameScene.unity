@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
   upgradeIcons:
-  - {fileID: 291803297, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: 6070923295603988030, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -6046511985110576690, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: 6601659350291948420, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -1939115216864295347, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
