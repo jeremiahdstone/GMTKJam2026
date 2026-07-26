@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
   upgradeIcons:
-  - {fileID: 6070923295603988030, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: 291803297, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -6046511985110576690, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: 6601659350291948420, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -1939115216864295347, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
@@ -631,6 +631,10 @@ MonoBehaviour:
   - {fileID: 7531478152486040117, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -2597365952104942295, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   - {fileID: -3736940077134149403, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: 964114407, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: 625541929, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: 291803297, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  - {fileID: -1379133172, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
 --- !u!114 &69666267
 MonoBehaviour:
   m_ObjectHideFlags: 0
