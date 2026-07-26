@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1028da094842234d880c657b25d64f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CampfireTrap
-  canPickUp: 0
+  canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 0
   trapName: Campfire Trap
