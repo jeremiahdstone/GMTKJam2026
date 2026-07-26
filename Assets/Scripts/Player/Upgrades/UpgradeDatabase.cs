@@ -96,6 +96,17 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[7],
                 cost = 16,
             },
+
+            new StatUpgrade
+            {
+                id = "sucking_bite",
+                name = "Sucking Bite",
+                description = "Gain more blood when you kill an enemy with Bite.",
+                sprite = upgradeIcons[9],
+                affectedStat = PlayerStat.BiteBloodMultipler,
+                flatBonus = 0.5f,
+                cost = 10,
+            },
         };
     }
 }
