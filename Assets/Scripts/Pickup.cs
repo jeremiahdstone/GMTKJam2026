@@ -5,7 +5,7 @@ public class Pickup : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Rigidbody2D rb;
-
+    [SerializeField] private GameObject pickupEffect;
 
     [Header("Value")]
     [SerializeField] private int bloodAmount = 1;
@@ -33,7 +33,7 @@ public class Pickup : MonoBehaviour
         {
             // add to blood
             GameSession.instance.AddBlood(bloodAmount);
-            audioSource.Play();
+            Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
             
             Destroy(this.gameObject);
             // pickup effect

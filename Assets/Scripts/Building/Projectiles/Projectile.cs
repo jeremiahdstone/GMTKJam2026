@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private bool spins = false;
     [SerializeField] private float spinSpeed = 720f;
+    [SerializeField] private GameObject smokePuff;
 
     [Header("Collision")]
     [SerializeField] private LayerMask obstacleLayer;
@@ -41,6 +42,7 @@ public class Projectile : MonoBehaviour
         // Hit a wall/obstacle
         if (((1 << other.gameObject.layer) & obstacleLayer) != 0)
         {
+            Instantiate(smokePuff, transform.position, smokePuff.transform.rotation);
             Destroy(gameObject);
             return;
         }
