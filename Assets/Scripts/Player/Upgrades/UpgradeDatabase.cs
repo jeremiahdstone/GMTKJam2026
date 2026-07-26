@@ -118,6 +118,15 @@ public class UpgradeDatabase : MonoBehaviour
                 flatBonus = 10f,
                 cost = 10,
             },
+
+            new BatExplosionUpgrade
+            {
+                id = "explosive_shift",
+                name = "Explosive Shift",
+                description = "Leaving bat form creates an explosion.",
+                sprite = upgradeIcons[10],
+                cost = 16,
+            },
         };
     }
 }

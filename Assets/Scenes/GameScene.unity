@@ -16737,6 +16737,9 @@ MonoBehaviour:
   damageableLayers:
     serializedVersion: 2
     m_Bits: 256
+  batExplosionDamage: 8
+  batExplosionRadius: 3
+  batExplosionEffect: {fileID: 3999954187018070181, guid: 1a723e1e122c555449dcb9bc65f9229d, type: 3}
   biteTimer: 0
 --- !u!114 &1340283465
 MonoBehaviour:
