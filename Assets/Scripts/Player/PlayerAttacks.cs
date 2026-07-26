@@ -11,6 +11,17 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private float clickSelectionRadius = 1f;
     [SerializeField] private LayerMask damageableLayers;
 
+    [Header("Bat Explosion")]
+    [SerializeField] private float batExplosionDamage = 8f;
+    [SerializeField] private float batExplosionRadius = 3f;
+    [SerializeField] private GameObject batExplosionEffect;
+
+    [Header("Explosive Bite")]
+    [SerializeField] private float explosiveBiteDamage = 8f;
+    [SerializeField] private float explosiveBiteRadius = 2f;
+    // [SerializeField] private GameObject explosiveBiteEffect;
+    //just using the same one as bite for now
+
     private readonly HashSet<Enemy> highlightedEnemies = new();
     private readonly HashSet<Enemy> enemiesCurrentlyInRange = new();
 
@@ -134,6 +145,9 @@ public class PlayerAttacks : MonoBehaviour
                 playerStats.GetStat(PlayerStat.BiteDamage),
                 this.transform
             );
+
+            //TRY EXPLOSIVE BITE
+            ExplosiveBite(targetCollider.transform.position);
         }
 
         CameraShake.Instance.Shake(0.5f);
@@ -190,5 +204,91 @@ public class PlayerAttacks : MonoBehaviour
             enemy.SetBiteRangeHighlight(false);
             return true;
         });
+    }
+
+    public void BatExplosion()
+    {
+        if (!playerStats.HasUpgrade<BatExplosionUpgrade>())
+            return;
+
+        BatExplosionUpgrade upgrade =
+            playerStats.GetUpgrade<BatExplosionUpgrade>();
+
+        float damage = batExplosionDamage + ((upgrade.level-1) * 4f);
+        float radius = batExplosionRadius + ((upgrade.level-1) * 0.25f);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            radius,
+            damageableLayers
+        );
+
+        foreach (Collider2D hit in hits)
+        {
+            Enemy enemy = hit.GetComponent<Enemy>();
+            enemy ??= hit.GetComponentInParent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.Damage(damage, transform);
+            }
+        }
+
+        if (batExplosionEffect != null)
+        {
+            Instantiate(
+                batExplosionEffect,
+                transform.position,
+                Quaternion.identity
+            );
+        }
+
+        // Slightly stronger shake as it levels up.
+        CameraShake.Instance?.Shake(
+            0.75f + 0.1f * upgrade.level
+        );
+    }
+
+    public void ExplosiveBite(Vector3 position)
+    {
+        if (!playerStats.HasUpgrade<ExplosiveBiteUpgrade>())
+            return;
+
+        ExplosiveBiteUpgrade upgrade =
+            playerStats.GetUpgrade<ExplosiveBiteUpgrade>();
+
+        // Level 1 = base values, additional levels scale up.
+        float damage = explosiveBiteDamage + ((upgrade.level - 1) * 5f);
+        float radius = explosiveBiteRadius + ((upgrade.level - 1) * 0.2f);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            position,
+            radius,
+            damageableLayers
+        );
+
+        foreach (Collider2D hit in hits)
+        {
+            Enemy enemy = hit.GetComponent<Enemy>();
+            enemy ??= hit.GetComponentInParent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.Damage(damage, transform);
+            }
+        }
+
+        if (batExplosionEffect != null)
+        {
+            Instantiate(
+                batExplosionEffect,
+                position,
+                Quaternion.identity
+            );
+        }
+
+        CameraShake.Instance?.Shake(
+            0.6f + 0.1f * upgrade.level
+        );
     }
 }

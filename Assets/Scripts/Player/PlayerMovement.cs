@@ -119,6 +119,9 @@ public class PlayerMovement : MonoBehaviour
 
             gameObject.layer = LayerMask.NameToLayer("Player");
             manager.sr.sortingOrder = 0;
+
+            // TRY BAT EXPLOSION
+            manager.playerAttacks.BatExplosion();
         } else  //human form, entering bat form
         {
             // speed = walkSpeed;

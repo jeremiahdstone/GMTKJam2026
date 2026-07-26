@@ -273,8 +273,8 @@ public class Enemy : MonoBehaviour, IDamageable
             {
                 //bite attack, give 2x blood
                 // if you add an extra modifier for blood drops from bites it should go here
-                Die(2);
-                Debug.Log("extra blood drop");
+                float biteBloodMultiplier = PlayerStats.Instance.GetStat(PlayerStat.BiteBloodMultipler);
+                Die(2*biteBloodMultiplier);
             }
             else
             {

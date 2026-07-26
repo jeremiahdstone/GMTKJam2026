@@ -96,6 +96,46 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[7],
                 cost = 16,
             },
+
+            new StatUpgrade
+            {
+                id = "sucking_bite",
+                name = "Sucking Bite",
+                description = "Gain more blood when you kill an enemy with Bite.",
+                sprite = upgradeIcons[9],
+                affectedStat = PlayerStat.BiteBloodMultipler,
+                flatBonus = 0.1f,
+                cost = 12,
+            },
+
+            new StatUpgrade
+            {
+                id = "max_blood",
+                name = "Max Blood",
+                description = "Increase your total amount of blood.",
+                sprite = upgradeIcons[8],
+                affectedStat = PlayerStat.MaxBlood,
+                flatBonus = 10f,
+                cost = 10,
+            },
+
+            new BatExplosionUpgrade
+            {
+                id = "explosive_shift",
+                name = "Explosive Shift",
+                description = "Leaving bat form creates an explosion.",
+                sprite = upgradeIcons[10],
+                cost = 16,
+            },
+
+            new ExplosiveBiteUpgrade
+            {
+                id = "explosive_bite",
+                name = "Explosive Bite",
+                description = "Create an explosion when you bite an enemy",
+                sprite = upgradeIcons[11],
+                cost = 14,
+            },
         };
     }
 }

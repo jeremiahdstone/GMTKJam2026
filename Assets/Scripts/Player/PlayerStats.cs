@@ -12,7 +12,9 @@ public enum PlayerStat
     BiteDamage,
     BiteCooldown,
     BiteRange,
-    BiteSpeedMultiplier
+    BiteSpeedMultiplier,
+    BiteBloodMultipler,
+    MaxBlood,
 }
 
 public class PlayerStats : MonoBehaviour
@@ -28,10 +30,26 @@ public class PlayerStats : MonoBehaviour
         { PlayerStat.BiteDamage, 10 },
         { PlayerStat.BiteCooldown, 2 },
         { PlayerStat.BiteRange, 5 },
-        { PlayerStat.BiteSpeedMultiplier, 1}
+        { PlayerStat.BiteSpeedMultiplier, 1},
+        { PlayerStat.BiteBloodMultipler, 1},
+        { PlayerStat.MaxBlood, 100},
+
     };
 
     public List<Upgrade> upgrades = new();
+
+    //singleton :3
+    public static PlayerStats Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
 
     // void Start()
