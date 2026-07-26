@@ -37,7 +37,32 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int refreshPriceIncrement = 1;
     [SerializeField] private TMP_Text refreshPriceText;
 
+
     private int refreshPrice = 5;
+
+
+
+    [Header("Blood Particle Effect")]
+    [SerializeField] private float bloodShakeStrength = 0.25f;
+    [SerializeField] private ParticleSystem bloodParticlePrefab;
+    [SerializeField] private RectTransform bloodParticleSpawnPoint;
+    [SerializeField] private Transform bloodParticleParent;
+
+    [Header("Cooldown UI Tweening")]
+    [SerializeField] private float cooldownSmoothTime = 0.06f;
+    [SerializeField] private float cooldownReadyPunchStrength = 0.16f;
+    [SerializeField] private float cooldownReadyPunchDuration = 0.3f;
+
+    private float attackCooldownDisplayedAmount = 1f;
+    private float batFormCooldownDisplayedAmount = 1f;
+
+    private float attackCooldownSmoothVelocity;
+    private float batFormCooldownSmoothVelocity;
+
+    private bool attackCooldownWasActive;
+    private bool batFormCooldownWasActive;
+
+
 
 
     private RectTransform attackCooldownRect;
@@ -50,6 +75,9 @@ public class UIManager : MonoBehaviour
 
 
     //Tweens
+    private Tween attackCooldownReadyTween;
+    private Tween batFormCooldownReadyTween;
+    private Tween bloodSliderWobbleTween;
     private Tween bloodTween;
     private Tween bloodPunchTween;
     private Tween dayPunchTween;
@@ -65,6 +93,15 @@ public class UIManager : MonoBehaviour
         attackCooldownStartingY = attackCooldownRect.anchoredPosition.y;
         batFormCooldownFullHeight = batFormCooldownRect.rect.height;
         batFormCooldownStartingY = batFormCooldownRect.anchoredPosition.y;
+
+        attackCooldownDisplayedAmount = 1f;
+        batFormCooldownDisplayedAmount = 1f;
+
+        attackCooldownWasActive =
+            playerManager.playerAttacks.biteTimer > 0f;
+
+        batFormCooldownWasActive =
+            playerManager.playerMovement.batFormCooldownTimer > 0f;
     }
 
     private void Update()
@@ -78,31 +115,44 @@ public class UIManager : MonoBehaviour
         float maxCooldown =
             playerManager.playerStats.GetStat(PlayerStat.BiteCooldown);
 
-        float visibleAmount = 1f;
+        float timer = playerManager.playerAttacks.biteTimer;
+
+        float targetVisibleAmount = 1f;
 
         if (maxCooldown > 0f)
         {
-            float cooldownPercent = Mathf.Clamp01(
-                playerManager.playerAttacks.biteTimer / maxCooldown
-            );
-
-            visibleAmount = 1f - cooldownPercent;
+            float cooldownPercent = Mathf.Clamp01(timer / maxCooldown);
+            targetVisibleAmount = 1f - cooldownPercent;
         }
 
-        float newHeight = attackCooldownFullHeight * visibleAmount;
-        float removedHeight = attackCooldownFullHeight - newHeight;
-
-        attackCooldownRect.SetSizeWithCurrentAnchors(
-            RectTransform.Axis.Vertical,
-            newHeight
+        attackCooldownDisplayedAmount = Mathf.SmoothDamp(
+            attackCooldownDisplayedAmount,
+            targetVisibleAmount,
+            ref attackCooldownSmoothVelocity,
+            cooldownSmoothTime,
+            Mathf.Infinity,
+            Time.unscaledDeltaTime
         );
 
-        Vector2 position = attackCooldownRect.anchoredPosition;
+        ApplyCooldownHeight(
+            attackCooldownRect,
+            attackCooldownFullHeight,
+            attackCooldownStartingY,
+            attackCooldownDisplayedAmount
+        );
 
-        // Move downward by half the height that was removed.
-        position.y = attackCooldownStartingY - removedHeight * 0.5f;
+        bool cooldownIsActive = timer > 0f;
 
-        attackCooldownRect.anchoredPosition = position;
+        // Trigger once when the cooldown becomes ready.
+        if (attackCooldownWasActive && !cooldownIsActive)
+        {
+            PlayCooldownReadyTween(
+                attackCooldownImage.transform,
+                ref attackCooldownReadyTween
+            );
+        }
+
+        attackCooldownWasActive = cooldownIsActive;
     }
 
     private void SetBatFormCooldown()
@@ -110,31 +160,99 @@ public class UIManager : MonoBehaviour
         float maxCooldown =
             playerManager.playerStats.GetStat(PlayerStat.BatFormCooldown);
 
-        float visibleAmount = 1f;
+        float timer = playerManager.playerMovement.batFormCooldownTimer;
+
+        float targetVisibleAmount = 1f;
 
         if (maxCooldown > 0f)
         {
-            float cooldownPercent = Mathf.Clamp01(
-                playerManager.playerMovement.batFormCooldownTimer / maxCooldown
-            );
-
-            visibleAmount = 1f - cooldownPercent;
+            float cooldownPercent = Mathf.Clamp01(timer / maxCooldown);
+            targetVisibleAmount = 1f - cooldownPercent;
         }
 
-        float newHeight = batFormCooldownFullHeight * visibleAmount;
-        float removedHeight = batFormCooldownFullHeight - newHeight;
+        batFormCooldownDisplayedAmount = Mathf.SmoothDamp(
+            batFormCooldownDisplayedAmount,
+            targetVisibleAmount,
+            ref batFormCooldownSmoothVelocity,
+            cooldownSmoothTime,
+            Mathf.Infinity,
+            Time.unscaledDeltaTime
+        );
 
-        batFormCooldownRect.SetSizeWithCurrentAnchors(
+        ApplyCooldownHeight(
+            batFormCooldownRect,
+            batFormCooldownFullHeight,
+            batFormCooldownStartingY,
+            batFormCooldownDisplayedAmount
+        );
+
+        bool cooldownIsActive = timer > 0f;
+
+        // Trigger once when the cooldown becomes ready.
+        if (batFormCooldownWasActive && !cooldownIsActive)
+        {
+            PlayCooldownReadyTween(
+                batFormCoolDownImage.transform,
+                ref batFormCooldownReadyTween
+            );
+        }
+
+        batFormCooldownWasActive = cooldownIsActive;
+    }
+
+    private void ApplyCooldownHeight(
+    RectTransform cooldownRect,
+    float fullHeight,
+    float startingY,
+    float visibleAmount)
+    {
+        visibleAmount = Mathf.Clamp01(visibleAmount);
+
+        float newHeight = fullHeight * visibleAmount;
+        float removedHeight = fullHeight - newHeight;
+
+        cooldownRect.SetSizeWithCurrentAnchors(
             RectTransform.Axis.Vertical,
             newHeight
         );
 
-        Vector2 position = batFormCooldownRect.anchoredPosition;
+        Vector2 position = cooldownRect.anchoredPosition;
+        position.y = startingY - removedHeight * 0.5f;
+        cooldownRect.anchoredPosition = position;
+    }
 
-        // Move downward by half the height that was removed.
-        position.y = batFormCooldownStartingY - removedHeight * 0.5f;
+    private void PlayCooldownReadyTween(
+        Transform cooldownTransform,
+        ref Tween cooldownTween)
+    {
+        cooldownTween?.Kill();
 
-        batFormCooldownRect.anchoredPosition = position;
+        cooldownTransform.localScale = Vector3.one;
+        cooldownTransform.localRotation = Quaternion.identity;
+
+        Sequence sequence = DOTween.Sequence()
+            .SetUpdate(true);
+
+        sequence.Append(
+            cooldownTransform.DOPunchScale(
+                Vector3.one * cooldownReadyPunchStrength,
+                cooldownReadyPunchDuration,
+                vibrato: 7,
+                elasticity: 0.5f
+            )
+        );
+
+        sequence.Join(
+            cooldownTransform.DOShakeRotation(
+                duration: cooldownReadyPunchDuration,
+                strength: new Vector3(0f, 0f, 4f),
+                vibrato: 8,
+                randomness: 45f,
+                fadeOut: true
+            )
+        );
+
+        cooldownTween = sequence;
     }
 
     public void SetDay(int day)
@@ -178,6 +296,8 @@ public class UIManager : MonoBehaviour
 
         float startingValue = bloodAmountSlider.value;
 
+        bool bloodIncreased = value > startingValue;
+
         bloodTween = DOTween.To(
                 () => startingValue,
                 currentValue =>
@@ -198,6 +318,69 @@ public class UIManager : MonoBehaviour
         bloodPunchTween = bloodAmountText.transform
             .DOPunchScale(Vector3.one * 0.12f, 0.3f, 5, 0.4f)
             .SetUpdate(true);
+
+        if (bloodIncreased)
+            DoBloodSliderPunchPositive();
+    }
+
+    public void DoBloodSliderPunchPositive()
+    {
+        if (CameraShake.Instance != null)
+            CameraShake.Instance.Shake(bloodShakeStrength);
+
+        bloodSliderWobbleTween?.Kill();
+
+        bloodAmountSlider.transform.localRotation = Quaternion.identity;
+
+        bloodSliderWobbleTween = bloodAmountSlider.transform
+            .DOShakeRotation(
+                duration: 0.4f,
+                strength: new Vector3(0f, 0f, 3f),
+                vibrato: 10,
+                randomness: 60f,
+                fadeOut: true
+            )
+            .SetUpdate(true);
+    }
+
+    public void DoBloodSliderPunch()
+    {
+        if (CameraShake.Instance != null)
+            CameraShake.Instance.Shake(bloodShakeStrength);
+
+        bloodSliderWobbleTween?.Kill();
+
+        bloodAmountSlider.transform.localRotation = Quaternion.identity;
+
+        bloodSliderWobbleTween = bloodAmountSlider.transform
+            .DOShakeRotation(
+                duration: 0.4f,
+                strength: new Vector3(0f, 0f, 5f),
+                vibrato: 10,
+                randomness: 60f,
+                fadeOut: true
+            )
+            .SetUpdate(true);
+
+        SpawnBloodSplatter();
+    }
+
+    private void SpawnBloodSplatter()
+    {
+        if (bloodParticlePrefab == null)
+            return;
+
+        RectTransform spawnPoint = bloodParticleSpawnPoint != null
+            ? bloodParticleSpawnPoint
+            : bloodAmountSlider.GetComponent<RectTransform>();
+
+        ParticleSystem particles = Instantiate(
+            bloodParticlePrefab,
+            spawnPoint.position,
+            spawnPoint.rotation
+        );
+
+        particles.Play();
     }
 
     public void OpenShopPanel()

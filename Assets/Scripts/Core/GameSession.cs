@@ -113,6 +113,11 @@ public class GameSession : MonoBehaviour
     {
         run.bloodCount -= amt;
 
+        if(amt > bloodLossIntervalAmt)
+        {
+            uiManager.DoBloodSliderPunch();
+        }
+
         uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount);
 
         if (run.bloodCount <= 0)

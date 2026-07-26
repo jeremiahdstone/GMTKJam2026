@@ -5834,6 +5834,7 @@ RectTransform:
   - {fileID: 581648557}
   - {fileID: 1898372003}
   - {fileID: 1218480359}
+  - {fileID: 1552659275}
   m_Father: {fileID: 2090509269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -5883,7 +5884,7 @@ MonoBehaviour:
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 640074164}
-  m_HandleRect: {fileID: 0}
+  m_HandleRect: {fileID: 1552659275}
   m_Direction: 2
   m_MinValue: 0
   m_MaxValue: 1
@@ -7641,7 +7642,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 14.889404}
-  m_SizeDelta: {x: 141.3, y: 17.251}
+  m_SizeDelta: {x: 87.61, y: 17.251}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &989885627
 MonoBehaviour:
@@ -14731,6 +14732,10 @@ MonoBehaviour:
   startingRefreshPrice: 5
   refreshPriceIncrement: 3
   refreshPriceText: {fileID: 1826099018}
+  bloodShakeStrength: 0.25
+  bloodParticlePrefab: {fileID: 3389302165559390139, guid: 0c7ac907e8f83cd4f9b586334b01bc29, type: 3}
+  bloodParticleSpawnPoint: {fileID: 1552659275}
+  bloodParticleParent: {fileID: 0}
 --- !u!1001 &1520483102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15225,6 +15230,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1993686394427527602, guid: e9b8163ffa8658246a9d59d3ec061bab, type: 3}
   m_PrefabInstance: {fileID: 990934379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1552659274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552659275}
+  m_Layer: 5
+  m_Name: handleRect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1552659275
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552659274}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00000081740853}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 743549498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -13.892502}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1570129244 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
@@ -21412,7 +21452,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue Fourth
+  m_text: Next Day
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 169463109f2eb2441b856745ec4c5d5a, type: 2}
   m_sharedMaterial: {fileID: -5846865197563831986, guid: 169463109f2eb2441b856745ec4c5d5a, type: 2}
