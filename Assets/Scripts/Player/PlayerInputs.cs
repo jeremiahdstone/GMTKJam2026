@@ -148,7 +148,7 @@ public class PlayerInputs : MonoBehaviour
         }
 
         //pauses the game
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             GameSession.instance.TogglePauseGame();
         }
