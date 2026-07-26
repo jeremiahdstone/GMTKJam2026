@@ -509,47 +509,68 @@ public class UIManager : MonoBehaviour
     }
 
     private Tween pauseFadeTween;
+    private bool pauseMenuOpen;
+    private int pauseTransitionVersion;
 
     public void OpenPauseMenu()
     {
+        pauseMenuOpen = true;
+        pauseTransitionVersion++;
+
         pauseMenuPanel.SetActive(true);
 
         Image pauseImage = pauseMenuPanel.GetComponent<Image>();
 
         pauseFadeTween?.Kill();
+        pauseFadeTween = null;
 
-        Color color = pauseImage.color;
-        color.a = 0f;
-        pauseImage.color = color;
+        foreach (GameObject button in pauseMenuButtons)
+        {
+            if (button.TryGetComponent(out UITween buttonTween))
+            {
+                buttonTween.Show();
+            }
+        }
 
         pauseFadeTween = pauseImage
             .DOFade(0.5f, 0.3f)
             .SetEase(Ease.OutCubic)
-            .SetUpdate(true);
-
-        foreach (GameObject button in pauseMenuButtons)
-        {
-            button.SetActive(true);
-        }
+            .SetUpdate(true)
+            .OnComplete(() => pauseFadeTween = null);
     }
 
     public void ClosePauseMenu()
     {
+        pauseMenuOpen = false;
+
+        int thisTransition = ++pauseTransitionVersion;
+
         Image pauseImage = pauseMenuPanel.GetComponent<Image>();
 
         pauseFadeTween?.Kill();
+        pauseFadeTween = null;
 
         foreach (GameObject button in pauseMenuButtons)
         {
-            button.GetComponent<UITween>().Hide();
+            if (button.TryGetComponent(out UITween buttonTween))
+            {
+                buttonTween.Hide();
+            }
         }
 
         pauseFadeTween = pauseImage
-            .DOFade(0f, 0.2f)
+            .DOFade(0f, 0.3f)
             .SetEase(Ease.InCubic)
             .SetUpdate(true)
             .OnComplete(() =>
             {
+                // Ignore this callback if the menu was reopened.
+                if (pauseMenuOpen ||
+                    thisTransition != pauseTransitionVersion)
+                {
+                    return;
+                }
+
                 pauseMenuPanel.SetActive(false);
                 pauseFadeTween = null;
             });

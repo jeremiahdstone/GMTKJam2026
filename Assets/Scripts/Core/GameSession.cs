@@ -112,6 +112,8 @@ public class GameSession : MonoBehaviour
 
         uiManager.ShowLoseScreen(run);
 
+        DisablePlayerMovement(true);
+
         MusicManager.instance?.SlowMusicForGameOver();
 
         gameSpeedTween?.Kill();

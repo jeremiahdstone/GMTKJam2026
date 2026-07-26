@@ -44,6 +44,16 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private GameObject DeathDrop;
     [SerializeField] private Vector2Int RandomNumDrops = new Vector2Int(1, 3);
 
+    [Header("Hit Bounce")]
+    [SerializeField] private float hitSquashAmount = 0.85f;
+    [SerializeField] private float hitStretchAmount = 1.12f;
+    [SerializeField] private float hitSquashDuration = 0.06f;
+    [SerializeField] private float hitRecoverDuration = 0.14f;
+    [SerializeField] private Ease hitRecoverEase = Ease.OutBack;
+
+    private Tween hitBounceTween;
+    private Vector3 originalVisualScale;
+
 
     private Path path;
     private int currentWaypoint;
@@ -63,11 +73,16 @@ public class Enemy : MonoBehaviour, IDamageable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (spriteRenderer != null)
+        {
             originalSpriteColor = spriteRenderer.color;
+            originalVisualScale = spriteRenderer.transform.localScale;
+        }
 
         if (target == null)
             target = GameObject.FindGameObjectWithTag("Objective").transform;
     }
+
+
 
     public void SetBiteRangeHighlight(bool highlighted)
     {
@@ -168,15 +183,19 @@ public class Enemy : MonoBehaviour, IDamageable
     private void OnDisable()
     {
         biteRangePulse?.Kill();
+        hitBounceTween?.Kill();
+
         biteRangePulse = null;
+        hitBounceTween = null;
 
         if (spriteRenderer != null)
+        {
             spriteRenderer.color = originalSpriteColor;
+            spriteRenderer.transform.localScale = originalVisualScale;
+        }
 
         if (seeker != null)
-        {
             seeker.CancelCurrentPathRequest();
-        }
 
         if (path != null)
         {
@@ -185,9 +204,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         if (rb != null)
-        {
             rb.linearVelocity = Vector2.zero;
-        }
     }
 
     private void UpdatePath()
@@ -241,7 +258,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
 
-        
+        PlayHitBounce();
 
         //display damage number
         GameObject effect = Instantiate(DamageNumEffect, transform.position, Quaternion.identity);
@@ -252,12 +269,14 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            if (attacker != null && attacker.tag == "Player") {
+            if (attacker != null && attacker.tag == "Player")
+            {
                 //bite attack, give 2x blood
                 // if you add an extra modifier for blood drops from bites it should go here
                 Die(2);
                 Debug.Log("extra blood drop");
-            } else
+            }
+            else
             {
                 // any other death
                 // if you add an extra modifier for blood drops in general it should go here (and above also ig)
@@ -278,14 +297,52 @@ public class Enemy : MonoBehaviour, IDamageable
         //Drop items
         int numDrops = Mathf.RoundToInt(Random.Range(RandomNumDrops.x, RandomNumDrops.y) * dropMultiplier);
 
-            for (int i = 0; i < numDrops; i++)
-            {
-                Instantiate(DeathDrop, transform.position, Quaternion.identity);
-            }
+        for (int i = 0; i < numDrops; i++)
+        {
+            Instantiate(DeathDrop, transform.position, Quaternion.identity);
+        }
 
 
         LevelDirector.instance.NotifyEnemyRemoved(this);
         Destroy(gameObject);
+    }
+
+    private void PlayHitBounce()
+    {
+        if (spriteRenderer == null)
+            return;
+
+        Transform visual = spriteRenderer.transform;
+
+        hitBounceTween?.Kill();
+
+        visual.localScale = originalVisualScale;
+
+        Vector3 squashedScale = new Vector3(
+            originalVisualScale.x * hitStretchAmount,
+            originalVisualScale.y * hitSquashAmount,
+            originalVisualScale.z
+        );
+
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(
+            visual.DOScale(
+                squashedScale,
+                hitSquashDuration
+            )
+            .SetEase(Ease.OutCubic)
+        );
+
+        sequence.Append(
+            visual.DOScale(
+                originalVisualScale,
+                hitRecoverDuration
+            )
+            .SetEase(hitRecoverEase)
+        );
+
+        hitBounceTween = sequence;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
