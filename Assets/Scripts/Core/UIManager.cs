@@ -61,6 +61,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject GameOverMainMenuButton;
     [SerializeField] private TMP_Text GameOverStats;
 
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject pauseMenuPanel;
+    [SerializeField] private GameObject[] pauseMenuButtons;
+
     private float attackCooldownDisplayedAmount = 1f;
     private float batFormCooldownDisplayedAmount = 1f;
 
@@ -475,9 +479,9 @@ public class UIManager : MonoBehaviour
         loseScreen.SetActive(true);
 
         GameOverStats.text = "Protected castle for <color=#d9243c>" + run.day + "</color> days\n\n";
-        GameOverStats.text +="Feasted on <color=#d9243c>" + run.enemiesKilled + "</color> humans\n\n";
-        GameOverStats.text +="Purchased <color=#d9243c>" + run.upgradesBought + "</color> upgrades ";
-        GameOverStats.text +="and placed <color=#d9243c>" + run.upgradesBought + "</color> traps";
+        GameOverStats.text += "Feasted on <color=#d9243c>" + run.enemiesKilled + "</color> humans\n\n";
+        GameOverStats.text += "Purchased <color=#d9243c>" + run.upgradesBought + "</color> upgrades ";
+        GameOverStats.text += "and placed <color=#d9243c>" + run.upgradesBought + "</color> traps";
 
         Image loseScreenImage = loseScreen.GetComponent<Image>();
 
@@ -502,5 +506,52 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         GameOverMainMenuButton.SetActive(true);
 
+    }
+
+    private Tween pauseFadeTween;
+
+    public void OpenPauseMenu()
+    {
+        pauseMenuPanel.SetActive(true);
+
+        Image pauseImage = pauseMenuPanel.GetComponent<Image>();
+
+        pauseFadeTween?.Kill();
+
+        Color color = pauseImage.color;
+        color.a = 0f;
+        pauseImage.color = color;
+
+        pauseFadeTween = pauseImage
+            .DOFade(0.5f, 0.3f)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true);
+
+        foreach (GameObject button in pauseMenuButtons)
+        {
+            button.SetActive(true);
+        }
+    }
+
+    public void ClosePauseMenu()
+    {
+        Image pauseImage = pauseMenuPanel.GetComponent<Image>();
+
+        pauseFadeTween?.Kill();
+
+        foreach (GameObject button in pauseMenuButtons)
+        {
+            button.GetComponent<UITween>().Hide();
+        }
+
+        pauseFadeTween = pauseImage
+            .DOFade(0f, 0.2f)
+            .SetEase(Ease.InCubic)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                pauseMenuPanel.SetActive(false);
+                pauseFadeTween = null;
+            });
     }
 }

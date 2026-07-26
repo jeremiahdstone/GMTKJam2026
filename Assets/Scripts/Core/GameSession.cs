@@ -90,16 +90,6 @@ public class GameSession : MonoBehaviour
 
     public void Update()
     {
-        //for testing
-        if (Input.GetKeyDown("p") && phase == Phase.build)
-        {
-            StartWave();
-        }
-
-        if (Input.GetKeyDown("o") && phase == Phase.combat)
-        {
-            EndWave();
-        }
     }
 
     public void DamageCastle(int damage)
@@ -142,6 +132,27 @@ public class GameSession : MonoBehaviour
             .SetUpdate(true);
     }
 
+    private bool isPaused;
+
+    public void TogglePauseGame()
+    {
+        isPaused = !isPaused;
+
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (isPaused)
+        {
+            uiManager.OpenPauseMenu();
+            MusicManager.instance.TweenMusicPitch(0.8f, 0.2f);
+        }
+        else
+        {
+            uiManager.ClosePauseMenu();
+            MusicManager.instance.TweenMusicPitch(1f, 0.2f);
+            
+        }
+    }
+
     private IEnumerator SubtractBloodOnInterval()
     {
         while (phase == Phase.combat && runInProgress)
@@ -155,6 +166,8 @@ public class GameSession : MonoBehaviour
 
         }
     }
+
+
 
     public void SubtractBlood(int amt)
     {

@@ -221,4 +221,17 @@ public class MusicManager : MonoBehaviour
             .SetEase(gameOverSlowEase)
             .SetUpdate(true);
     }
+
+    public void TweenMusicPitch(float pitch, float time)
+    {
+        if (musicSource == null || !musicSource.isPlaying)
+            return;
+
+        pitchTween?.Kill();
+
+        pitchTween = musicSource
+            .DOPitch(pitch, time)
+            .SetEase(gameOverSlowEase)
+            .SetUpdate(true);
+    }
 }
