@@ -104,7 +104,18 @@ public class UpgradeDatabase : MonoBehaviour
                 description = "Gain more blood when you kill an enemy with Bite.",
                 sprite = upgradeIcons[9],
                 affectedStat = PlayerStat.BiteBloodMultipler,
-                flatBonus = 0.5f,
+                flatBonus = 0.1f,
+                cost = 12,
+            },
+
+            new StatUpgrade
+            {
+                id = "max_blood",
+                name = "Max Blood",
+                description = "Increase your total amount of blood.",
+                sprite = upgradeIcons[8],
+                affectedStat = PlayerStat.MaxBlood,
+                flatBonus = 10f,
                 cost = 10,
             },
         };
