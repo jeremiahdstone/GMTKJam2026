@@ -50,10 +50,13 @@ public class Enemy : MonoBehaviour, IDamageable
     private float nextPathUpdateTime;
     private float lastHorizontalDirection = 1f;
 
+    private AudioSource audioSource;
+
 
 
     public virtual void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
 
@@ -237,6 +240,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Damage(float damage, Transform attacker = null)
     {
         currentHealth -= damage;
+
+        
 
         //display damage number
         GameObject effect = Instantiate(DamageNumEffect, transform.position, Quaternion.identity);

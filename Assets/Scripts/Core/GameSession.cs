@@ -67,6 +67,8 @@ public class GameSession : MonoBehaviour
         uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
         phase = Phase.build;
+        MusicManager.instance.stopMusic();
+        MusicManager.instance.startMusic(phase);
         // open shop
         uiManager.ResetRefreshPrice();
         uiManager.OpenShopPanel();
@@ -76,6 +78,8 @@ public class GameSession : MonoBehaviour
     {
         run.day++;
         phase = Phase.combat;
+        MusicManager.instance.stopMusic();
+        MusicManager.instance.startMusic(phase);
         levelDirector.SpawnWave(run.day);
 
         uiManager.SetDay(run.day);
@@ -108,12 +112,17 @@ public class GameSession : MonoBehaviour
 
     private void LoseGame()
     {
+        if (!runInProgress)
+            return;
+
         Debug.Log("Game Loss Triggered");
 
         runInProgress = false;
         run.playerStats = Player.playerStats;
 
         uiManager.ShowLoseScreen(run);
+
+        MusicManager.instance?.SlowMusicForGameOver();
 
         gameSpeedTween?.Kill();
 
@@ -127,12 +136,10 @@ public class GameSession : MonoBehaviour
                     Time.fixedDeltaTime = startingFixedDeltaTime * value;
                 },
                 0f,
-                3f
+                1f
             )
             .SetEase(Ease.InCubic)
             .SetUpdate(true);
-
-        DisablePlayerMovement(true);
     }
 
     private IEnumerator SubtractBloodOnInterval()

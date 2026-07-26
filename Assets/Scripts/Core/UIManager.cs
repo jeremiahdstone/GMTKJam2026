@@ -497,9 +497,9 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator DisplayRestartandMainMenu()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
         GameOverRestartButton.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
         GameOverMainMenuButton.SetActive(true);
 
     }
