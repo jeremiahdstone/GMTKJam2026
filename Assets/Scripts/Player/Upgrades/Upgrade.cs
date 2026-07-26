@@ -63,3 +63,7 @@ public class DoubleBiteUpgrade : Upgrade
 public class BatExplosionUpgrade : Upgrade
 {
 }
+
+public class ExplosiveBiteUpgrade : Upgrade
+{
+}

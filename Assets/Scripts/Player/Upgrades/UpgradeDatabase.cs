@@ -127,6 +127,15 @@ public class UpgradeDatabase : MonoBehaviour
                 sprite = upgradeIcons[10],
                 cost = 16,
             },
+
+            new ExplosiveBiteUpgrade
+            {
+                id = "explosive_bite",
+                name = "Explosive Bite",
+                description = "Create an explosion when you bite an enemy",
+                sprite = upgradeIcons[11],
+                cost = 14,
+            },
         };
     }
 }
