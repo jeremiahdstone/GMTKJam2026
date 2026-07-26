@@ -145,9 +145,9 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   singleUse: 0
   trapName: Bone Trap
-  description: 'Shoots a burst of bones at nearby enemies. '
+  description: Shoots a burst of bones at nearby enemies.
   cost: 16
-  icon: {fileID: 0}
+  icon: {fileID: 1036157208, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   detectionRange: 5
   cooldown: 4
   burstCount: 3
