@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
         if (((1 << other.gameObject.layer) & obstacleLayer) != 0)
         {
             Instantiate(smokePuff, transform.position, smokePuff.transform.rotation);
-            Destroy(gameObject);
+            OnHit(other);
             return;
         }
 
@@ -51,7 +51,12 @@ public class Projectile : MonoBehaviour
         if (other.TryGetComponent(out Enemy enemy))
         {
             enemy.Damage(damage);
-            Destroy(gameObject);
+            OnHit(other);
         }
+    }
+
+    protected virtual void OnHit(Collider2D other)
+    {
+        Destroy(gameObject);
     }
 }
