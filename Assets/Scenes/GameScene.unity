@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 39895193}
   - component: {fileID: 39895192}
   - component: {fileID: 39895191}
+  - component: {fileID: 39895194}
   m_Layer: 5
   m_Name: ShopRefreshButton
   m_TagString: Untagged
@@ -325,6 +326,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39895189}
   m_CullTransparentMesh: 1
+--- !u!114 &39895194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39895189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!4 &43923240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951899820290526060, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
@@ -768,6 +793,7 @@ GameObject:
   - component: {fileID: 108572465}
   - component: {fileID: 108572464}
   - component: {fileID: 108572467}
+  - component: {fileID: 108572468}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -911,6 +937,30 @@ MonoBehaviour:
   ShowOnAwake: 0
   useUnscaledTime: 1
   disableAfterHiding: 1
+--- !u!114 &108572468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108572462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!114 &109892002 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5714793409641000681, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
@@ -3690,6 +3740,7 @@ GameObject:
   - component: {fileID: 544770992}
   - component: {fileID: 544770991}
   - component: {fileID: 544770994}
+  - component: {fileID: 544770995}
   m_Layer: 5
   m_Name: Shop Open Button
   m_TagString: Untagged
@@ -3833,6 +3884,30 @@ MonoBehaviour:
   ShowOnAwake: 0
   useUnscaledTime: 1
   disableAfterHiding: 1
+--- !u!114 &544770995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544770989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1001 &559892117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5737,6 +5812,7 @@ GameObject:
   - component: {fileID: 737921189}
   - component: {fileID: 737921188}
   - component: {fileID: 737921187}
+  - component: {fileID: 737921190}
   m_Layer: 5
   m_Name: ShopClose
   m_TagString: Untagged
@@ -5870,6 +5946,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737921185}
   m_CullTransparentMesh: 1
+--- !u!114 &737921190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737921185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1 &739514093
 GameObject:
   m_ObjectHideFlags: 0
@@ -7249,6 +7349,7 @@ GameObject:
   - component: {fileID: 896581160}
   - component: {fileID: 896581159}
   - component: {fileID: 896581162}
+  - component: {fileID: 896581163}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -7392,6 +7493,30 @@ MonoBehaviour:
   ShowOnAwake: 0
   useUnscaledTime: 1
   disableAfterHiding: 1
+--- !u!114 &896581163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896581157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1 &896619231
 GameObject:
   m_ObjectHideFlags: 0
@@ -8172,6 +8297,7 @@ GameObject:
   - component: {fileID: 989885628}
   - component: {fileID: 989885627}
   - component: {fileID: 989885630}
+  - component: {fileID: 989885631}
   m_Layer: 5
   m_Name: Next Day Button
   m_TagString: Untagged
@@ -8315,6 +8441,30 @@ MonoBehaviour:
   ShowOnAwake: 0
   useUnscaledTime: 1
   disableAfterHiding: 1
+--- !u!114 &989885631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989885625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1 &989894088
 GameObject:
   m_ObjectHideFlags: 0
@@ -74473,6 +74623,7 @@ GameObject:
   - component: {fileID: 1894327553}
   - component: {fileID: 1894327552}
   - component: {fileID: 1894327551}
+  - component: {fileID: 1894327555}
   m_Layer: 5
   m_Name: Begin Game Button
   m_TagString: Untagged
@@ -74640,6 +74791,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894327549}
   m_CullTransparentMesh: 1
+--- !u!114 &1894327555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894327549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1001 &1894974417
 PrefabInstance:
   m_ObjectHideFlags: 0
