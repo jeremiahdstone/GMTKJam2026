@@ -733,6 +733,7 @@ GameObject:
   - component: {fileID: 1122255316673717267}
   - component: {fileID: 531403957959825504}
   - component: {fileID: 360400651730230068}
+  - component: {fileID: 2984385674267446091}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -843,6 +844,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2984385674267446091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8765924671597485134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dc3934a350ad04c8ec7b627e2c232e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTween
+  hoverScale: 1.08
+  hoverDuration: 0.18
+  hoverEase: 27
+  pressedScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.2
+  pressEase: 9
+  releaseEase: 27
+  joltStrength: 4
+  joltDuration: 0.18
+  joltVibrato: 8
+  useUnscaledTime: 1
 --- !u!1 &8953576143733123421
 GameObject:
   m_ObjectHideFlags: 0

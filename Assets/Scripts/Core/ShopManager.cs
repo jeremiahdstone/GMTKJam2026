@@ -125,6 +125,16 @@ public class ShopManager : MonoBehaviour
                 {
                     GameSession.instance.SubtractBlood(purchasedItem.getCost());
                     purchasedItem.OnPurchase();
+
+                    if(item is Trap)
+                    {
+                        GameSession.instance.run.trapsBought++;
+                    }
+                    else if(item is Upgrade)
+                    {
+                        GameSession.instance.run.upgradesBought++;
+                    }
+
                     Destroy(panel);
                 }
 

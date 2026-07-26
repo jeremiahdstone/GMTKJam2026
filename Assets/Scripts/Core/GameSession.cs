@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public enum Phase
 {
@@ -22,13 +23,27 @@ public class GameSession : MonoBehaviour
     [Header("Blood Loss During Combat")]
     public float bloodLossInterval = 1f;
     public int bloodLossIntervalAmt = 1;
+
+    private float deltaTimeValue = 0.02f;
+
+    public void ResetGameSpeed()
+    {
+        gameSpeedTween?.Kill();
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = deltaTimeValue;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        deltaTimeValue = Time.fixedDeltaTime;
         if (GameSession.instance == null)
             GameSession.instance = this;
         else
             Destroy(this.gameObject);
+
+        ResetGameSpeed();
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
 
@@ -89,10 +104,35 @@ public class GameSession : MonoBehaviour
         SubtractBlood(damage);
     }
 
+    private Tween gameSpeedTween;
+
     private void LoseGame()
     {
         Debug.Log("Game Loss Triggered");
+
         runInProgress = false;
+        run.playerStats = Player.playerStats;
+
+        uiManager.ShowLoseScreen(run);
+
+        gameSpeedTween?.Kill();
+
+        float startingFixedDeltaTime = Time.fixedDeltaTime;
+
+        gameSpeedTween = DOTween.To(
+                () => Time.timeScale,
+                value =>
+                {
+                    Time.timeScale = value;
+                    Time.fixedDeltaTime = startingFixedDeltaTime * value;
+                },
+                0f,
+                3f
+            )
+            .SetEase(Ease.InCubic)
+            .SetUpdate(true);
+
+        DisablePlayerMovement(true);
     }
 
     private IEnumerator SubtractBloodOnInterval()
@@ -113,7 +153,7 @@ public class GameSession : MonoBehaviour
     {
         run.bloodCount -= amt;
 
-        if(amt > bloodLossIntervalAmt)
+        if (amt > bloodLossIntervalAmt)
         {
             uiManager.DoBloodSliderPunch();
         }
@@ -130,7 +170,7 @@ public class GameSession : MonoBehaviour
     public void AddBlood(int amt)
     {
         run.bloodCount += amt;
-        if(run.bloodCount > run.maxBloodCount) run.bloodCount = run.maxBloodCount;
+        if (run.bloodCount > run.maxBloodCount) run.bloodCount = run.maxBloodCount;
 
         uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount);
     }
@@ -138,5 +178,17 @@ public class GameSession : MonoBehaviour
     public void DisablePlayerMovement(bool val)
     {
         Player.playerMovement.ToggleFrozen(val);
+    }
+
+    public void RestartGame()
+    {
+        ResetGameSpeed();
+        SceneFader.instance.FadeToScene("GameScene");
+    }
+
+    public void ReturnToMenu()
+    {
+        ResetGameSpeed();
+        SceneFader.instance.FadeToScene("MainMenu");
     }
 }
