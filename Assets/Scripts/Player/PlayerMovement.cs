@@ -106,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Instantiate(manager.SmokePuffEffect, transform.position, Quaternion.identity);
+        CameraShake.Instance.Shake(0.1f);
+
         if (batForm) //bat form, entering human form
         {
             // speed = walkSpeed;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using DG.Tweening;
 
 public class CameraHorizonShift : MonoBehaviour
 {
@@ -12,18 +13,44 @@ public class CameraHorizonShift : MonoBehaviour
 
     [Header("Camera Shift")]
     [SerializeField] private float horizonOffsetY = 4f;
-    [SerializeField] private float transitionSpeed = 1f;
+
+    [Header("Tween Durations")]
+    [SerializeField] private float moveUpDuration = 5f;
+    [SerializeField] private float moveDownDuration = 2f;
+
+    [Header("Tween Easing")]
+    [SerializeField] private Ease moveUpEase = Ease.InOutSine;
+    [SerializeField] private Ease moveDownEase = Ease.InOutSine;
 
     private float startingOffsetY;
-    private float currentOffsetY;
+    private bool isAboveTrigger;
+    private Tween offsetTween;
 
     private void Awake()
     {
         if (positionComposer == null)
             positionComposer = GetComponent<CinemachinePositionComposer>();
 
+        if (positionComposer == null)
+        {
+            Debug.LogError(
+                "CameraHorizonShift could not find a CinemachinePositionComposer.",
+                this
+            );
+
+            enabled = false;
+            return;
+        }
+
         startingOffsetY = positionComposer.TargetOffset.y;
-        currentOffsetY = startingOffsetY;
+
+        if (player == null)
+            return;
+
+        isAboveTrigger = player.position.y >= triggerY;
+
+        // Snap immediately to the correct position on Awake.
+        SetOffsetY(isAboveTrigger ? horizonOffsetY : startingOffsetY);
     }
 
     private void Update()
@@ -31,18 +58,61 @@ public class CameraHorizonShift : MonoBehaviour
         if (player == null || positionComposer == null)
             return;
 
-        float targetOffsetY = player.position.y >= triggerY
-            ? horizonOffsetY
-            : startingOffsetY;
+        bool playerIsAboveTrigger = player.position.y >= triggerY;
 
-        currentOffsetY = Mathf.MoveTowards(
-            currentOffsetY,
-            targetOffsetY,
-            transitionSpeed * Time.deltaTime
-        );
+        // Only start a new tween when the player crosses the trigger.
+        if (playerIsAboveTrigger == isAboveTrigger)
+            return;
 
+        isAboveTrigger = playerIsAboveTrigger;
+
+        if (isAboveTrigger)
+        {
+            TweenToOffset(
+                horizonOffsetY,
+                moveUpDuration,
+                moveUpEase
+            );
+        }
+        else
+        {
+            TweenToOffset(
+                startingOffsetY,
+                moveDownDuration,
+                moveDownEase
+            );
+        }
+    }
+
+    private void TweenToOffset(float targetY, float duration, Ease ease)
+    {
+        offsetTween?.Kill();
+
+        float currentY = positionComposer.TargetOffset.y;
+
+        offsetTween = DOTween.To(
+                () => currentY,
+                value =>
+                {
+                    currentY = value;
+                    SetOffsetY(value);
+                },
+                targetY,
+                duration
+            )
+            .SetEase(ease)
+            .SetUpdate(true);
+    }
+
+    private void SetOffsetY(float y)
+    {
         Vector3 offset = positionComposer.TargetOffset;
-        offset.y = currentOffsetY;
+        offset.y = y;
         positionComposer.TargetOffset = offset;
+    }
+
+    private void OnDestroy()
+    {
+        offsetTween?.Kill();
     }
 }

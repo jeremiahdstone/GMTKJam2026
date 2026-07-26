@@ -147,6 +147,7 @@ public class ShopManager : MonoBehaviour
             Vector2 spawnPosition = FindSpawnPosition();
 
             Instantiate(manager.SmokePuffEffect, spawnPosition, Quaternion.identity);
+            CameraShake.Instance.Shake(0.5f);
 
             yield return new WaitForSeconds(0.5f);
 
