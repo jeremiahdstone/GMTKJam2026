@@ -1,8 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+    private AudioSource audioSource;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Rigidbody2D rb;
 
@@ -13,6 +13,11 @@ public class Pickup : MonoBehaviour
     [Header("Spawn Movement")]
     [SerializeField] private float minSpawnForce = 0.5f;
     [SerializeField] private float maxSpawnForce = 1.5f;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void OnEnable()
     {
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
@@ -28,7 +33,7 @@ public class Pickup : MonoBehaviour
         {
             // add to blood
             GameSession.instance.AddBlood(bloodAmount);
-
+            audioSource.Play();
             
             Destroy(this.gameObject);
             // pickup effect

@@ -25,6 +25,7 @@ public class LevelDirector : MonoBehaviour
     public int EnemiesLeft;
 
     [Header("Enemy Unlocking")]
+    [Tooltip("Set to 0 to unlock all enemy types immediately.")]
     [SerializeField] private int wavesPerEnemyUnlock = 2;
 
     [Header("Runtime")]
@@ -155,13 +156,20 @@ public class LevelDirector : MonoBehaviour
     {
         List<GameObject> affordableEnemies = new List<GameObject>();
 
-        // Wave 1 only allows index 0.
-        // Every few waves, another enemy is added.
-        int unlockedEnemyCount = Mathf.Clamp(
-            1 + ((currentDifficulty - 1) / wavesPerEnemyUnlock),
-            1,
-            possibleEnemies.Count
-        );
+        int unlockedEnemyCount;
+
+        if (wavesPerEnemyUnlock <= 0)
+        {
+            unlockedEnemyCount = possibleEnemies.Count;
+        }
+        else
+        {
+            unlockedEnemyCount = Mathf.Clamp(
+                1 + ((currentDifficulty - 1) / wavesPerEnemyUnlock),
+                1,
+                possibleEnemies.Count
+            );
+        }
 
         for (int i = 0; i < unlockedEnemyCount; i++)
         {
@@ -264,5 +272,5 @@ public class LevelDirector : MonoBehaviour
         }
     }
 
-    
+
 }

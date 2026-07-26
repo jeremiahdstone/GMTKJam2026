@@ -67,6 +67,8 @@ public class GameSession : MonoBehaviour
         uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
         phase = Phase.build;
+        MusicManager.instance.stopMusic();
+        MusicManager.instance.startMusic(phase);
         // open shop
         uiManager.ResetRefreshPrice();
         uiManager.OpenShopPanel();
@@ -76,6 +78,8 @@ public class GameSession : MonoBehaviour
     {
         run.day++;
         phase = Phase.combat;
+        MusicManager.instance.stopMusic();
+        MusicManager.instance.startMusic(phase);
         levelDirector.SpawnWave(run.day);
 
         uiManager.SetDay(run.day);
@@ -86,16 +90,6 @@ public class GameSession : MonoBehaviour
 
     public void Update()
     {
-        //for testing
-        if (Input.GetKeyDown("p") && phase == Phase.build)
-        {
-            StartWave();
-        }
-
-        if (Input.GetKeyDown("o") && phase == Phase.combat)
-        {
-            EndWave();
-        }
     }
 
     public void DamageCastle(int damage)
@@ -108,12 +102,19 @@ public class GameSession : MonoBehaviour
 
     private void LoseGame()
     {
+        if (!runInProgress)
+            return;
+
         Debug.Log("Game Loss Triggered");
 
         runInProgress = false;
         run.playerStats = Player.playerStats;
 
         uiManager.ShowLoseScreen(run);
+
+        DisablePlayerMovement(true);
+
+        MusicManager.instance?.SlowMusicForGameOver();
 
         gameSpeedTween?.Kill();
 
@@ -127,12 +128,31 @@ public class GameSession : MonoBehaviour
                     Time.fixedDeltaTime = startingFixedDeltaTime * value;
                 },
                 0f,
-                3f
+                1f
             )
             .SetEase(Ease.InCubic)
             .SetUpdate(true);
+    }
 
-        DisablePlayerMovement(true);
+    private bool isPaused;
+
+    public void TogglePauseGame()
+    {
+        isPaused = !isPaused;
+
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (isPaused)
+        {
+            uiManager.OpenPauseMenu();
+            MusicManager.instance.TweenMusicPitch(0.8f, 0.2f);
+        }
+        else
+        {
+            uiManager.ClosePauseMenu();
+            MusicManager.instance.TweenMusicPitch(1f, 0.2f);
+            
+        }
     }
 
     private IEnumerator SubtractBloodOnInterval()
@@ -148,6 +168,8 @@ public class GameSession : MonoBehaviour
 
         }
     }
+
+
 
     public void SubtractBlood(int amt)
     {

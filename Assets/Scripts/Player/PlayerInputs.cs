@@ -147,6 +147,12 @@ public class PlayerInputs : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
+        //pauses the game
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameSession.instance.TogglePauseGame();
+        }
+
     }
 
     private void FixedUpdate()

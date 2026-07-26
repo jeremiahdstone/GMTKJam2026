@@ -362,6 +362,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_10
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 164
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 854902c14436f054ca72d01c7c4c84fc
+      internalID: 964114407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_11
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 164
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e804de656c9e08e46ad3ab927b36cd0d
+      internalID: 625541929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_12
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 196
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fef7d797eb69c6a4f92f14b0f8bc7b2d
+      internalID: 291803297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_13
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 196
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e85eafd485fe04f94222fa2fe74283
+      internalID: -1379133172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -380,6 +468,10 @@ TextureImporter:
     nameFileIdTable:
       UpgradesSheet_0: 6070923295603988030
       UpgradesSheet_1: -6046511985110576690
+      UpgradesSheet_10: 964114407
+      UpgradesSheet_11: 625541929
+      UpgradesSheet_12: 291803297
+      UpgradesSheet_13: -1379133172
       UpgradesSheet_2: 6601659350291948420
       UpgradesSheet_3: -1939115216864295347
       UpgradesSheet_4: -5329516746257432617
