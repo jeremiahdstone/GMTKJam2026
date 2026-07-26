@@ -239,6 +239,8 @@ public class LevelDirector : MonoBehaviour
         EnemiesLeft--;
         GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
 
+        GameSession.instance.run.enemiesKilled++;
+
         if (EnemiesLeft <= 0)
         {
             GameSession.instance.EndWave();
@@ -261,4 +263,6 @@ public class LevelDirector : MonoBehaviour
             }
         }
     }
+
+    
 }

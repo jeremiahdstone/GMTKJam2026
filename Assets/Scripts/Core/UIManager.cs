@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 using DG.Tweening;
 
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
     [SerializeField] private GameObject openingLetter;
+    [SerializeField] private GameObject loseScreen;
 
     [Header("Shop Refresh")]
     [SerializeField] private int startingRefreshPrice = 5;
@@ -46,12 +48,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float bloodShakeStrength = 0.25f;
     [SerializeField] private ParticleSystem bloodParticlePrefab;
     [SerializeField] private RectTransform bloodParticleSpawnPoint;
-    [SerializeField] private Transform bloodParticleParent;
 
     [Header("Cooldown UI Tweening")]
     [SerializeField] private float cooldownSmoothTime = 0.06f;
     [SerializeField] private float cooldownReadyPunchStrength = 0.16f;
     [SerializeField] private float cooldownReadyPunchDuration = 0.3f;
+
+    [Header("Lose Screen Opening")]
+    [SerializeField] private float loseScreenFadeInTime = 1f;
+    [SerializeField] private float loseScreenFadeOpacity = 0.43f;
+    [SerializeField] private GameObject GameOverRestartButton;
+    [SerializeField] private GameObject GameOverMainMenuButton;
+    [SerializeField] private TMP_Text GameOverStats;
 
     private float attackCooldownDisplayedAmount = 1f;
     private float batFormCooldownDisplayedAmount = 1f;
@@ -460,5 +468,39 @@ public class UIManager : MonoBehaviour
     public void showOpeningLetter()
     {
         openingLetter.SetActive(true);
+    }
+
+    public void ShowLoseScreen(RunData run)
+    {
+        loseScreen.SetActive(true);
+
+        GameOverStats.text = "Protected castle for <color=#d9243c>" + run.day + "</color> days\n\n";
+        GameOverStats.text +="Feasted on <color=#d9243c>" + run.enemiesKilled + "</color> humans\n\n";
+        GameOverStats.text +="Purchased <color=#d9243c>" + run.upgradesBought + "</color> upgrades ";
+        GameOverStats.text +="and placed <color=#d9243c>" + run.upgradesBought + "</color> traps";
+
+        Image loseScreenImage = loseScreen.GetComponent<Image>();
+
+        loseScreenImage.DOKill();
+
+        Color color = loseScreenImage.color;
+        color.a = 0f;
+        loseScreenImage.color = color;
+
+        loseScreenImage
+            .DOFade(loseScreenFadeOpacity, loseScreenFadeInTime)
+            .SetEase(Ease.OutCubic)
+            .SetUpdate(true);
+
+        StartCoroutine(DisplayRestartandMainMenu());
+    }
+
+    private IEnumerator DisplayRestartandMainMenu()
+    {
+        yield return new WaitForSeconds(1f);
+        GameOverRestartButton.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        GameOverMainMenuButton.SetActive(true);
+
     }
 }
