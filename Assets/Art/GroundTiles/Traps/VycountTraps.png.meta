@@ -132,9 +132,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b1cd039c3015f66b0800000000000000
+      spriteID: 25c60dea1c5cf5343bff1a0bc3ebe630
       internalID: -5300929159689610213
       vertices: []
       indices: 
@@ -154,9 +154,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 715a02def4f9a9800800000000000000
+      spriteID: 456cf1c80984cf744813112fc6396517
       internalID: 619983064346436887
       vertices: []
       indices: 
@@ -176,9 +176,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dd95206a22b12b6c0800000000000000
+      spriteID: ddf9d828339181b4e8593692b5c82ed7
       internalID: -4129208072717313571
       vertices: []
       indices: 
@@ -200,8 +200,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8a1634862b98184bb096e01786a2b2c
+      spriteID: ca9d4ac403ecdbb44bbcdf83d50a57a2
       internalID: 2096048977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 698593f23e4405a498e5221880ac5cf3
+      internalID: 1036157208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_5
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb9992cb20ab0864392fa181cd610a62
+      internalID: -1574959030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_6
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab1129e4a0c60234ca11b45cf384782d
+      internalID: -1471009509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_7
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2331dc11a0fc424cb5b5cded83cb116
+      internalID: 308174290
       vertices: []
       indices: 
       edges: []
@@ -226,6 +314,10 @@ TextureImporter:
       VycountTraps_1: 619983064346436887
       VycountTraps_2: -4129208072717313571
       VycountTraps_3: 2096048977
+      VycountTraps_4: 1036157208
+      VycountTraps_5: -1574959030
+      VycountTraps_6: -1471009509
+      VycountTraps_7: 308174290
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

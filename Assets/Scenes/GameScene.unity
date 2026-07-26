@@ -610,6 +610,7 @@ MonoBehaviour:
   - {fileID: 7494036443921933874, guid: cda01749f4758e748b8b34e171492eb4, type: 3}
   - {fileID: 3838507578622217673, guid: d1187a54cffdae442a61d918fd21f8c8, type: 3}
   - {fileID: 3232936005436099251, guid: 78ad012cbec62af4394911235e2337c0, type: 3}
+  - {fileID: 8541566361737068139, guid: 99b202489dc532a419792366243089c2, type: 3}
 --- !u!114 &69666266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16740,6 +16741,8 @@ MonoBehaviour:
   batExplosionDamage: 8
   batExplosionRadius: 3
   batExplosionEffect: {fileID: 3999954187018070181, guid: 1a723e1e122c555449dcb9bc65f9229d, type: 3}
+  explosiveBiteDamage: 8
+  explosiveBiteRadius: 2
   biteTimer: 0
 --- !u!114 &1340283465
 MonoBehaviour:
