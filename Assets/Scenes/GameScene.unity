@@ -1895,10 +1895,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 1
-  offscreenDistance: 60
+  offscreenDistance: 90
   showDuration: 0.8
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 0.4
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -8126,9 +8126,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 0
   offscreenDistance: 60
-  showDuration: 0.4
+  showDuration: 1
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 1
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -8799,10 +8799,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 1
-  offscreenDistance: 60
+  offscreenDistance: 150
   showDuration: 0.4
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 0.7
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -8999,10 +8999,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 1
-  offscreenDistance: 60
+  offscreenDistance: 80
   showDuration: 1.2
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 0.3
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -15303,10 +15303,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 1
-  offscreenDistance: 60
+  offscreenDistance: 120
   showDuration: 0.6
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 0.5
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -17356,7 +17356,7 @@ MonoBehaviour:
   offscreenDistance: 60
   showDuration: 1.5
   showEase: 9
-  hideDuration: 0.25
+  hideDuration: 0.2
   hideEase: 8
   showOnEnable: 1
   ShowOnAwake: 0
@@ -19133,12 +19133,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 406159865}
   - {fileID: 1107868628}
   - {fileID: 2090509269}
   - {fileID: 69666264}
   - {fileID: 1789498669}
   - {fileID: 1359058453}
+  - {fileID: 406159865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
