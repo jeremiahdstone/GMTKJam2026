@@ -51,15 +51,18 @@ MonoBehaviour:
   spawnDelay: 0.5
   possibleEnemies:
   - {fileID: 6396696151560761607, guid: 07ac6ef6fcfd4fb4d98867645393bdaf, type: 3}
-  - {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
   - {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
   - {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
+  - {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
   preparedEnemies: []
   EnemiesLeft: 0
+  wavesPerEnemyUnlock: 2
   currentEnemyCount: 0
+  LivingEnemies: []
   baseBudget: 8
   budgetGrowthRate: 1.12
   baseMaxEnemies: 8
   enemiesPerDifficulty: 0.75
   minimumSpawnDelay: 0.08
   spawnDelayReduction: 0.015
+  arrowObject: {fileID: 4611433855830537151, guid: 57eb33765ef06d8439cafeb545b4dffb, type: 3}

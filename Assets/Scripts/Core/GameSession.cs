@@ -24,17 +24,20 @@ public class GameSession : MonoBehaviour
     public float bloodLossInterval = 1f;
     public int bloodLossIntervalAmt = 1;
 
+    private float deltaTimeValue = 0.02f;
+
     public void ResetGameSpeed()
     {
         gameSpeedTween?.Kill();
 
         Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
+        Time.fixedDeltaTime = deltaTimeValue;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        deltaTimeValue = Time.fixedDeltaTime;
         if (GameSession.instance == null)
             GameSession.instance = this;
         else
@@ -128,6 +131,8 @@ public class GameSession : MonoBehaviour
             )
             .SetEase(Ease.InCubic)
             .SetUpdate(true);
+
+        DisablePlayerMovement(true);
     }
 
     private IEnumerator SubtractBloodOnInterval()
@@ -177,11 +182,13 @@ public class GameSession : MonoBehaviour
 
     public void RestartGame()
     {
+        ResetGameSpeed();
         SceneFader.instance.FadeToScene("GameScene");
     }
 
     public void ReturnToMenu()
     {
+        ResetGameSpeed();
         SceneFader.instance.FadeToScene("MainMenu");
     }
 }

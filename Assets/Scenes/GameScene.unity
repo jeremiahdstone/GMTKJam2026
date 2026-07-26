@@ -838,7 +838,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 108572465}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 109892002}
+        m_TargetAssemblyTypeName: GameSession, Assembly-CSharp
+        m_MethodName: ReturnToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &108572465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,7 +916,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5714793409641000681, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
   m_PrefabInstance: {fileID: 7497824322008901489}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107314026}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 728f5c9a0e1771c40b2df5a85a342149, type: 3}
@@ -7307,7 +7319,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 896581160}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 109892002}
+        m_TargetAssemblyTypeName: GameSession, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &896581160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23748,8 +23772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 0
-  offscreenDistance: 200
-  showDuration: 0.8
+  offscreenDistance: 400
+  showDuration: 4
   showEase: 9
   hideDuration: 0.4
   hideEase: 8
@@ -76564,77 +76588,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32f232570a07f3e45aa197a2b4a4a8d8, type: 3}
---- !u!1 &2107314026 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6010256157950367341, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
-  m_PrefabInstance: {fileID: 7497824322008901489}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2107314028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107314026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58602c4911835b42b82cb429aa2eeae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  impulseSource: {fileID: 2107314029}
---- !u!114 &2107314029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107314026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
-  ImpulseDefinition:
-    ImpulseChannel: 1
-    ImpulseShape: 2
-    CustomImpulseShape:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    ImpulseDuration: 0.2
-    ImpulseType: 0
-    DissipationRate: 0.25
-    RawSignal: {fileID: 0}
-    AmplitudeGain: 1
-    FrequencyGain: 1
-    RepeatMode: 0
-    Randomize: 1
-    TimeEnvelope:
-      AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      AttackTime: 0
-      SustainTime: 0.2
-      DecayTime: 0.7
-      ScaleWithImpact: 1
-      HoldForever: 0
-    ImpactRadius: 100
-    DirectionMode: 0
-    DissipationMode: 2
-    DissipationDistance: 100
-    PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1001 &2109666814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76996,6 +76949,18 @@ PrefabInstance:
       propertyPath: arrowObject
       value: 
       objectReference: {fileID: 4611433855830537151, guid: 57eb33765ef06d8439cafeb545b4dffb, type: 3}
+    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
+      propertyPath: 'possibleEnemies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
+    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
+      propertyPath: 'possibleEnemies.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
+    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
+      propertyPath: 'possibleEnemies.Array.data[3]'
+      value: 
+      objectReference: {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -77061,20 +77026,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSession
       objectReference: {fileID: 0}
-    - target: {fileID: 6010256157950367341, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6010256157950367341, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2107314028}
-    - targetCorrespondingSourceObject: {fileID: 6010256157950367341, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2107314029}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e550f8b8d8983ee46a84c55a3469893f, type: 3}
 --- !u!1001 &8835513625468638795
 PrefabInstance:

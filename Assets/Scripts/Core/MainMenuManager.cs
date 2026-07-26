@@ -13,4 +13,9 @@ public class MainMenuManager : MonoBehaviour
     {
         
     }
+
+    public void startGame()
+    {
+        SceneFader.instance.FadeToScene("GameScene");
+    }
 }
