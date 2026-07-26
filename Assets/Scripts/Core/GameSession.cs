@@ -174,4 +174,14 @@ public class GameSession : MonoBehaviour
     {
         Player.playerMovement.ToggleFrozen(val);
     }
+
+    public void RestartGame()
+    {
+        SceneFader.instance.FadeToScene("GameScene");
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneFader.instance.FadeToScene("MainMenu");
+    }
 }
