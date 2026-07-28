@@ -1,6 +1,7 @@
 using UnityEngine;
 using Pathfinding;
 using DG.Tweening;
+using System.Collections;
 public enum Team
 {
     good,
@@ -27,6 +28,14 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float pathUpdateTime = 0.25f;
     [SerializeField] private float nextWaypointDistance = 0.2f;
     [SerializeField] private float stoppingDistance = 0.15f;
+
+    [Header("Enemy Avoidance")]
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private float avoidanceRadius = 0.8f;
+    [SerializeField] private float avoidanceStrength = 1.25f;
+
+    private Vector2 avoidanceDirection;
+    private Coroutine pathUpdateCoroutine;
 
     [Header("In-Game Stats")]
     public float currentSpeed;
@@ -63,6 +72,16 @@ public class Enemy : MonoBehaviour, IDamageable
     private AudioSource audioSource;
 
 
+
+    IEnumerator updatePathOnInterval()
+    {
+        while (target != null)
+        {
+            UpdatePath();
+            ManeuverAroundNearbyEnemies();
+            yield return new WaitForSeconds(pathUpdateTime);
+        }
+    }
 
     public virtual void Awake()
     {
@@ -120,7 +139,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         currentSpeed = speed;
         currentHealth = maxHealth;
-        UpdatePath();
+        StartCoroutine(updatePathOnInterval());
     }
 
     private void FixedUpdate()
@@ -228,6 +247,58 @@ public class Enemy : MonoBehaviour, IDamageable
         );
     }
 
+    private void ManeuverAroundNearbyEnemies()
+    {
+        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(
+            transform.position,
+            avoidanceRadius,
+            enemyLayers
+        );
+
+        Vector2 totalAvoidance = Vector2.zero;
+        int nearbyCount = 0;
+
+        foreach (Collider2D nearbyCollider in nearbyEnemies)
+        {
+            if (nearbyCollider.attachedRigidbody == rb)
+                continue;
+
+            Enemy nearbyEnemy = nearbyCollider.GetComponent<Enemy>();
+            nearbyEnemy ??= nearbyCollider.GetComponentInParent<Enemy>();
+
+            if (nearbyEnemy == null || nearbyEnemy == this)
+                continue;
+
+            Vector2 awayDirection =
+                rb.position - (Vector2)nearbyEnemy.transform.position;
+
+            float distance = awayDirection.magnitude;
+
+            if (distance <= 0.001f)
+            {
+                awayDirection = Random.insideUnitCircle.normalized;
+                distance = 0.001f;
+            }
+
+            // Closer enemies produce a stronger avoidance force.
+            float closeness =
+                1f - Mathf.Clamp01(distance / avoidanceRadius);
+
+            totalAvoidance += awayDirection.normalized * closeness;
+            nearbyCount++;
+        }
+
+        if (nearbyCount > 0)
+        {
+            avoidanceDirection =
+                (totalAvoidance / nearbyCount).normalized;
+        }
+        else
+        {
+            avoidanceDirection = Vector2.zero;
+        }
+    }
+
     private void OnPathComplete(Path newPath)
     {
         if (!isActiveAndEnabled)
@@ -274,7 +345,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 //bite attack, give 2x blood
                 // if you add an extra modifier for blood drops from bites it should go here
                 float biteBloodMultiplier = PlayerStats.Instance.GetStat(PlayerStat.BiteBloodMultipler);
-                Die(2*biteBloodMultiplier);
+                Die(2 * biteBloodMultiplier);
             }
             else
             {

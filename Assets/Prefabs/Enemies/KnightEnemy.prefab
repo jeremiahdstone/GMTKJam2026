@@ -60,6 +60,11 @@ MonoBehaviour:
   pathUpdateTime: 0.25
   nextWaypointDistance: 0.25
   stoppingDistance: 0.15
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  avoidanceRadius: 0.8
+  avoidanceStrength: 1.25
   currentSpeed: 0
   currentHealth: 10
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
