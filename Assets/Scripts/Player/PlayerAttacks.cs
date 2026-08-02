@@ -24,6 +24,12 @@ public class PlayerAttacks : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float minimumBiteDamageMultiplier = 0.25f;
 
+    [Range(0f, 1f)]
+    [SerializeField] private float minimumBiteRangeMultiplier = 0.5f;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float minimumBiteSpeedMultiplier = 0.5f;
+
     [SerializeField] private GameObject fullyChargedBiteEffect;
     // [SerializeField] private GameObject explosiveBiteEffect;
     //just using the same one as bite for now
@@ -63,11 +69,8 @@ public class PlayerAttacks : MonoBehaviour
         if (currentlyBiting) return;
 
         float biteCooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
+        float chargeAmount = GetBiteCharge();
 
-        // 0 immediately after biting, 1 when fully charged.
-        float chargeAmount = 1f - Mathf.Clamp01(biteTimer / biteCooldown);
-
-        // Prevent the bite from ever dealing zero damage.
         float damageMultiplier = Mathf.Lerp(
             minimumBiteDamageMultiplier,
             1f,
@@ -76,6 +79,9 @@ public class PlayerAttacks : MonoBehaviour
 
         float biteDamage =
             playerStats.GetStat(PlayerStat.BiteDamage) * damageMultiplier;
+
+        float biteRange = GetChargedBiteRange(chargeAmount);
+        float biteSpeed = GetChargedBiteSpeed(chargeAmount);
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             mousePosition,
@@ -87,7 +93,6 @@ public class PlayerAttacks : MonoBehaviour
         IDamageable closestDamageable = null;
 
         float closestMouseDistanceSqr = Mathf.Infinity;
-        float biteRange = playerStats.GetStat(PlayerStat.BiteRange);
         float biteRangeSqr = biteRange * biteRange;
 
         foreach (Collider2D hit in hits)
@@ -123,7 +128,13 @@ public class PlayerAttacks : MonoBehaviour
         bool fullyCharged = biteTimer <= 0.05f;
 
         StartCoroutine(
-            DoBite(closestCollider, closestDamageable, biteDamage, fullyCharged)
+            DoBite(
+                closestCollider,
+                closestDamageable,
+                biteDamage,
+                biteSpeed,
+                chargeAmount >= 0.95f
+            )
         );
 
         Debug.Log(
@@ -148,16 +159,20 @@ public class PlayerAttacks : MonoBehaviour
 
 
     private IEnumerator DoBite(
-    Collider2D targetCollider,
-    IDamageable damageable,
-    float biteDamage, bool fullyCharged)
+        Collider2D targetCollider,
+        IDamageable damageable,
+        float biteDamage,
+        float biteSpeed,
+        bool fullyCharged)
     {
         currentlyBiting = true;
-        float initialAnimSpeed = manager.anim.speed;
-        float speedMult =
-            playerStats.GetStat(PlayerStat.BiteSpeedMultiplier);
 
-        manager.anim.speed = speedMult;
+        float initialAnimSpeed = manager.anim.speed;
+
+        // Protect against a zero multiplier.
+        biteSpeed = Mathf.Max(0.01f, biteSpeed);
+
+        manager.anim.speed = biteSpeed;
         manager.anim.SetTrigger("Bite");
 
         if (manager.sr != null)
@@ -169,31 +184,66 @@ public class PlayerAttacks : MonoBehaviour
         Vector3 targetPosition = targetCollider.transform.position;
 
         transform
-            .DOMove(targetPosition, 0.5f / speedMult)
+            .DOMove(targetPosition, 0.5f / biteSpeed)
             .SetEase(Ease.InOutSine);
 
-        yield return new WaitForSeconds(0.4f / speedMult);
+        yield return new WaitForSeconds(0.4f / biteSpeed);
 
         if (targetCollider != null)
         {
-            damageable.Damage(
-                biteDamage,
-                transform
-            );
-
-            //TRY EXPLOSIVE BITE
+            damageable.Damage(biteDamage, transform);
             ExplosiveBite(targetCollider.transform.position);
         }
 
-        CameraShake.Instance.Shake(0.5f);
+        CameraShake.Instance?.Shake(0.5f);
 
-        if(fullyCharged)
-            Instantiate(fullyChargedBiteEffect, transform.position + new Vector3(0.25f, 0f, 0f), fullyChargedBiteEffect.transform.rotation);
-
-
+        if (fullyCharged && fullyChargedBiteEffect != null)
+        {
+            Instantiate(
+                fullyChargedBiteEffect,
+                transform.position + new Vector3(0.25f, 0f, 0f),
+                fullyChargedBiteEffect.transform.rotation
+            );
+        }
 
         manager.anim.speed = initialAnimSpeed;
         currentlyBiting = false;
+    }
+
+    //BiteCharge
+
+    private float GetBiteCharge()
+    {
+        float cooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
+
+        // Prevent division by zero if an upgrade reduces cooldown to zero.
+        if (cooldown <= 0f)
+            return 1f;
+
+        return 1f - Mathf.Clamp01(biteTimer / cooldown);
+    }
+
+    private float GetChargedBiteRange(float chargeAmount)
+    {
+        float rangeMultiplier = Mathf.Lerp(
+            minimumBiteRangeMultiplier,
+            1f,
+            chargeAmount
+        );
+
+        return playerStats.GetStat(PlayerStat.BiteRange) * rangeMultiplier;
+    }
+
+    private float GetChargedBiteSpeed(float chargeAmount)
+    {
+        float speedMultiplier = Mathf.Lerp(
+            minimumBiteSpeedMultiplier,
+            1f,
+            chargeAmount
+        );
+
+        return playerStats.GetStat(PlayerStat.BiteSpeedMultiplier)
+               * speedMultiplier;
     }
 
     private void OnDrawGizmosSelected()
@@ -208,7 +258,8 @@ public class PlayerAttacks : MonoBehaviour
 
     private void UpdateBiteRangeHighlights()
     {
-        float biteRange = playerStats.GetStat(PlayerStat.BiteRange);
+        float chargeAmount = GetBiteCharge();
+        float biteRange = GetChargedBiteRange(chargeAmount);
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
