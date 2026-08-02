@@ -31,6 +31,7 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private float minimumBiteSpeedMultiplier = 0.5f;
 
     [SerializeField] private GameObject fullyChargedBiteEffect;
+
     // [SerializeField] private GameObject explosiveBiteEffect;
     //just using the same one as bite for now
 

@@ -65,6 +65,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenuPanel;
     [SerializeField] private GameObject[] pauseMenuButtons;
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip AttackCooldownReadySound;
+    [SerializeField] private AudioClip BatFormCooldownReadySound;
+
     private float attackCooldownDisplayedAmount = 1f;
     private float batFormCooldownDisplayedAmount = 1f;
 
@@ -162,6 +166,8 @@ public class UIManager : MonoBehaviour
                 attackCooldownImage.transform,
                 ref attackCooldownReadyTween
             );
+
+            GetComponent<AudioSource>().PlayOneShot(AttackCooldownReadySound);
         }
 
         attackCooldownWasActive = cooldownIsActive;
@@ -207,6 +213,7 @@ public class UIManager : MonoBehaviour
                 batFormCoolDownImage.transform,
                 ref batFormCooldownReadyTween
             );
+            GetComponent<AudioSource>().PlayOneShot(BatFormCooldownReadySound);
         }
 
         batFormCooldownWasActive = cooldownIsActive;
