@@ -361,7 +361,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(float dropMultiplier)
+    public void Die(float dropMultiplier, bool notifyDirector = true)
     {
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
@@ -373,8 +373,11 @@ public class Enemy : MonoBehaviour, IDamageable
             Instantiate(DeathDrop, transform.position, Quaternion.identity);
         }
 
+        if (notifyDirector && LevelDirector.instance != null)
+        {
+            LevelDirector.instance.NotifyEnemyRemoved(this);
+        }
 
-        LevelDirector.instance.NotifyEnemyRemoved(this);
         Destroy(gameObject);
     }
 

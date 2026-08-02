@@ -84,21 +84,44 @@ public class LevelDirector : MonoBehaviour
     {
         currentDifficulty = Mathf.Max(1, difficulty);
 
-        if (LivingEnemies.Count > 0)
+        if (spawnCoroutine != null)
         {
-            foreach (GameObject enemy in LivingEnemies)
-            {
-                if (enemy != null)
-                    enemy.GetComponent<Enemy>().Die(0);
-            }
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
         }
 
-        LivingEnemies = new List<GameObject>();
+        List<GameObject> enemiesToClear = new List<GameObject>(LivingEnemies);
+        LivingEnemies.Clear();
+
+        currentEnemyCount = 0;
+        EnemiesLeft = 0;
+
+        if (GameSession.instance != null && GameSession.instance.uiManager != null)
+        {
+            GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
+        }
+
+        foreach (GameObject enemy in enemiesToClear)
+        {
+            if (enemy == null)
+                continue;
+
+            Enemy enemyComponent = enemy.GetComponent<Enemy>();
+
+            if (enemyComponent != null)
+            {
+                enemyComponent.Die(0, false);
+            }
+            else
+            {
+                Destroy(enemy);
+            }
+        }
 
         CalculateBudget(currentDifficulty);
         PrepareEnemies();
 
-        if (spawnCoroutine == null && preparedEnemies.Count > 0)
+        if (preparedEnemies.Count > 0)
         {
             spawnCoroutine = StartCoroutine(SpawnWaveOverTime());
         }
@@ -242,14 +265,24 @@ public class LevelDirector : MonoBehaviour
             );
         }
 
-        LivingEnemies.Remove(enemy.gameObject);
+        if (LivingEnemies.Contains(enemy.gameObject))
+        {
+            LivingEnemies.Remove(enemy.gameObject);
 
-        EnemiesLeft--;
-        GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
+            EnemiesLeft = Mathf.Max(0, EnemiesLeft - 1);
 
-        GameSession.instance.run.enemiesKilled++;
+            if (GameSession.instance != null && GameSession.instance.uiManager != null)
+            {
+                GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
+            }
 
-        if (EnemiesLeft <= 0)
+            if (GameSession.instance != null && GameSession.instance.run != null)
+            {
+                GameSession.instance.run.enemiesKilled++;
+            }
+        }
+
+        if (EnemiesLeft <= 0 && GameSession.instance != null)
         {
             GameSession.instance.EndWave();
         }
