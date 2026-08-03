@@ -69,6 +69,8 @@ public class PlayerAttacks : MonoBehaviour
 
         if (currentlyBiting) return;
 
+        GameEventManager.instance.Bite();
+
         float biteCooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
         float chargeAmount = GetBiteCharge();
 

@@ -30,8 +30,13 @@ public abstract class Upgrade : MonoBehaviour, IShoppable
     public virtual void OnPurchase()
     {
         // Add to player upgrade list
-        //uggh i hate this im def doing something wrong here this feels nasty in terms of coupling
-        Object.FindFirstObjectByType<PlayerStats>().AddUpgrade(this);
+
+        PlayerManager player = GameSession.instance.Player;
+
+
+        player.GetComponent<PlayerStats>().AddUpgrade(this);
+        Instantiate(this.gameObject, player.transform.GetChild(0).transform);
+        
 
     }
 

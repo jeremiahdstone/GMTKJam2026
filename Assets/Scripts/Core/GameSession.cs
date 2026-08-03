@@ -64,6 +64,7 @@ public class GameSession : MonoBehaviour
 
     public void EndWave()
     {
+        GameEventManager.instance.WaveEnd();
         uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
         phase = Phase.build;
@@ -77,6 +78,8 @@ public class GameSession : MonoBehaviour
     public void StartWave()
     {
         run.day++;
+
+        GameEventManager.instance.WaveStart();
 
         //update max blood at the start of wave
         run.maxBloodCount = Mathf.RoundToInt(Player.playerStats.GetStat(PlayerStat.MaxBlood));
@@ -99,7 +102,7 @@ public class GameSession : MonoBehaviour
 
     public void DamageCastle(int damage)
     {
-
+        GameEventManager.instance.CastleHit();
         SubtractBlood(damage);
     }
 
@@ -109,6 +112,8 @@ public class GameSession : MonoBehaviour
     {
         if (!runInProgress)
             return;
+
+        GameEventManager.instance.GameLose();
 
         Debug.Log("Game Loss Triggered");
 

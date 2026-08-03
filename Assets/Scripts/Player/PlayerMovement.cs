@@ -113,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
             // speed = walkSpeed;
             batForm = false;
             batFormCooldownTimer = playerStats.GetStat(PlayerStat.BatFormCooldown);
+
+            GameEventManager.instance.BatModeExit();
+
             //set sprite to bat
 
             manager.anim.SetBool("isBat", false);
@@ -127,6 +130,8 @@ public class PlayerMovement : MonoBehaviour
             // speed = walkSpeed;
             batForm = true;
             batFormCooldownTimer = 0f;
+
+            GameEventManager.instance.BatModeEnter();
             //set sprite to human
             //start velocity in direction of mouse?
             
