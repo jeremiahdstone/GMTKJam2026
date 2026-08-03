@@ -19257,14 +19257,14 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 2048
-  m_ForceMagnitude: -100
+  m_ForceMagnitude: -25
   m_ForceVariation: 0
   m_DistanceScale: 1
   m_ForceSource: 0
   m_ForceTarget: 0
   m_ForceMode: 0
-  m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_LinearDamping: 6
+  m_AngularDamping: 10
 --- !u!58 &1490107238
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -19295,7 +19295,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
