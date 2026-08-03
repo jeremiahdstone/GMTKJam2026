@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEditor;
 
 //abstract upgrade to allow for different weird upgrades in the future
-public abstract class Upgrade : IShoppable
+public abstract class Upgrade : MonoBehaviour, IShoppable
 {
     public string id = "";
     public string name = "Upgrade";
-    public string description = "An upgrade for the player";
+    [TextArea(2, 5)] public string description = "An upgrade for the player";
     public Sprite sprite;
     public int cost;
 
@@ -33,23 +34,24 @@ public abstract class Upgrade : IShoppable
         Object.FindFirstObjectByType<PlayerStats>().AddUpgrade(this);
 
     }
-}
 
-public class StatUpgrade : Upgrade
-{
-    public PlayerStat affectedStat;
-    public float flatBonus;
-    public float percentBonus;
-
-    public override float Modify(PlayerStat targetStat, float value)
+    //disable the sprite renderer for the upgrade prefab so its not in the scene
+    protected virtual void Awake()
     {
-        if (targetStat != affectedStat)
-            return value;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        value += flatBonus * level;
-        value *= 1 + percentBonus * level;
+        if (sr != null)
+            sr.enabled = false;
+    }
 
-        return value;
+    //make the prefab look like the upgrade in the editor
+    protected virtual void OnValidate()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        if (sr != null) {
+            sr.sprite = sprite;
+        }
     }
 
 }
