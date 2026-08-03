@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5714793409641000681}
   - component: {fileID: 6263788358513988851}
   - component: {fileID: 964462178318985034}
+  - component: {fileID: 3392966388824584931}
+  - component: {fileID: 7559619957286015928}
   m_Layer: 0
   m_Name: GameSession
   m_TagString: Untagged
@@ -64,6 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   impulseSource: {fileID: 964462178318985034}
+  cameraShakeMultiplier: 1
+  cameraShakeLimit: 3
+  shakeRecoveryTime: 0.25
 --- !u!114 &964462178318985034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,3 +122,43 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &3392966388824584931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010256157950367341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7631cf2528a8f0344b9f83d5e7e3af1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
+  AllUpgrades:
+  - {fileID: 5158360134673767044, guid: bdf3b7829a1b19c4589a2b29855c5f84, type: 3}
+  - {fileID: 5158360134673767044, guid: 9b6164070c32fe640aa198f7b665094d, type: 3}
+  - {fileID: 5158360134673767044, guid: ef1905d6b0b36734f869d6c0e93b7681, type: 3}
+  - {fileID: 5158360134673767044, guid: 4529e329a3a94274f82b709ce963a038, type: 3}
+  - {fileID: 5158360134673767044, guid: 6199047d4c0a2a24083b87042637764c, type: 3}
+  - {fileID: 5158360134673767044, guid: 21cfe45d9a0b8b542aa26e76a7760686, type: 3}
+  - {fileID: 5158360134673767044, guid: ecfc42c7cd20feb42ab9da0126940a73, type: 3}
+  - {fileID: 5158360134673767044, guid: 87a4b7bd0b7949649b16439bdfc91c94, type: 3}
+  - {fileID: 5158360134673767044, guid: 282a2f32a3ee60f4186fc213fe3ba03e, type: 3}
+--- !u!114 &7559619957286015928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010256157950367341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2526a7cabb4e75a4fb4ee0504f88f114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapDatabase
+  trapPrefabs:
+  - {fileID: 7494036443921933874, guid: cda01749f4758e748b8b34e171492eb4, type: 3}
+  - {fileID: 3838507578622217673, guid: d1187a54cffdae442a61d918fd21f8c8, type: 3}
+  - {fileID: 3232936005436099251, guid: 78ad012cbec62af4394911235e2337c0, type: 3}
+  - {fileID: 8541566361737068139, guid: 99b202489dc532a419792366243089c2, type: 3}
+  - {fileID: -9106247222895990203, guid: 4f0b1b22af578c842a61348a7c629fed, type: 3}

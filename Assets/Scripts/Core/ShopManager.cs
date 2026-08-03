@@ -39,6 +39,9 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
+        upgradeDatabase = GameSession.instance.GetComponentInChildren<UpgradeDatabase>();
+        trapDatabase = GameSession.instance.GetComponentInChildren<TrapDatabase>();
+
         shopDatabase = new List<IShoppable>();
 
         shopDatabase.AddRange(upgradeDatabase.AllUpgrades);
