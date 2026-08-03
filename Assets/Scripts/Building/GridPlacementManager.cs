@@ -181,8 +181,11 @@ public class GridPlacementManager : MonoBehaviour
         return grid.WorldToCell(bottomLeft);
     }
 
-    private void ClearOccupiedCells(Placeable placeable)
+    public void ClearOccupiedCells(Placeable placeable)
     {
+        if (placeable == null)
+            return;
+
         List<Vector3Int> cellsToRemove = new();
 
         foreach (KeyValuePair<Vector3Int, Placeable> entry

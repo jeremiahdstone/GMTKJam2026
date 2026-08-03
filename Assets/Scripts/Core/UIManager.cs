@@ -488,7 +488,7 @@ public class UIManager : MonoBehaviour
         GameOverStats.text = "Protected castle for <color=#d9243c>" + run.day + "</color> days\n\n";
         GameOverStats.text += "Feasted on <color=#d9243c>" + run.enemiesKilled + "</color> humans\n\n";
         GameOverStats.text += "Purchased <color=#d9243c>" + run.upgradesBought + "</color> upgrades ";
-        GameOverStats.text += "and placed <color=#d9243c>" + run.upgradesBought + "</color> traps";
+        GameOverStats.text += "and placed <color=#d9243c>" + run.trapsBought + "</color> traps";
 
         Image loseScreenImage = loseScreen.GetComponent<Image>();
 

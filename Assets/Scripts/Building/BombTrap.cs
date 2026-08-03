@@ -57,6 +57,9 @@ public class BombTrap : Trap
 
         ShakeCamera();
 
+        if (GridPlacementManager.instance != null)
+            GridPlacementManager.instance.ClearOccupiedCells(this);
+
         TriggerTrap(enemy);
     }
 
