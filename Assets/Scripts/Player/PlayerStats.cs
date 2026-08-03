@@ -19,6 +19,9 @@ public enum PlayerStat
 
 public class PlayerStats : MonoBehaviour
 {
+    //game object that houses all the instantiated upgrades
+    public GameObject upgradesObject { get; private set; }
+
     //BASE STATS
     private Dictionary<PlayerStat, float> baseStats =
         new Dictionary<PlayerStat, float>()
@@ -42,27 +45,17 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats Instance { get; private set; }
     private void Awake()
     {
+        //setup singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
+        
+        //get upgrade gameobject
+        upgradesObject = GameObject.Find("Upgrades");
     }
-
-
-    // void Start()
-    // {
-    //     // FOR TESTING, ADD UPGRADES TO PLAYER
-    //     for (int i = 0; i < 10; i++)
-    //     {
-    //         AddUpgrade(UpgradeDatabase.AllUpgrades[6]);
-    //     }
-    //     //player should now have 10 levels of chain bite, and bite cooldown should be 0 after attack
-    //     Debug.Log(GetStat(PlayerStat.BiteCooldown));  //DEBUG
-    // }
-
 
     public float GetStat(PlayerStat stat)
     {
