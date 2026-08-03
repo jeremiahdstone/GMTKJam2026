@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour, IDamageable
             originalVisualScale = spriteRenderer.transform.localScale;
         }
 
-        if (target == null)
+        if (target == null && team == Team.bad)
             target = GameObject.FindGameObjectWithTag("Objective").transform;
     }
 

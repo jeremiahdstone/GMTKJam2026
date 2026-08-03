@@ -72,11 +72,11 @@ MonoBehaviour:
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
   DeathDrop: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
   RandomNumDrops: {x: 4, y: 8}
-  hitSquashAmount: 0.85
-  hitStretchAmount: 1.12
-  hitSquashDuration: 0.06
-  hitRecoverDuration: 0.14
-  hitRecoverEase: 27
+  hitSquashAmount: 0.6
+  hitStretchAmount: 1.45
+  hitSquashDuration: 0.045
+  hitRecoverDuration: 0.3
+  hitRecoverEase: 24
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
