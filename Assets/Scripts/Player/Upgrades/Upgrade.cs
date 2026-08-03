@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //abstract upgrade to allow for different weird upgrades in the future
-public abstract class Upgrade : IShoppable
+public abstract class Upgrade : MonoBehaviour, IShoppable
 {
     public string id = "";
     public string name = "Upgrade";
