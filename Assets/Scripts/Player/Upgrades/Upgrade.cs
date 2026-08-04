@@ -35,7 +35,7 @@ public abstract class Upgrade : MonoBehaviour, IShoppable
 
 
         player.GetComponent<PlayerStats>().AddUpgrade(this);
-        Instantiate(this.gameObject, player.transform.GetChild(0).transform);
+        
         
 
     }
@@ -71,6 +71,3 @@ public class BatExplosionUpgrade : Upgrade
 {
 }
 
-public class ExplosiveBiteUpgrade : Upgrade
-{
-}

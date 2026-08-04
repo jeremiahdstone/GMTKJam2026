@@ -327,7 +327,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void Damage(float damage, Transform attacker = null)
     {
-        GameEventManager.instance.EnemyHit();
+        GameEventManager.instance.EnemyHit(this.gameObject);
         currentHealth -= damage;
 
         PlayHitBounce();
@@ -364,7 +364,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void Die(float dropMultiplier, bool notifyDirector = true)
     {
-        GameEventManager.instance.EnemyDeath();
+        GameEventManager.instance.EnemyDeath(this.gameObject);
 
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
