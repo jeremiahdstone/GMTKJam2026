@@ -19,13 +19,14 @@ public class GameEventManager : MonoBehaviour
 
     public event Action OnWaveStart;
     public event Action OnWaveEnd;
-    public event Action<Transform, bool> OnBite;
+    public event Action<Transform, float> OnBite;
     public event Action OnBatModeEnter;
     public event Action OnBatModeExit;
-    public event Action<GameObject> OnEnemyDeath;
-    public event Action<GameObject> OnEnemyHit;
+    public event Action<GameObject, GameObject> OnEnemyDeath;
+    public event Action<GameObject, GameObject> OnEnemyHit;
     public event Action OnCastleHit;
     public event Action OnGameLose;
+    public event Action <GameObject, GameObject> OnPlayerHit; // not implemented
 
     public void WaveStart()
     {
@@ -36,9 +37,9 @@ public class GameEventManager : MonoBehaviour
         OnWaveEnd?.Invoke();
     }
 
-    public void Bite(Transform bittenTransform, bool fullyCharged = false)
+    public void Bite(Transform bittenTransform, float chargeAmount = 0f)
     {
-        OnBite?.Invoke(bittenTransform, fullyCharged);
+        OnBite?.Invoke(bittenTransform, chargeAmount);
     }
 
     public void BatModeEnter()
@@ -51,14 +52,14 @@ public class GameEventManager : MonoBehaviour
         OnBatModeExit?.Invoke();
     }
 
-    public void EnemyDeath(GameObject enemy)
+    public void EnemyDeath(GameObject enemy, GameObject attacker)
     {
-        OnEnemyDeath?.Invoke(enemy);
+        OnEnemyDeath?.Invoke(enemy, attacker);
     }
 
-    public void EnemyHit(GameObject enemy)
+    public void EnemyHit(GameObject enemy, GameObject attacker)
     {
-        OnEnemyHit?.Invoke(enemy);
+        OnEnemyHit?.Invoke(enemy, attacker);
     }
 
     public void CastleHit()
@@ -69,5 +70,10 @@ public class GameEventManager : MonoBehaviour
     public void GameLose()
     {
         OnGameLose?.Invoke();
+    }
+
+    public void PlayerHit(GameObject player, GameObject attacker)
+    {
+        OnPlayerHit?.Invoke(player, attacker);
     }
 }

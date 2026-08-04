@@ -98,6 +98,7 @@ public class GameSession : MonoBehaviour
 
     public void Update()
     {
+        
     }
 
     public void DamageCastle(int damage)

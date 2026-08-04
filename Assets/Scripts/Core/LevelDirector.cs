@@ -305,5 +305,48 @@ public class LevelDirector : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if (GameSession.instance != null)
+            {
+                ClearEnemies();
+                GameSession.instance.EndWave();
+            }
+        }
+    }
+
+    public void ClearEnemies()
+    {
+        List<GameObject> enemiesToClear = new List<GameObject>(LivingEnemies);
+        LivingEnemies.Clear();
+
+        currentEnemyCount = 0;
+        EnemiesLeft = 0;
+
+        if (GameSession.instance != null && GameSession.instance.uiManager != null)
+        {
+            GameSession.instance.uiManager.SetEnemyCount(EnemiesLeft);
+        }
+
+        foreach (GameObject enemy in enemiesToClear)
+        {
+            if (enemy == null)
+                continue;
+
+            Enemy enemyComponent = enemy.GetComponent<Enemy>();
+
+            if (enemyComponent != null)
+            {
+                enemyComponent.Die(0, false);
+            }
+            else
+            {
+                Destroy(enemy);
+            }
+        }
+    }
+
 
 }

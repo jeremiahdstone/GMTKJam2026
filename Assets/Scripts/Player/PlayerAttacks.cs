@@ -138,6 +138,7 @@ public class PlayerAttacks : MonoBehaviour
                 closestDamageable,
                 biteDamage,
                 biteSpeed,
+                chargeAmount,
                 chargeAmount >= 0.95f
             )
         );
@@ -168,6 +169,7 @@ public class PlayerAttacks : MonoBehaviour
         IDamageable damageable,
         float biteDamage,
         float biteSpeed,
+        float chargeAmount,
         bool fullyCharged)
     {
         currentlyBiting = true;
@@ -196,9 +198,9 @@ public class PlayerAttacks : MonoBehaviour
 
         if (targetCollider != null)
         {
-            damageable.Damage(biteDamage, transform);
+            damageable.Damage(biteDamage, gameObject);
 
-            GameEventManager.instance.Bite(targetCollider.transform, fullyCharged);
+            GameEventManager.instance.Bite(targetCollider.transform, chargeAmount);
         }
 
         CameraShake.Instance?.Shake(0.5f);
@@ -328,7 +330,7 @@ public class PlayerAttacks : MonoBehaviour
 
             if (enemy != null)
             {
-                enemy.Damage(damage, transform);
+                enemy.Damage(damage, gameObject);
             }
         }
 

@@ -17,9 +17,9 @@ public class ExplosiveBiteUpgrade : Upgrade
         GameEventManager.instance.OnBite -= ExplosiveBite;
     }
 
-    private void ExplosiveBite(Transform bittenTransform, bool fullyCharged = false)
+    private void ExplosiveBite(Transform bittenTransform, float chargeAmount)
     {
-        if (!fullyCharged) return;
+        if (chargeAmount < 0.95f) return;
         Debug.LogWarning("Explosive Bite Triggered");
         Vector3 biteLocation = bittenTransform.position;
 
@@ -41,7 +41,7 @@ public class ExplosiveBiteUpgrade : Upgrade
 
             if (enemy != null)
             {
-                enemy.Damage(damage, transform);
+                enemy.Damage(damage, gameObject);
             }
         }
 
