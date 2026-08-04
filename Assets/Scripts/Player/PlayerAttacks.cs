@@ -69,6 +69,8 @@ public class PlayerAttacks : MonoBehaviour
 
         if (currentlyBiting) return;
 
+        
+
         float biteCooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
         float chargeAmount = GetBiteCharge();
 
@@ -128,12 +130,15 @@ public class PlayerAttacks : MonoBehaviour
 
         bool fullyCharged = biteTimer <= 0.05f;
 
+        
+
         StartCoroutine(
             DoBite(
                 closestCollider,
                 closestDamageable,
                 biteDamage,
                 biteSpeed,
+                chargeAmount,
                 chargeAmount >= 0.95f
             )
         );
@@ -164,6 +169,7 @@ public class PlayerAttacks : MonoBehaviour
         IDamageable damageable,
         float biteDamage,
         float biteSpeed,
+        float chargeAmount,
         bool fullyCharged)
     {
         currentlyBiting = true;
@@ -192,8 +198,9 @@ public class PlayerAttacks : MonoBehaviour
 
         if (targetCollider != null)
         {
-            damageable.Damage(biteDamage, transform);
-            ExplosiveBite(targetCollider.transform.position);
+            damageable.Damage(biteDamage, gameObject);
+
+            GameEventManager.instance.Bite(targetCollider.transform, chargeAmount);
         }
 
         CameraShake.Instance?.Shake(0.5f);
@@ -323,7 +330,7 @@ public class PlayerAttacks : MonoBehaviour
 
             if (enemy != null)
             {
-                enemy.Damage(damage, transform);
+                enemy.Damage(damage, gameObject);
             }
         }
 
@@ -339,49 +346,6 @@ public class PlayerAttacks : MonoBehaviour
         // Slightly stronger shake as it levels up.
         CameraShake.Instance?.Shake(
             0.75f + 0.1f * upgrade.level
-        );
-    }
-
-    public void ExplosiveBite(Vector3 position)
-    {
-        if (!playerStats.HasUpgrade<ExplosiveBiteUpgrade>())
-            return;
-
-        ExplosiveBiteUpgrade upgrade =
-            playerStats.GetUpgrade<ExplosiveBiteUpgrade>();
-
-        // Level 1 = base values, additional levels scale up.
-        float damage = explosiveBiteDamage + ((upgrade.level - 1) * 5f);
-        float radius = explosiveBiteRadius + ((upgrade.level - 1) * 0.2f);
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            position,
-            radius,
-            damageableLayers
-        );
-
-        foreach (Collider2D hit in hits)
-        {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            enemy ??= hit.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.Damage(damage, transform);
-            }
-        }
-
-        if (batExplosionEffect != null)
-        {
-            Instantiate(
-                batExplosionEffect,
-                position,
-                Quaternion.identity
-            );
-        }
-
-        CameraShake.Instance?.Shake(
-            0.6f + 0.1f * upgrade.level
         );
     }
 }

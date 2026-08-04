@@ -85,9 +85,10 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
-            Upgrade playerUpgrade = upgrade.Clone();
+            Upgrade playerUpgrade = Instantiate(upgrade.gameObject, transform.GetChild(0).transform).GetComponent<Upgrade>();
             playerUpgrade.level = 1;
             upgrades.Add(playerUpgrade);
+            
         }
 
         if (GameSession.instance != null)
@@ -95,6 +96,7 @@ public class PlayerStats : MonoBehaviour
             GameSession.instance.uiManager.RebuildUpgradeList(upgrades);
         }
     }
+    
 
     //check for/get specific upgrades, used for if we do weird extra upgrades later
     public bool HasUpgrade<T>() where T : Upgrade

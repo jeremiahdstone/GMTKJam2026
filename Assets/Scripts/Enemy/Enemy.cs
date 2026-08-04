@@ -325,8 +325,9 @@ public class Enemy : MonoBehaviour, IDamageable
         currentWaypoint = 0;
     }
 
-    public void Damage(float damage, Transform attacker = null)
+    public void Damage(float damage, GameObject attacker = null)
     {
+        GameEventManager.instance.EnemyHit(this.gameObject, attacker?.gameObject);
         currentHealth -= damage;
 
         PlayHitBounce();
@@ -351,7 +352,7 @@ public class Enemy : MonoBehaviour, IDamageable
             {
                 // any other death
                 // if you add an extra modifier for blood drops in general it should go here (and above also ig)
-                Die(1);
+                Die(1, true, attacker?.gameObject);
             }
 
         }
@@ -361,8 +362,10 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(float dropMultiplier, bool notifyDirector = true)
+    public void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
     {
+        GameEventManager.instance.EnemyDeath(this.gameObject, attacker?.gameObject);
+
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 
         //Drop items
