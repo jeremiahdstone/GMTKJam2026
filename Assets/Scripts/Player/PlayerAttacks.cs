@@ -149,17 +149,7 @@ public class PlayerAttacks : MonoBehaviour
 
         biteTimer = biteCooldown;
 
-        if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
-        {
-            int level =
-                playerStats.GetUpgrade<DoubleBiteUpgrade>().level;
-
-            if (Random.value < 0.1f * level)
-            {
-                biteTimer = 0;
-                Debug.Log("Double Bite triggered! Cooldown reset.");
-            }
-        }
+        
     }
 
 
