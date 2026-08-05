@@ -43,11 +43,11 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Vector2Int RandomNumDrops = new Vector2Int(1, 3);
 
     [Header("Hit Bounce")]
-    [SerializeField] private float hitSquashAmount = 0.85f;
-    [SerializeField] private float hitStretchAmount = 1.12f;
-    [SerializeField] private float hitSquashDuration = 0.06f;
-    [SerializeField] private float hitRecoverDuration = 0.14f;
-    [SerializeField] private Ease hitRecoverEase = Ease.OutBack;
+    [SerializeField] private float hitSquashAmount = 0.6f;
+    [SerializeField] private float hitStretchAmount = 1.45f;
+    [SerializeField] private float hitSquashDuration = 0.045f;
+    [SerializeField] private float hitRecoverDuration = 0.3f;
+    [SerializeField] private Ease hitRecoverEase = Ease.OutElastic;
 
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;

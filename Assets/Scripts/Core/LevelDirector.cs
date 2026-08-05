@@ -293,6 +293,18 @@ public class LevelDirector : MonoBehaviour
         }
     }
 
+    public void ReplaceEnemy(Enemy oldEnemy, Enemy newEnemy)
+    {
+        if (oldEnemy == null || newEnemy == null)
+            return;
+
+        if (LivingEnemies.Contains(oldEnemy.gameObject))
+        {
+            LivingEnemies.Remove(oldEnemy.gameObject);
+            LivingEnemies.Add(newEnemy.gameObject);
+        }
+    }
+
     private void SpawnArrows()
     {
         foreach (GameObject enemyObj in LivingEnemies)
