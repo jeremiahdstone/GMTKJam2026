@@ -1,7 +1,5 @@
 using UnityEngine;
-using Pathfinding;
 using DG.Tweening;
-using System.Collections;
 public enum Team
 {
     good,
@@ -18,24 +16,15 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private int attackDamage = 5;
 
     [Header("References")]
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Seeker seeker;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [SerializeField] public Transform target;
+    [Header("Movement")]
+    [Tooltip("Assign a component that implements IMovementModule (e.g. BasicMovementModule)")]
+    [SerializeField] private UnityEngine.MonoBehaviour movementModuleBehaviour;
+    private IMovementModule movementModule;
 
-    [Header("Pathfinding")]
-    [SerializeField] private float pathUpdateTime = 0.25f;
-    [SerializeField] private float nextWaypointDistance = 0.2f;
-    [SerializeField] private float stoppingDistance = 0.15f;
-
-    [Header("Enemy Avoidance")]
-    [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] private float avoidanceRadius = 0.8f;
-    [SerializeField] private float avoidanceStrength = 1.25f;
-
-    private Vector2 avoidanceDirection;
-    private Coroutine pathUpdateCoroutine;
+    
 
     [Header("In-Game Stats")]
     public float currentSpeed;
@@ -64,32 +53,25 @@ public class Enemy : MonoBehaviour, IDamageable
     private Vector3 originalVisualScale;
 
 
-    private Path path;
-    private int currentWaypoint;
-    private float nextPathUpdateTime;
-    private float lastHorizontalDirection = 1f;
+    
 
     private AudioSource audioSource;
 
 
 
-    IEnumerator updatePathOnInterval()
-    {
-        while (target != null)
-        {
-            UpdatePath();
-            ManeuverAroundNearbyEnemies();
-            yield return new WaitForSeconds(pathUpdateTime);
-        }
-    }
+    
 
     public virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        rb = GetComponent<Rigidbody2D>();
-        seeker = GetComponent<Seeker>();
-
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // bind movement module
+        movementModule = movementModuleBehaviour as IMovementModule;
+        if (movementModule == null)
+            movementModule = GetComponent<IMovementModule>();
+
+        movementModule?.Initialize(this);
 
         if (spriteRenderer != null)
         {
@@ -133,71 +115,19 @@ public class Enemy : MonoBehaviour, IDamageable
     // For when object pooling is called.
     public virtual void OnEnable()
     {
-        currentWaypoint = 0;
-        nextPathUpdateTime = 0f;
-        lastHorizontalDirection = 1f;
-
         currentSpeed = speed;
         currentHealth = maxHealth;
-        StartCoroutine(updatePathOnInterval());
+
+        movementModule?.OnEnableModule();
     }
 
     private void FixedUpdate()
     {
-        Move();
+        movementModule?.Move();
     }
 
-    public virtual void Move()
-    {
-        if (
-            target == null ||
-            path == null ||
-            path.vectorPath == null ||
-            path.vectorPath.Count == 0
-        )
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        while (
-            currentWaypoint < path.vectorPath.Count &&
-            Vector2.Distance(
-                rb.position,
-                path.vectorPath[currentWaypoint]
-            ) <= nextWaypointDistance
-        )
-        {
-            currentWaypoint++;
-        }
-
-        if (
-            currentWaypoint >= path.vectorPath.Count ||
-            Vector2.Distance(rb.position, target.position)
-                <= stoppingDistance
-        )
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        Vector2 waypoint = path.vectorPath[currentWaypoint];
-
-        Vector2 direction =
-            (waypoint - rb.position).normalized;
-
-        if (Mathf.Abs(direction.x) > 0.01f)
-        {
-            lastHorizontalDirection = Mathf.Sign(direction.x);
-        }
-
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.flipX = lastHorizontalDirection < 0f;
-        }
-
-        rb.linearVelocity = direction * currentSpeed;
-    }
+    
+    // Movement is delegated to an IMovementModule implementation.
 
     private void OnDisable()
     {
@@ -213,119 +143,16 @@ public class Enemy : MonoBehaviour, IDamageable
             spriteRenderer.transform.localScale = originalVisualScale;
         }
 
-        if (seeker != null)
-            seeker.CancelCurrentPathRequest();
-
-        if (path != null)
-        {
-            path.Release(this);
-            path = null;
-        }
-
-        if (rb != null)
-            rb.linearVelocity = Vector2.zero;
+        movementModule?.OnDisableModule();
     }
 
-    private void UpdatePath()
+    
+    public SpriteRenderer GetSpriteRenderer()
     {
-        if (target == null || seeker == null)
-            return;
-
-        if (Time.time < nextPathUpdateTime)
-            return;
-
-        // Do not start another request while one is still processing.
-        if (!seeker.IsDone())
-            return;
-
-        nextPathUpdateTime = Time.time + pathUpdateTime;
-
-        seeker.StartPath(
-            rb.position,
-            target.position,
-            OnPathComplete
-        );
+        return spriteRenderer;
     }
 
-    private void ManeuverAroundNearbyEnemies()
-    {
-        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(
-            transform.position,
-            avoidanceRadius,
-            enemyLayers
-        );
-
-        Vector2 totalAvoidance = Vector2.zero;
-        int nearbyCount = 0;
-
-        foreach (Collider2D nearbyCollider in nearbyEnemies)
-        {
-            if (nearbyCollider.attachedRigidbody == rb)
-                continue;
-
-            Enemy nearbyEnemy = nearbyCollider.GetComponent<Enemy>();
-            nearbyEnemy ??= nearbyCollider.GetComponentInParent<Enemy>();
-
-            if (nearbyEnemy == null || nearbyEnemy == this)
-                continue;
-
-            Vector2 awayDirection =
-                rb.position - (Vector2)nearbyEnemy.transform.position;
-
-            float distance = awayDirection.magnitude;
-
-            if (distance <= 0.001f)
-            {
-                awayDirection = Random.insideUnitCircle.normalized;
-                distance = 0.001f;
-            }
-
-            // Closer enemies produce a stronger avoidance force.
-            float closeness =
-                1f - Mathf.Clamp01(distance / avoidanceRadius);
-
-            totalAvoidance += awayDirection.normalized * closeness;
-            nearbyCount++;
-        }
-
-        if (nearbyCount > 0)
-        {
-            avoidanceDirection =
-                (totalAvoidance / nearbyCount).normalized;
-        }
-        else
-        {
-            avoidanceDirection = Vector2.zero;
-        }
-    }
-
-    private void OnPathComplete(Path newPath)
-    {
-        if (!isActiveAndEnabled)
-            return;
-
-        if (newPath.error)
-        {
-            Debug.LogWarning(
-                $"{name} failed to calculate a path: {newPath.errorLog}"
-            );
-
-            return;
-        }
-
-        // Release the previous path back into the path pool.
-        if (path != null)
-        {
-            path.Release(this);
-        }
-
-        path = newPath;
-        path.Claim(this);
-
-        currentWaypoint = 0;
-    }
-
-    public void Damage(float damage, GameObject attacker = null)
+    public virtual void Damage(float damage, GameObject attacker = null)
     {
         GameEventManager.instance.EnemyHit(this.gameObject, attacker?.gameObject);
         currentHealth -= damage;
@@ -362,7 +189,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
+    public virtual void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
     {
         GameEventManager.instance.EnemyDeath(this.gameObject, attacker?.gameObject);
 
@@ -422,7 +249,7 @@ public class Enemy : MonoBehaviour, IDamageable
         hitBounceTween = sequence;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Objective")
         {
