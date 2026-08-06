@@ -124,8 +124,10 @@ public class Enemy : MonoBehaviour, IDamageable
     // For when object pooling is called.
     public virtual void OnEnable()
     {
-        currentSpeed = speed;
-        currentHealth = maxHealth;
+        // Recalculate stats on enable so day-based scaling is applied
+        // (important for object pooling where Awake may have run earlier)
+        if (GameSession.instance != null)
+            CalculateStats(GameSession.instance.run.day);
 
         movementModule?.OnEnableModule();
     }

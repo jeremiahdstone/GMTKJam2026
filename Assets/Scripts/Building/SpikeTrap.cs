@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpikeTrap : Trap
 {
-    public float damage = 20f;
+    [SerializeField] private float damage = 20f;
+    [SerializeField] private float damageInterval = 1f;
+
+    private readonly Dictionary<Enemy, float> nextDamageTimes = new();
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,8 +15,39 @@ public class SpikeTrap : Trap
         if (enemy == null)
             return;
 
-        enemy.Damage(damage);
+        DamageEnemy(enemy);
+    }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy == null)
+            return;
+
+        if (!nextDamageTimes.TryGetValue(enemy, out float nextDamageTime))
+        {
+            DamageEnemy(enemy);
+            return;
+        }
+
+        if (Time.time >= nextDamageTime)
+            DamageEnemy(enemy);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy != null)
+            nextDamageTimes.Remove(enemy);
+    }
+
+    private void DamageEnemy(Enemy enemy)
+    {
+        enemy.Damage(damage);
         TriggerTrap(enemy);
+
+        nextDamageTimes[enemy] = Time.time + damageInterval;
     }
 }

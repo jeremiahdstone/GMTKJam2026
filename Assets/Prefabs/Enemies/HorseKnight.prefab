@@ -56,7 +56,7 @@ MonoBehaviour:
   speed: 3
   attackDamage: 10
   healthIncreasePercentagePerDay: 0.1
-  speedIncreasePercentagePerDay: 0
+  speedIncreasePercentagePerDay: 0.005
   damageIncreasePercentagePerDay: 0.15
   spriteRenderer: {fileID: 0}
   movementModuleBehaviour: {fileID: 0}
@@ -66,7 +66,7 @@ MonoBehaviour:
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
   DeathDrop: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-  RandomNumDrops: {x: 1, y: 3}
+  RandomNumDrops: {x: 3, y: 4}
   hitSquashAmount: 0.6
   hitStretchAmount: 1.45
   hitSquashDuration: 0.045
