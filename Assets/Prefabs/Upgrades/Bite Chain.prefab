@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7676866288643363827}
-  - component: {fileID: -6901696661965475609}
   - component: {fileID: 2889573139707109590}
+  - component: {fileID: -5369875073104371113}
   m_Layer: 0
-  m_Name: Explosive Bite
+  m_Name: Bite Chain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,30 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6901696661965475609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1980326058473676426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dc9228e6f85d684388d27e7bfb8028d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveBiteUpgrade
-  id: explosive_bite
-  name: Explosive Bite
-  description: big explosion when you fully charge bite. kablooey!
-  sprite: {fileID: -1379133172, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
-  cost: 14
-  level: 1
-  explosiveDamage: 8
-  explosiveRadius: 2
-  ExplosionEffect: {fileID: 3999954187018070181, guid: 1a723e1e122c555449dcb9bc65f9229d, type: 3}
-  damageableLayers:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!212 &2889573139707109590
 SpriteRenderer:
   serializedVersion: 2
@@ -106,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1379133172, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  m_Sprite: {fileID: -3736940077134149403, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,3 +92,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-5369875073104371113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980326058473676426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e220663ab2add4bbbab5269b10f431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BiteChainUpgrade
+  id: bite_chain
+  name: Bite Chain
+  description: Chance for Bite cooldown to reset immediatley after Bite.
+  sprite: {fileID: -3736940077134149403, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
+  cost: 16
+  level: 1

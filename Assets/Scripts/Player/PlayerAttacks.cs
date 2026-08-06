@@ -149,17 +149,7 @@ public class PlayerAttacks : MonoBehaviour
 
         biteTimer = biteCooldown;
 
-        if (playerStats.HasUpgrade<DoubleBiteUpgrade>())
-        {
-            int level =
-                playerStats.GetUpgrade<DoubleBiteUpgrade>().level;
-
-            if (Random.value < 0.1f * level)
-            {
-                biteTimer = 0;
-                Debug.Log("Double Bite triggered! Cooldown reset.");
-            }
-        }
+        
     }
 
 
@@ -306,46 +296,4 @@ public class PlayerAttacks : MonoBehaviour
         });
     }
 
-    public void BatExplosion()
-    {
-        if (!playerStats.HasUpgrade<BatExplosionUpgrade>())
-            return;
-
-        BatExplosionUpgrade upgrade =
-            playerStats.GetUpgrade<BatExplosionUpgrade>();
-
-        float damage = batExplosionDamage + ((upgrade.level - 1) * 4f);
-        float radius = batExplosionRadius + ((upgrade.level - 1) * 0.25f);
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position,
-            radius,
-            damageableLayers
-        );
-
-        foreach (Collider2D hit in hits)
-        {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            enemy ??= hit.GetComponentInParent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.Damage(damage, gameObject);
-            }
-        }
-
-        if (batExplosionEffect != null)
-        {
-            Instantiate(
-                batExplosionEffect,
-                transform.position,
-                Quaternion.identity
-            );
-        }
-
-        // Slightly stronger shake as it levels up.
-        CameraShake.Instance?.Shake(
-            0.75f + 0.1f * upgrade.level
-        );
-    }
 }
