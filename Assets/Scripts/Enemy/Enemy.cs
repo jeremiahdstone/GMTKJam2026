@@ -1,7 +1,5 @@
 using UnityEngine;
-using Pathfinding;
 using DG.Tweening;
-using System.Collections;
 public enum Team
 {
     good,
@@ -16,26 +14,18 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] public float maxHealth = 50f;
     [SerializeField] private float speed = 5f;
     [SerializeField] private int attackDamage = 5;
-
+    [SerializeField] private float healthIncreasePercentagePerDay = 0.1f;
+    [SerializeField] private float speedIncreasePercentagePerDay = 0f;
+    [SerializeField] private float damageIncreasePercentagePerDay = 0.15f;
     [Header("References")]
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Seeker seeker;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    [SerializeField] public Transform target;
+    [Header("Movement")]
+    [Tooltip("Assign a component that implements IMovementModule (e.g. BasicMovementModule)")]
+    [SerializeField] private UnityEngine.MonoBehaviour movementModuleBehaviour;
+    public IMovementModule movementModule;
 
-    [Header("Pathfinding")]
-    [SerializeField] private float pathUpdateTime = 0.25f;
-    [SerializeField] private float nextWaypointDistance = 0.2f;
-    [SerializeField] private float stoppingDistance = 0.15f;
-
-    [Header("Enemy Avoidance")]
-    [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] private float avoidanceRadius = 0.8f;
-    [SerializeField] private float avoidanceStrength = 1.25f;
-
-    private Vector2 avoidanceDirection;
-    private Coroutine pathUpdateCoroutine;
+    
 
     [Header("In-Game Stats")]
     public float currentSpeed;
@@ -54,42 +44,35 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Vector2Int RandomNumDrops = new Vector2Int(1, 3);
 
     [Header("Hit Bounce")]
-    [SerializeField] private float hitSquashAmount = 0.85f;
-    [SerializeField] private float hitStretchAmount = 1.12f;
-    [SerializeField] private float hitSquashDuration = 0.06f;
-    [SerializeField] private float hitRecoverDuration = 0.14f;
-    [SerializeField] private Ease hitRecoverEase = Ease.OutBack;
+    [SerializeField] private float hitSquashAmount = 0.6f;
+    [SerializeField] private float hitStretchAmount = 1.45f;
+    [SerializeField] private float hitSquashDuration = 0.045f;
+    [SerializeField] private float hitRecoverDuration = 0.3f;
+    [SerializeField] private Ease hitRecoverEase = Ease.OutElastic;
 
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
 
 
-    private Path path;
-    private int currentWaypoint;
-    private float nextPathUpdateTime;
-    private float lastHorizontalDirection = 1f;
+    
 
     private AudioSource audioSource;
 
 
 
-    IEnumerator updatePathOnInterval()
-    {
-        while (target != null)
-        {
-            UpdatePath();
-            ManeuverAroundNearbyEnemies();
-            yield return new WaitForSeconds(pathUpdateTime);
-        }
-    }
+    
 
     public virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        rb = GetComponent<Rigidbody2D>();
-        seeker = GetComponent<Seeker>();
-
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        // bind movement module
+        movementModule = movementModuleBehaviour as IMovementModule;
+        if (movementModule == null)
+            movementModule = GetComponent<IMovementModule>();
+
+        movementModule?.Initialize(this);
 
         if (spriteRenderer != null)
         {
@@ -97,8 +80,16 @@ public class Enemy : MonoBehaviour, IDamageable
             originalVisualScale = spriteRenderer.transform.localScale;
         }
 
-        if (target == null && team == Team.bad)
-            target = GameObject.FindGameObjectWithTag("Objective").transform;
+        
+
+        CalculateStats(GameSession.instance.run.day);
+    }
+
+    public virtual void CalculateStats(int day)
+    {
+        currentHealth = maxHealth + (maxHealth * day * healthIncreasePercentagePerDay);
+        currentSpeed = speed + (speed * day * speedIncreasePercentagePerDay);
+        attackDamage = Mathf.RoundToInt(attackDamage + (attackDamage * day * damageIncreasePercentagePerDay));
     }
 
 
@@ -133,71 +124,21 @@ public class Enemy : MonoBehaviour, IDamageable
     // For when object pooling is called.
     public virtual void OnEnable()
     {
-        currentWaypoint = 0;
-        nextPathUpdateTime = 0f;
-        lastHorizontalDirection = 1f;
+        // Recalculate stats on enable so day-based scaling is applied
+        // (important for object pooling where Awake may have run earlier)
+        if (GameSession.instance != null)
+            CalculateStats(GameSession.instance.run.day);
 
-        currentSpeed = speed;
-        currentHealth = maxHealth;
-        StartCoroutine(updatePathOnInterval());
+        movementModule?.OnEnableModule();
     }
 
     private void FixedUpdate()
     {
-        Move();
+        movementModule?.Move();
     }
 
-    public virtual void Move()
-    {
-        if (
-            target == null ||
-            path == null ||
-            path.vectorPath == null ||
-            path.vectorPath.Count == 0
-        )
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        while (
-            currentWaypoint < path.vectorPath.Count &&
-            Vector2.Distance(
-                rb.position,
-                path.vectorPath[currentWaypoint]
-            ) <= nextWaypointDistance
-        )
-        {
-            currentWaypoint++;
-        }
-
-        if (
-            currentWaypoint >= path.vectorPath.Count ||
-            Vector2.Distance(rb.position, target.position)
-                <= stoppingDistance
-        )
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        Vector2 waypoint = path.vectorPath[currentWaypoint];
-
-        Vector2 direction =
-            (waypoint - rb.position).normalized;
-
-        if (Mathf.Abs(direction.x) > 0.01f)
-        {
-            lastHorizontalDirection = Mathf.Sign(direction.x);
-        }
-
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.flipX = lastHorizontalDirection < 0f;
-        }
-
-        rb.linearVelocity = direction * currentSpeed;
-    }
+    
+    // Movement is delegated to an IMovementModule implementation.
 
     private void OnDisable()
     {
@@ -213,119 +154,16 @@ public class Enemy : MonoBehaviour, IDamageable
             spriteRenderer.transform.localScale = originalVisualScale;
         }
 
-        if (seeker != null)
-            seeker.CancelCurrentPathRequest();
-
-        if (path != null)
-        {
-            path.Release(this);
-            path = null;
-        }
-
-        if (rb != null)
-            rb.linearVelocity = Vector2.zero;
+        movementModule?.OnDisableModule();
     }
 
-    private void UpdatePath()
+    
+    public SpriteRenderer GetSpriteRenderer()
     {
-        if (target == null || seeker == null)
-            return;
-
-        if (Time.time < nextPathUpdateTime)
-            return;
-
-        // Do not start another request while one is still processing.
-        if (!seeker.IsDone())
-            return;
-
-        nextPathUpdateTime = Time.time + pathUpdateTime;
-
-        seeker.StartPath(
-            rb.position,
-            target.position,
-            OnPathComplete
-        );
+        return spriteRenderer;
     }
 
-    private void ManeuverAroundNearbyEnemies()
-    {
-        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(
-            transform.position,
-            avoidanceRadius,
-            enemyLayers
-        );
-
-        Vector2 totalAvoidance = Vector2.zero;
-        int nearbyCount = 0;
-
-        foreach (Collider2D nearbyCollider in nearbyEnemies)
-        {
-            if (nearbyCollider.attachedRigidbody == rb)
-                continue;
-
-            Enemy nearbyEnemy = nearbyCollider.GetComponent<Enemy>();
-            nearbyEnemy ??= nearbyCollider.GetComponentInParent<Enemy>();
-
-            if (nearbyEnemy == null || nearbyEnemy == this)
-                continue;
-
-            Vector2 awayDirection =
-                rb.position - (Vector2)nearbyEnemy.transform.position;
-
-            float distance = awayDirection.magnitude;
-
-            if (distance <= 0.001f)
-            {
-                awayDirection = Random.insideUnitCircle.normalized;
-                distance = 0.001f;
-            }
-
-            // Closer enemies produce a stronger avoidance force.
-            float closeness =
-                1f - Mathf.Clamp01(distance / avoidanceRadius);
-
-            totalAvoidance += awayDirection.normalized * closeness;
-            nearbyCount++;
-        }
-
-        if (nearbyCount > 0)
-        {
-            avoidanceDirection =
-                (totalAvoidance / nearbyCount).normalized;
-        }
-        else
-        {
-            avoidanceDirection = Vector2.zero;
-        }
-    }
-
-    private void OnPathComplete(Path newPath)
-    {
-        if (!isActiveAndEnabled)
-            return;
-
-        if (newPath.error)
-        {
-            Debug.LogWarning(
-                $"{name} failed to calculate a path: {newPath.errorLog}"
-            );
-
-            return;
-        }
-
-        // Release the previous path back into the path pool.
-        if (path != null)
-        {
-            path.Release(this);
-        }
-
-        path = newPath;
-        path.Claim(this);
-
-        currentWaypoint = 0;
-    }
-
-    public void Damage(float damage, GameObject attacker = null)
+    public virtual void Damage(float damage, GameObject attacker = null)
     {
         GameEventManager.instance.EnemyHit(this.gameObject, attacker?.gameObject);
         currentHealth -= damage;
@@ -362,7 +200,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    public void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
+    public virtual void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
     {
         GameEventManager.instance.EnemyDeath(this.gameObject, attacker?.gameObject);
 
@@ -422,14 +260,14 @@ public class Enemy : MonoBehaviour, IDamageable
         hitBounceTween = sequence;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Objective")
         {
             GameSession.instance.DamageCastle(attackDamage);
 
             // TEMPORARY: for now, when they reach it, they just die
-            Die(0);
+            Die(0, true, collision.gameObject);
         }
     }
 }

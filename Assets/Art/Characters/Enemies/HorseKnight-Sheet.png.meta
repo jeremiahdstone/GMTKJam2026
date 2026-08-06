@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 6ce5ffddd1051ff409c75875f80e0198
+guid: 05a84379f305f6d4c8375735a974e60e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9661163952761779
-    second: TorchFarmer-Sheet_0
+      213: 4728703012335876492
+    second: HorseKnight-Sheet_0
   - first:
-      213: 2022062037173462263
-    second: TorchFarmer-Sheet_1
+      213: 6195177603234023547
+    second: HorseKnight-Sheet_1
   - first:
-      213: 1943451879786868446
-    second: TorchFarmer-Sheet_2
+      213: 6794843789939759684
+    second: HorseKnight-Sheet_2
   - first:
-      213: 254275617390981280
-    second: TorchFarmer-Sheet_3
+      213: 7749521085157661740
+    second: HorseKnight-Sheet_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TorchFarmer-Sheet_0
+      name: HorseKnight-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 24
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3bb658507c2522000800000000000000
-      internalID: 9661163952761779
+      spriteID: c897992065abf9140800000000000000
+      internalID: 4728703012335876492
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TorchFarmer-Sheet_1
+      name: HorseKnight-Sheet_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 24
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 24
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f4e68f95becf0c10800000000000000
-      internalID: 2022062037173462263
+      spriteID: b784839e431b9f550800000000000000
+      internalID: 6195177603234023547
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TorchFarmer-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: edee2c4103788fa10800000000000000
-      internalID: 1943451879786868446
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TorchFarmer-Sheet_3
+      name: HorseKnight-Sheet_2
       rect:
         serializedVersion: 2
         x: 48
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 24
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a0f1a9a35e578300800000000000000
-      internalID: 254275617390981280
+      spriteID: 44ad0a32d622c4e50800000000000000
+      internalID: 6794843789939759684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HorseKnight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2cd8344e54db8b60800000000000000
+      internalID: 7749521085157661740
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: eb07bb94866887f4da0d5ac4b163075d
+    spriteID: 164b348f5e3d6c9498956bcff2a00689
     internalID: 0
     vertices: []
     indices: 
@@ -223,12 +223,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":24.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      TorchFarmer-Sheet_0: 9661163952761779
-      TorchFarmer-Sheet_1: 2022062037173462263
-      TorchFarmer-Sheet_2: 1943451879786868446
-      TorchFarmer-Sheet_3: 254275617390981280
+      HorseKnight-Sheet_0: 4728703012335876492
+      HorseKnight-Sheet_1: 6195177603234023547
+      HorseKnight-Sheet_2: 6794843789939759684
+      HorseKnight-Sheet_3: 7749521085157661740
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

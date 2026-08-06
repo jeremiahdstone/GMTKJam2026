@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
   - component: {fileID: 2090970800905648150}
+  - component: {fileID: -7977369495286338203}
   m_Layer: 8
   m_Name: BarbarianEnemy
   m_TagString: Untagged
@@ -53,26 +54,19 @@ MonoBehaviour:
   cost: 5
   maxHealth: 40
   speed: 1
-  attackDamage: 5
-  rb: {fileID: 0}
-  seeker: {fileID: 0}
+  attackDamage: 20
+  healthIncreasePercentagePerDay: 0.1
+  speedIncreasePercentagePerDay: 0.01
+  damageIncreasePercentagePerDay: 0.15
   spriteRenderer: {fileID: 0}
-  target: {fileID: 0}
-  pathUpdateTime: 0.25
-  nextWaypointDistance: 0.7
-  stoppingDistance: 0.15
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  avoidanceRadius: 0.8
-  avoidanceStrength: 1.25
+  movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 10
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
   DeathDrop: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
-  RandomNumDrops: {x: 12, y: 18}
+  RandomNumDrops: {x: 6, y: 10}
   hitSquashAmount: 0.6
   hitStretchAmount: 1.45
   hitSquashDuration: 0.045
@@ -191,6 +185,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7977369495286338203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396696151560761607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5d56d3e37d8bd429a948a28bedf22d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BasicMovementModule
+  target: {fileID: 0}
+  pathUpdateTime: 0.25
+  nextWaypointDistance: 0.2
+  stoppingDistance: 0.15
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  avoidanceRadius: 0.8
+  avoidanceStrength: 1.25
 --- !u!1 &8277493543240117614
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6315077851119187401}
   - component: {fileID: 7593489341582643733}
-  - component: {fileID: 3465530854014740740}
   - component: {fileID: 3838507578622217673}
+  - component: {fileID: 3548996121230723722}
   m_Layer: 7
   m_Name: BrambleTrap
   m_TagString: Untagged
@@ -87,14 +87,34 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_DrawMode: 2
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!58 &3465530854014740740
-CircleCollider2D:
+--- !u!114 &3838507578622217673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7041539872429675719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5169f47998aac4a99674f08476d098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrambleTrap
+  canPickUp: 1
+  size: {x: 2, y: 2}
+  singleUse: 0
+  trapName: Bramble Trap
+  description: Slows enemies while they move through it.
+  cost: 12
+  icon: {fileID: -4129208072717313571, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
+  slowMultiplier: 0.5
+--- !u!61 &3548996121230723722
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,25 +147,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
---- !u!114 &3838507578622217673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7041539872429675719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5169f47998aac4a99674f08476d098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BrambleTrap
-  canPickUp: 1
-  size: {x: 1, y: 1}
-  singleUse: 0
-  trapName: Bramble Trap
-  description: Slows enemies while they move through it.
-  cost: 12
-  icon: {fileID: -4129208072717313571, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
-  slowMultiplier: 0.5
+  m_Offset: {x: 0, y: -0.0043926835}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0.25, z: 0, w: 0.125}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3, y: 2.0278673}
+  m_EdgeRadius: 0

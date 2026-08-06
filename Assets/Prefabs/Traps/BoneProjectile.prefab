@@ -178,7 +178,7 @@ MonoBehaviour:
   smokePuff: {fileID: 6582616140547153052, guid: 9c725d1288cb2674ba5dc11c00f86c14, type: 3}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!82 &7883496344370599412
 AudioSource:
   m_ObjectHideFlags: 0
