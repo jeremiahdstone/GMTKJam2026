@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   team: 1
   cost: 2
-  maxHealth: 25
+  maxHealth: 20
   speed: 2
   attackDamage: 10
   healthIncreasePercentagePerDay: 0.1
