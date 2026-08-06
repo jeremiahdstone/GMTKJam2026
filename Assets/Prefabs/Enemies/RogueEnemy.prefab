@@ -167,9 +167,11 @@ MonoBehaviour:
   cost: 3
   maxHealth: 20
   speed: 3
-  attackDamage: 5
+  attackDamage: 7
+  healthIncreasePercentagePerDay: 0.1
+  speedIncreasePercentagePerDay: 0.05
+  damageIncreasePercentagePerDay: 0.15
   spriteRenderer: {fileID: 0}
-  target: {fileID: 0}
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 10
@@ -286,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5d56d3e37d8bd429a948a28bedf22d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicMovementModule
+  target: {fileID: 0}
   pathUpdateTime: 0.25
   nextWaypointDistance: 0.2
   stoppingDistance: 0.15

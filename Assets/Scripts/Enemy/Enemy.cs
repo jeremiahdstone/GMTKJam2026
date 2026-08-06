@@ -14,15 +14,16 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] public float maxHealth = 50f;
     [SerializeField] private float speed = 5f;
     [SerializeField] private int attackDamage = 5;
-
+    [SerializeField] private float healthIncreasePercentagePerDay = 0.1f;
+    [SerializeField] private float speedIncreasePercentagePerDay = 0f;
+    [SerializeField] private float damageIncreasePercentagePerDay = 0.15f;
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    [SerializeField] public Transform target;
     [Header("Movement")]
     [Tooltip("Assign a component that implements IMovementModule (e.g. BasicMovementModule)")]
     [SerializeField] private UnityEngine.MonoBehaviour movementModuleBehaviour;
-    private IMovementModule movementModule;
+    public IMovementModule movementModule;
 
     
 
@@ -79,8 +80,16 @@ public class Enemy : MonoBehaviour, IDamageable
             originalVisualScale = spriteRenderer.transform.localScale;
         }
 
-        if (target == null && team == Team.bad)
-            target = GameObject.FindGameObjectWithTag("Objective").transform;
+        
+
+        CalculateStats(GameSession.instance.run.day);
+    }
+
+    public virtual void CalculateStats(int day)
+    {
+        currentHealth = maxHealth + (maxHealth * day * healthIncreasePercentagePerDay);
+        currentSpeed = speed + (speed * day * speedIncreasePercentagePerDay);
+        attackDamage = Mathf.RoundToInt(attackDamage + (attackDamage * day * damageIncreasePercentagePerDay));
     }
 
 
@@ -256,7 +265,7 @@ public class Enemy : MonoBehaviour, IDamageable
             GameSession.instance.DamageCastle(attackDamage);
 
             // TEMPORARY: for now, when they reach it, they just die
-            Die(0);
+            Die(0, true, collision.gameObject);
         }
     }
 }

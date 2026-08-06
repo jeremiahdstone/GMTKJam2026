@@ -6,5 +6,8 @@ public interface IMovementModule
     void OnEnableModule();
     void OnDisableModule();
     void Move();
+
+    void SetTarget(Transform newTarget);
+    Transform GetTarget();
 }
 

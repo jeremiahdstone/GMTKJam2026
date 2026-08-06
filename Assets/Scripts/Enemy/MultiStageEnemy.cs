@@ -5,6 +5,7 @@ public class MultiStageEnemy : Enemy
     [Header("Spawn On Death")]
     [SerializeField] private Enemy enemyToSpawn;
     [SerializeField] private bool transferTarget = true;
+    bool shouldSpawnOnDeath = true;
 
     private bool isDying;
 
@@ -19,6 +20,14 @@ public class MultiStageEnemy : Enemy
         bool notifyDirector = true,
         GameObject attacker = null)
     {
+        if(attacker != null)
+        {
+            if(attacker.CompareTag("Objective"))
+            {
+                shouldSpawnOnDeath = false;
+            }
+        }
+
         // Prevent multiple damage calls from spawning multiple enemies
         // before Destroy finishes at the end of the frame.
         if (isDying)
@@ -28,7 +37,7 @@ public class MultiStageEnemy : Enemy
 
         Enemy spawnedEnemy = null;
 
-        if (enemyToSpawn != null)
+        if (enemyToSpawn != null && shouldSpawnOnDeath)
         {
             spawnedEnemy = Instantiate(
                 enemyToSpawn,
@@ -37,7 +46,7 @@ public class MultiStageEnemy : Enemy
             );
 
             if (transferTarget)
-                spawnedEnemy.target = target;
+                spawnedEnemy.movementModule.SetTarget(movementModule.GetTarget());
 
             if (LevelDirector.instance != null)
             {

@@ -5,6 +5,7 @@ using System.Collections;
 public class BasicMovementModule : MonoBehaviour, IMovementModule
 {
     [Header("Pathfinding")]
+    public Transform target;
     [SerializeField] private float pathUpdateTime = 0.25f;
     [SerializeField] private float nextWaypointDistance = 0.2f;
     [SerializeField] private float stoppingDistance = 0.15f;
@@ -32,6 +33,8 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         this.enemy = enemy;
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
+        if (target == null && enemy.team == Team.bad)
+            target = GameObject.FindGameObjectWithTag("Objective").transform;
     }
 
     public void OnEnableModule()
@@ -69,7 +72,7 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
 
     private IEnumerator UpdatePathOnInterval()
     {
-        while (enemy != null && enemy.target != null)
+        while (enemy != null && target != null)
         {
             UpdatePath();
             ManeuverAroundNearbyEnemies();
@@ -82,7 +85,7 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         if (enemy == null)
             return;
 
-        if (enemy.target == null || path == null || path.vectorPath == null || path.vectorPath.Count == 0)
+        if (target == null || path == null || path.vectorPath == null || path.vectorPath.Count == 0)
         {
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
@@ -94,7 +97,7 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
             currentWaypoint++;
         }
 
-        if (currentWaypoint >= path.vectorPath.Count || Vector2.Distance(rb.position, enemy.target.position) <= stoppingDistance)
+        if (currentWaypoint >= path.vectorPath.Count || Vector2.Distance(rb.position, target.position) <= stoppingDistance)
         {
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
@@ -120,7 +123,7 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
 
     private void UpdatePath()
     {
-        if (enemy == null || enemy.target == null || seeker == null || rb == null)
+        if (enemy == null || target == null || seeker == null || rb == null)
             return;
 
         if (Time.time < nextPathUpdateTime)
@@ -131,7 +134,7 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
 
         nextPathUpdateTime = Time.time + pathUpdateTime;
 
-        seeker.StartPath(rb.position, enemy.target.position, OnPathComplete);
+        seeker.StartPath(rb.position, target.position, OnPathComplete);
     }
 
     private void ManeuverAroundNearbyEnemies()
@@ -200,5 +203,16 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         path.Claim(this);
 
         currentWaypoint = 0;
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        UpdatePath();
+    }
+
+    public Transform GetTarget()
+    {
+        return target;
     }
 }
