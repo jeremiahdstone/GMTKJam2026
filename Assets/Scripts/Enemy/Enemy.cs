@@ -19,13 +19,14 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float damageIncreasePercentagePerDay = 0.15f;
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Material materialInstance;
 
     [Header("Movement")]
     [Tooltip("Assign a component that implements IMovementModule (e.g. BasicMovementModule)")]
     [SerializeField] private UnityEngine.MonoBehaviour movementModuleBehaviour;
     public IMovementModule movementModule;
 
-    
+
 
     [Header("In-Game Stats")]
     public float currentSpeed;
@@ -36,8 +37,14 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject DamageNumEffect;
 
-    private Tween biteRangePulse;
-    private Color originalSpriteColor;
+    [Header("Bite Range Outline")]
+    [SerializeField] private float fullOutlineDistance = 2f;
+    [SerializeField] private float maxOutlineDistance = 5f;
+
+    private MaterialPropertyBlock materialPropertyBlock;
+    private static readonly int OutlineColorID = Shader.PropertyToID("_OutlineColor");
+
+    [SerializeField] private Color outlineColor = new Color(1f, 0.38f, 0.34f, 1f);
 
     [Header("Drops")]
     [SerializeField] private GameObject DeathDrop;
@@ -54,18 +61,20 @@ public class Enemy : MonoBehaviour, IDamageable
     private Vector3 originalVisualScale;
 
 
-    
+
 
     private AudioSource audioSource;
 
 
 
-    
+
 
     public virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        materialPropertyBlock = new MaterialPropertyBlock();
 
         // bind movement module
         movementModule = movementModuleBehaviour as IMovementModule;
@@ -76,11 +85,13 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if (spriteRenderer != null)
         {
-            originalSpriteColor = spriteRenderer.color;
             originalVisualScale = spriteRenderer.transform.localScale;
         }
 
-        
+        if (materialInstance != null)
+        {
+            spriteRenderer.material = materialInstance;
+        }
 
         CalculateStats(GameSession.instance.run.day);
     }
@@ -94,31 +105,34 @@ public class Enemy : MonoBehaviour, IDamageable
 
 
 
-    public void SetBiteRangeHighlight(bool highlighted)
+    public void SetBiteRangeHighlight(bool highlighted, Vector3 playerPosition)
     {
         if (spriteRenderer == null)
             return;
 
-        // Stop any color tween already affecting this SpriteRenderer.
-        spriteRenderer.DOKill();
+        float alpha = 0f;
 
         if (highlighted)
         {
-            ColorUtility.TryParseHtmlString("#FF6157", out Color paletteRed);
+            float distance = Vector3.Distance(
+                transform.position,
+                playerPosition
+            );
 
-            biteRangePulse = spriteRenderer
-                .DOColor(paletteRed, 0.6f)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo);
+            alpha = Mathf.InverseLerp(
+                maxOutlineDistance,
+                fullOutlineDistance,
+                distance
+            );
         }
-        else
-        {
-            biteRangePulse = null;
 
-            spriteRenderer
-                .DOColor(originalSpriteColor, 0.15f)
-                .SetEase(Ease.OutSine);
-        }
+        spriteRenderer.GetPropertyBlock(materialPropertyBlock);
+
+        Color color = outlineColor;
+        color.a = alpha;
+
+        materialPropertyBlock.SetColor(OutlineColorID, color);
+        spriteRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
     // For when object pooling is called.
@@ -137,27 +151,24 @@ public class Enemy : MonoBehaviour, IDamageable
         movementModule?.Move();
     }
 
-    
+
     // Movement is delegated to an IMovementModule implementation.
 
     private void OnDisable()
     {
-        biteRangePulse?.Kill();
         hitBounceTween?.Kill();
 
-        biteRangePulse = null;
         hitBounceTween = null;
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.color = originalSpriteColor;
             spriteRenderer.transform.localScale = originalVisualScale;
         }
 
         movementModule?.OnDisableModule();
     }
 
-    
+
     public SpriteRenderer GetSpriteRenderer()
     {
         return spriteRenderer;
