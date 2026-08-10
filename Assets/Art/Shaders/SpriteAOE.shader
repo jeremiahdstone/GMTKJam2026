@@ -6,11 +6,16 @@ Shader "Custom/AOECircle"
 
         _Radius ("Circle Radius", Range(0.1, 0.5)) = 0.45
 
+        [Header(Edge)]
         _BorderSize ("Solid Border (Pixels)", Float) = 1.0
 
-        _FadeSize ("Fade Into Circle (Pixels)", Float) = 3.0
+        [Header(Inner Fade)]
+        [Toggle] _EnableInnerFade ("Enable Inner Fade", Float) = 0
+        _InnerPercent ("Inner Fade Percent", Range(0, 100)) = 20.0
 
-        _OuterFade ("Fade Outside Circle (Pixels)", Float) = 0.0
+        [Header(Outer Fade)]
+        [Toggle] _EnableOuterFade ("Enable Outer Fade", Float) = 0
+        _OuterPercent ("Outer Fade Percent", Range(0, 100)) = 20.0
 
         _Alpha ("Alpha", Range(0, 1)) = 1.0
     }
@@ -53,9 +58,15 @@ Shader "Custom/AOECircle"
             fixed4 _Color;
 
             float _Radius;
+
             float _BorderSize;
-            float _FadeSize;
-            float _OuterFade;
+
+            float _EnableInnerFade;
+            float _InnerPercent;
+
+            float _EnableOuterFade;
+            float _OuterPercent;
+
             float _Alpha;
 
 
@@ -72,145 +83,151 @@ Shader "Custom/AOECircle"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                // -----------------------------------------------------
-                // Center the UV coordinates
-                // -----------------------------------------------------
+                // =====================================================
+                // CIRCLE
+                // =====================================================
 
                 float2 centeredUV = i.uv - 0.5;
 
+                float distanceFromCenter =
+                    length(centeredUV);
 
-                // -----------------------------------------------------
-                // Calculate circular distance
-                // -----------------------------------------------------
-
-                float distanceFromCenter = length(centeredUV);
+                float edgeDistance =
+                    _Radius - distanceFromCenter;
 
 
-                // -----------------------------------------------------
-                // Get a CONSTANT pixel size
-                //
-                // IMPORTANT:
-                // Do NOT use fwidth(distanceFromCenter).
-                //
-                // fwidth on the radial distance changes depending on
-                // direction and causes the diamond-shaped artifact.
-                //
-                // Instead, measure the UV change across one screen
-                // pixel directly.
-                // -----------------------------------------------------
+                // =====================================================
+                // NOTHING OUTSIDE THE CIRCLE
+                // =====================================================
+
+                if (edgeDistance < 0.0)
+                {
+                    return fixed4(0, 0, 0, 0);
+                }
+
+
+                // =====================================================
+                // PIXEL SIZE
+                // =====================================================
 
                 float pixelSizeX = fwidth(i.uv.x);
                 float pixelSizeY = fwidth(i.uv.y);
 
-                float pixelSize = max(pixelSizeX, pixelSizeY);
+                float pixelSize =
+                    max(pixelSizeX, pixelSizeY);
 
-
-                // -----------------------------------------------------
-                // Convert pixel settings into UV distance
-                // -----------------------------------------------------
 
                 float borderSize =
                     _BorderSize * pixelSize;
 
-                float fadeSize =
-                    _FadeSize * pixelSize;
-
-                float outerFadeSize =
-                    _OuterFade * pixelSize;
-
-
-                // -----------------------------------------------------
-                // Distance from circle edge
-                //
-                // Negative = inside
-                // Positive = outside
-                // -----------------------------------------------------
-
-                float edgeDistance =
-                    distanceFromCenter - _Radius;
-
 
                 // =====================================================
-                // OUTSIDE CIRCLE
+                // OUTER FADE + BORDER
                 // =====================================================
 
-                if (edgeDistance > 0)
+                if (_EnableOuterFade > 0.5)
                 {
-                    if (_OuterFade <= 0)
+                    float outerDistance =
+                        _Radius *
+                        (_OuterPercent / 100.0);
+
+
+                    // Make sure the outer fade has a valid size.
+
+                    if (outerDistance > 0.00001)
                     {
-                        return fixed4(0, 0, 0, 0);
+                        float fadeStart =
+                            _Radius - outerDistance;
+
+
+                        // -------------------------------------------------
+                        // SOLID BORDER
+                        // -------------------------------------------------
+
+                        if (edgeDistance <= borderSize)
+                        {
+                            return fixed4(
+                                _Color.rgb,
+                                _Color.a * _Alpha
+                            );
+                        }
+
+
+                        // -------------------------------------------------
+                        // OUTER FADE
+                        // -------------------------------------------------
+
+                        if (distanceFromCenter >= fadeStart)
+                        {
+                            float progress =
+                                (distanceFromCenter - fadeStart)
+                                / outerDistance;
+
+
+                            float alpha =
+                                smoothstep(
+                                    0.0,
+                                    1.0,
+                                    progress
+                                );
+
+
+                            alpha *= _Color.a;
+                            alpha *= _Alpha;
+
+
+                            return fixed4(
+                                _Color.rgb,
+                                alpha
+                            );
+                        }
                     }
-
-                    float outerAlpha =
-                        1.0 -
-                        smoothstep(
-                            0.0,
-                            outerFadeSize,
-                            edgeDistance
-                        );
-
-                    outerAlpha *= _Color.a;
-                    outerAlpha *= _Alpha;
-
-                    return fixed4(
-                        _Color.rgb,
-                        outerAlpha
-                    );
                 }
 
 
                 // =====================================================
-                // INSIDE CIRCLE
+                // INNER FADE
                 // =====================================================
 
-                float insideDistance =
-                    -edgeDistance;
-
-
-                // -----------------------------------------------------
-                // Solid border
-                // -----------------------------------------------------
-
-                if (insideDistance <= borderSize)
+                if (_EnableInnerFade > 0.5)
                 {
-                    return fixed4(
-                        _Color.rgb,
-                        _Color.a * _Alpha
-                    );
-                }
+                    float innerDistance =
+                        _Radius *
+                        (_InnerPercent / 100.0);
 
 
-                // -----------------------------------------------------
-                // Fade inward toward the center
-                // -----------------------------------------------------
+                    if (innerDistance > 0.00001 &&
+                        distanceFromCenter < innerDistance)
+                    {
+                        float progress =
+                            distanceFromCenter /
+                            innerDistance;
 
-                if (_FadeSize > 0)
-                {
-                    float fadeProgress =
-                        (insideDistance - borderSize)
-                        / fadeSize;
 
-                    float alpha =
-                        1.0 -
-                        smoothstep(
-                            0.0,
-                            1.0,
-                            fadeProgress
+                        float alpha =
+                            1.0 -
+                            smoothstep(
+                                0.0,
+                                1.0,
+                                progress
+                            );
+
+
+                        alpha *= _Color.a;
+                        alpha *= _Alpha;
+
+
+                        return fixed4(
+                            _Color.rgb,
+                            alpha
                         );
-
-                    alpha *= _Color.a;
-                    alpha *= _Alpha;
-
-                    return fixed4(
-                        _Color.rgb,
-                        alpha
-                    );
+                    }
                 }
 
 
-                // -----------------------------------------------------
-                // Fully transparent center
-                // -----------------------------------------------------
+                // =====================================================
+                // TRANSPARENT
+                // =====================================================
 
                 return fixed4(0, 0, 0, 0);
             }
