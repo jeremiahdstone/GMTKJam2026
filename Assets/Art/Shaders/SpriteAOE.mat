@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _ENABLEINNERFADE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -41,14 +42,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 0.15
+    - _BorderSize: 1
     - _EnableExternalAlpha: 0
-    - _FadeSize: 3
+    - _EnableInnerFade: 1
+    - _EnableOuterFade: 0
+    - _FadeSize: 5
+    - _FadeSteps: 3
+    - _InnerPercent: 51.6
+    - _OuterFade: 0
+    - _OuterPercent: 18
     - _OutlineSize: 1
+    - _PixelSize: 1
+    - _Radius: 0.5
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.8509804, g: 0.14117628, b: 0.23529392, a: 0}
+    - _Color: {r: 0.9960785, g: 0.52156866, b: 0.23137257, a: 1}
+    - _OutlineColor: {r: 0.8509804, g: 0.14117625, b: 0.2352939, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

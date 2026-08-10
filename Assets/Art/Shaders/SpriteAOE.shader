@@ -17,6 +17,11 @@ Shader "Custom/AOECircle"
         [Toggle] _EnableOuterFade ("Enable Outer Fade", Float) = 0
         _OuterPercent ("Outer Fade Percent", Range(0, 100)) = 20.0
 
+        [Header(Pixelation)]
+        _PixelSize ("Pixel Size", Range(1, 16)) = 1
+        _FadeSteps ("Fade Steps", Range(1, 16)) = 4
+
+        [Header(General)]
         _Alpha ("Alpha", Range(0, 1)) = 1.0
     }
 
@@ -58,7 +63,6 @@ Shader "Custom/AOECircle"
             fixed4 _Color;
 
             float _Radius;
-
             float _BorderSize;
 
             float _EnableInnerFade;
@@ -66,6 +70,9 @@ Shader "Custom/AOECircle"
 
             float _EnableOuterFade;
             float _OuterPercent;
+
+            float _PixelSize;
+            float _FadeSteps;
 
             float _Alpha;
 
@@ -81,40 +88,72 @@ Shader "Custom/AOECircle"
             }
 
 
+            // =========================================================
+            // PIXELATED ALPHA
+            // =========================================================
+
+            float PixelateAlpha(float alpha)
+            {
+                alpha = saturate(alpha);
+
+                if (_FadeSteps <= 1.0)
+                {
+                    return step(0.5, alpha);
+                }
+
+                return floor(alpha * _FadeSteps)
+                    / _FadeSteps;
+            }
+
+
             fixed4 frag(v2f i) : SV_Target
             {
                 // =====================================================
-                // CIRCLE
+                // PIXEL GRID
                 // =====================================================
 
-                float2 centeredUV = i.uv - 0.5;
+                float2 uv = i.uv;
+
+                if (_PixelSize > 1.0)
+                {
+                    float2 screenPixels =
+                        _ScreenParams.xy;
+
+                    float2 pixelGrid =
+                        screenPixels / _PixelSize;
+
+                    uv =
+                        floor(uv * pixelGrid)
+                        / pixelGrid;
+                }
+
+
+                // =====================================================
+                // CIRCLE DISTANCE
+                // =====================================================
+
+                float2 centeredUV =
+                    uv - 0.5;
 
                 float distanceFromCenter =
                     length(centeredUV);
-
-                float edgeDistance =
-                    _Radius - distanceFromCenter;
-
-
-                // =====================================================
-                // NOTHING OUTSIDE THE CIRCLE
-                // =====================================================
-
-                if (edgeDistance < 0.0)
-                {
-                    return fixed4(0, 0, 0, 0);
-                }
 
 
                 // =====================================================
                 // PIXEL SIZE
                 // =====================================================
 
-                float pixelSizeX = fwidth(i.uv.x);
-                float pixelSizeY = fwidth(i.uv.y);
+                float pixelSizeX =
+                    fwidth(uv.x);
+
+                float pixelSizeY =
+                    fwidth(uv.y);
 
                 float pixelSize =
-                    max(pixelSizeX, pixelSizeY);
+                    max(
+                        pixelSizeX,
+                        pixelSizeY
+                    );
 
 
                 float borderSize =
@@ -122,58 +161,90 @@ Shader "Custom/AOECircle"
 
 
                 // =====================================================
-                // OUTER FADE + BORDER
+                // OUTSIDE CIRCLE
+                // =====================================================
+
+                // The radius is ALWAYS the outermost point.
+                //
+                // Nothing is ever rendered outside it.
+
+                if (distanceFromCenter > _Radius)
+                {
+                    return fixed4(0, 0, 0, 0);
+                }
+
+
+                // =====================================================
+                // OUTER FADE
                 // =====================================================
 
                 if (_EnableOuterFade > 0.5)
                 {
-                    float outerDistance =
+                    // Width of the fade measured inward
+                    // from the circle's edge.
+
+                    float outerFadeWidth =
                         _Radius *
                         (_OuterPercent / 100.0);
 
 
-                    // Make sure the outer fade has a valid size.
-
-                    if (outerDistance > 0.00001)
+                    if (outerFadeWidth > 0.00001)
                     {
-                        float fadeStart =
-                            _Radius - outerDistance;
+                        // Where the fade begins.
+
+                        float outerFadeStart =
+                            _Radius -
+                            outerFadeWidth;
 
 
                         // -------------------------------------------------
-                        // SOLID BORDER
+                        // OUTER FADE REGION
                         // -------------------------------------------------
 
-                        if (edgeDistance <= borderSize)
+                        if (
+                            distanceFromCenter >=
+                            outerFadeStart
+                        )
                         {
-                            return fixed4(
-                                _Color.rgb,
-                                _Color.a * _Alpha
-                            );
-                        }
+                            // 0 = transparent
+                            // 1 = fully opaque at edge
 
-
-                        // -------------------------------------------------
-                        // OUTER FADE
-                        // -------------------------------------------------
-
-                        if (distanceFromCenter >= fadeStart)
-                        {
                             float progress =
-                                (distanceFromCenter - fadeStart)
-                                / outerDistance;
+                                (
+                                    distanceFromCenter -
+                                    outerFadeStart
+                                )
+                                / outerFadeWidth;
 
 
                             float alpha =
-                                smoothstep(
-                                    0.0,
-                                    1.0,
-                                    progress
-                                );
+                                PixelateAlpha(progress);
 
 
-                            alpha *= _Color.a;
-                            alpha *= _Alpha;
+                            // -------------------------------------------------
+                            // SHARP BORDER
+                            //
+                            // The border is centered at the ACTUAL
+                            // radius and therefore never moves.
+                            // -------------------------------------------------
+
+                            float distanceToEdge =
+                                _Radius -
+                                distanceFromCenter;
+
+
+                            if (
+                                distanceToEdge <=
+                                borderSize
+                            )
+                            {
+                                alpha = 1.0;
+                            }
+
+
+                            alpha *=
+                                _Color.a *
+                                _Alpha;
 
 
                             return fixed4(
@@ -191,30 +262,33 @@ Shader "Custom/AOECircle"
 
                 if (_EnableInnerFade > 0.5)
                 {
-                    float innerDistance =
+                    float innerFadeWidth =
                         _Radius *
                         (_InnerPercent / 100.0);
 
 
-                    if (innerDistance > 0.00001 &&
-                        distanceFromCenter < innerDistance)
+                    if (
+                        innerFadeWidth > 0.00001 &&
+                        distanceFromCenter <
+                        innerFadeWidth
+                    )
                     {
+                        // Center = opaque
+                        // Edge of inner region = transparent
+
                         float progress =
                             distanceFromCenter /
-                            innerDistance;
+                            innerFadeWidth;
 
 
                         float alpha =
                             1.0 -
-                            smoothstep(
-                                0.0,
-                                1.0,
-                                progress
-                            );
+                            PixelateAlpha(progress);
 
 
-                        alpha *= _Color.a;
-                        alpha *= _Alpha;
+                        alpha *=
+                            _Color.a *
+                            _Alpha;
 
 
                         return fixed4(
@@ -226,7 +300,7 @@ Shader "Custom/AOECircle"
 
 
                 // =====================================================
-                // TRANSPARENT
+                // TRANSPARENT MIDDLE
                 // =====================================================
 
                 return fixed4(0, 0, 0, 0);
