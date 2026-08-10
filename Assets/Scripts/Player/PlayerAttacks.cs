@@ -69,7 +69,7 @@ public class PlayerAttacks : MonoBehaviour
 
         if (currentlyBiting) return;
 
-        
+
 
         float biteCooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
         float chargeAmount = GetBiteCharge();
@@ -130,7 +130,7 @@ public class PlayerAttacks : MonoBehaviour
 
         bool fullyCharged = biteTimer <= 0.05f;
 
-        
+
 
         StartCoroutine(
             DoBite(
@@ -149,7 +149,7 @@ public class PlayerAttacks : MonoBehaviour
 
         biteTimer = biteCooldown;
 
-        
+
     }
 
 
@@ -276,11 +276,9 @@ public class PlayerAttacks : MonoBehaviour
                 continue;
 
             enemiesCurrentlyInRange.Add(enemy);
+            highlightedEnemies.Add(enemy);
 
-            if (highlightedEnemies.Add(enemy))
-            {
-                enemy.SetBiteRangeHighlight(true);
-            }
+            enemy.SetBiteRangeHighlight(true, transform.position);
         }
 
         highlightedEnemies.RemoveWhere(enemy =>
@@ -291,7 +289,7 @@ public class PlayerAttacks : MonoBehaviour
             if (enemiesCurrentlyInRange.Contains(enemy))
                 return false;
 
-            enemy.SetBiteRangeHighlight(false);
+            enemy.SetBiteRangeHighlight(false, transform.position);
             return true;
         });
     }

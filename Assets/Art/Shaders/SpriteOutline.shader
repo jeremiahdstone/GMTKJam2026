@@ -63,29 +63,27 @@ Shader "Custom/SpriteOutline"
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 sprite = tex2D(_MainTex, i.uv);
-
+            
                 float2 pixel = _MainTex_TexelSize.xy;
                 float2 offset = pixel * round(_OutlineSize);
-
+            
                 float aLeft = tex2D(_MainTex, i.uv + float2(-offset.x, 0)).a;
-                float aRight = tex2D(_MainTex, i.uv + float2( offset.x, 0)).a;
-                // float aUp = tex2D(_MainTex, i.uv + float2(0,  offset.y)).a;
+                float aRight = tex2D(_MainTex, i.uv + float2(offset.x, 0)).a;
                 float aDown = tex2D(_MainTex, i.uv + float2(0, -offset.y)).a;
-
-                //using aUp causes the top of the shader to grab the bottom edge of the sprite above it on the sheet 
-
-                // float outline = max(max(aLeft, aRight), max(aUp, aDown));
+            
                 float outline = max(max(aLeft, aRight), aDown);
-
+            
                 outline = saturate(outline - sprite.a);
-
+            
                 fixed4 result = sprite * i.color;
-
-                result.rgb = result.rgb * sprite.a +
-                            _OutlineColor.rgb * outline;
-
-                result.a = saturate(sprite.a + outline);
-
+            
+                float outlineAlpha = outline * _OutlineColor.a;
+            
+                result.rgb *= result.a;
+            
+                result.rgb += _OutlineColor.rgb * outlineAlpha;
+                result.a = saturate(result.a + outlineAlpha);
+            
                 return result;
             }
             ENDCG
