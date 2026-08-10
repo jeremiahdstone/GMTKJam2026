@@ -46,4 +46,6 @@ public class PlayerDamageTrigger : MonoBehaviour
             yield return new WaitForSeconds(damageInterval);
         }
     }
+
+    
 }
