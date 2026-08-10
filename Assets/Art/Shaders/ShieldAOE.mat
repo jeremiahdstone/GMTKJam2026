@@ -15,6 +15,7 @@ Material:
   m_InvalidKeywords:
   - _ENABLEINNERFADE_ON
   - _ENABLEOUTERFADE_ON
+  - _ENABLEWOBBLE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -48,6 +49,7 @@ Material:
     - _EnableExternalAlpha: 0
     - _EnableInnerFade: 1
     - _EnableOuterFade: 1
+    - _EnableWobble: 1
     - _FadeSize: 5
     - _FadeSteps: 3.5
     - _InnerPercent: 0
@@ -56,6 +58,9 @@ Material:
     - _OutlineSize: 1
     - _PixelSize: 1
     - _Radius: 0.5
+    - _WobbleAmount: 0.0428
+    - _WobbleFrequency: 6
+    - _WobbleSpeed: 2.2
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 0.84705883, b: 0.19607843, a: 1}

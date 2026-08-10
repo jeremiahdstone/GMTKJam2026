@@ -21,6 +21,12 @@ Shader "Custom/AOECircle"
         _PixelSize ("Pixel Size", Range(1, 16)) = 1
         _FadeSteps ("Fade Steps", Range(1, 16)) = 4
 
+        [Header(UV Wobble)]
+        [Toggle] _EnableWobble ("Enable Wobble", Float) = 1
+        _WobbleAmount ("Wobble Amount", Range(0, 0.1)) = 0.01
+        _WobbleSpeed ("Wobble Speed", Range(0, 5)) = 0.5
+        _WobbleFrequency ("Wobble Frequency", Range(1, 20)) = 6
+
         [Header(General)]
         _Alpha ("Alpha", Range(0, 1)) = 1.0
     }
@@ -73,6 +79,11 @@ Shader "Custom/AOECircle"
 
             float _PixelSize;
             float _FadeSteps;
+
+            float _EnableWobble;
+            float _WobbleAmount;
+            float _WobbleSpeed;
+            float _WobbleFrequency;
 
             float _Alpha;
 
@@ -127,14 +138,51 @@ Shader "Custom/AOECircle"
                         / pixelGrid;
                 }
 
+                // =====================================================
+                // UV WOBBLE
+                // =====================================================
+
+                if (_EnableWobble > 0.5)
+                {
+                    float time = _Time.y * _WobbleSpeed;
+                
+                    float2 wobble;
+                
+                    wobble.x =
+                        sin(
+                            uv.y * _WobbleFrequency +
+                            time
+                        );
+                        
+                    wobble.y =
+                        sin(
+                            uv.x * (_WobbleFrequency * 0.83) -
+                            time * 0.73
+                        );
+                        
+                    uv += wobble * _WobbleAmount;
+                }
+
 
                 // =====================================================
                 // CIRCLE DISTANCE
                 // =====================================================
 
-                float2 centeredUV =
-                    uv - 0.5;
+                float2 centeredUV = uv - 0.5;
 
+                if (_EnableWobble > 0.5)
+                {
+                    float time = _Time.y * _WobbleSpeed;
+                
+                    centeredUV.x +=
+                        sin(centeredUV.y * _WobbleFrequency + time)
+                        * _WobbleAmount;
+                
+                    centeredUV.y +=
+                        sin(centeredUV.x * _WobbleFrequency - time * 0.73)
+                        * _WobbleAmount;
+                }
+                
                 float distanceFromCenter =
                     length(centeredUV);
 
