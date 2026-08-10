@@ -313,7 +313,6 @@ GameObject:
   - component: {fileID: 4539881626958603228}
   - component: {fileID: 3743343334875964864}
   - component: {fileID: 3129691343023055848}
-  - component: {fileID: 7858503103944883239}
   m_Layer: 13
   m_Name: Circle
   m_TagString: Untagged
@@ -431,18 +430,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &7858503103944883239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7805263832601134525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd566c1f9f7ec804ca2a3b7f523a5d50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  damageAmount: 5
-  damageInterval: 1
-  radius: 3
