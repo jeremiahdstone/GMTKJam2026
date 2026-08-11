@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private float speedIncreasePercentagePerDay = 0f;
     [SerializeField] private float damageIncreasePercentagePerDay = 0.15f;
     [Header("References")]
+    [SerializeField] public Animator anim;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Material materialInstance;
 
@@ -73,6 +74,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
 
         materialPropertyBlock = new MaterialPropertyBlock();
 

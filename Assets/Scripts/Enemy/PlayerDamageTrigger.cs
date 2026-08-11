@@ -22,7 +22,7 @@ public class PlayerDamageTrigger : MonoBehaviour
             return;
 
         if (damageCoroutine == null)
-            damageCoroutine = StartCoroutine(DamagePlayer());
+            damageCoroutine = StartCoroutine(DamagePlayer(GameSession.instance.Player));
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -37,11 +37,11 @@ public class PlayerDamageTrigger : MonoBehaviour
         }
     }
 
-    private IEnumerator DamagePlayer()
+    private IEnumerator DamagePlayer(PlayerManager player)
     {
         while (true)
         {
-            GameSession.instance.SubtractBlood(damageAmount);
+            player.Damage(damageAmount);
 
             yield return new WaitForSeconds(damageInterval);
         }

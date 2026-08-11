@@ -53,6 +53,12 @@ public class Projectile : MonoBehaviour
             enemy.Damage(damage);
             OnHit(other);
         }
+
+        if (other.TryGetComponent(out PlayerManager player))
+        {
+            player.Damage(damage);
+            OnHit(other);
+        }
     }
 
     protected virtual void OnHit(Collider2D other)
