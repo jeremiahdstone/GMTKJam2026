@@ -19625,7 +19625,7 @@ MonoBehaviour:
   openingLetter: {fileID: 1789498668}
   loseScreen: {fileID: 1359058452}
   startingRefreshPrice: 5
-  refreshPriceIncrement: 3
+  refreshPriceIncrement: 5
   refreshPriceText: {fileID: 1826099018}
   bloodShakeStrength: 0.25
   bloodParticlePrefab: {fileID: 3389302165559390139, guid: 0c7ac907e8f83cd4f9b586334b01bc29, type: 3}
