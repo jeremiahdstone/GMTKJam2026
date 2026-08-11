@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("Team")]
+    [SerializeField] private Team team = Team.good;
+    [SerializeField] private bool friendlyFire = false;
     [Header("Stats")]
     [SerializeField] private float speed = 10f;
     [SerializeField] private float damage = 5f;
@@ -50,12 +53,16 @@ public class Projectile : MonoBehaviour
         // Hit an enemy
         if (other.TryGetComponent(out Enemy enemy))
         {
+            if (enemy.team == team && !friendlyFire)
+                return;
             enemy.Damage(damage);
             OnHit(other);
         }
 
         if (other.TryGetComponent(out PlayerManager player))
         {
+            if(team == Team.good && !friendlyFire)
+                return;
             player.Damage(damage);
             OnHit(other);
         }
