@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     [Header("Blood Collection")]
     PointEffector2D pointEffector;
-    bool canCollectBlood = true;
+    public bool canCollectBlood = true;
 
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
@@ -49,6 +49,11 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     public void Update()
     {
+        if(GameSession.instance == null)
+        {
+            return;
+        }
+        
         if (GameSession.instance.run.bloodCount < GameSession.instance.run.maxBloodCount)
         {
             canCollectBlood = true;
