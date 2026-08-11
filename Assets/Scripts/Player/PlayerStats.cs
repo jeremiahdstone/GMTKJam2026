@@ -15,6 +15,7 @@ public enum PlayerStat
     BiteSpeedMultiplier,
     BiteBloodMultipler,
     MaxBlood,
+    UpgradeSlots,
 }
 
 public class PlayerStats : MonoBehaviour
@@ -36,6 +37,7 @@ public class PlayerStats : MonoBehaviour
         { PlayerStat.BiteSpeedMultiplier, 1},
         { PlayerStat.BiteBloodMultipler, 1},
         { PlayerStat.MaxBlood, 100},
+        { PlayerStat.UpgradeSlots, 6},
 
     };
 
@@ -69,6 +71,16 @@ public class PlayerStats : MonoBehaviour
         return value;
     }
 
+    public int GetUpgradeSlotCount()
+    {
+        return Mathf.RoundToInt(GetStat(PlayerStat.UpgradeSlots));
+    }
+
+    public bool HasOpenUpgradeSlot()
+    {
+        return upgrades.Count < GetUpgradeSlotCount();
+    }
+
     //check if the player already has this upgrade, if so just level it up, otherwise add it to the list
     public void AddUpgrade(Upgrade upgrade)
     {
@@ -77,18 +89,22 @@ public class PlayerStats : MonoBehaviour
             upgrade.id = upgrade.name;
         }
 
-        Upgrade existing = upgrades.Find(u => u.id == upgrade.id);
+        Upgrade existing = upgrades.Find(u => u.id == upgrade.id || u.name == upgrade.name);
 
         if (existing != null)
         {
             existing.level++;
         }
-        else
+        else if (HasOpenUpgradeSlot())
         {
             Upgrade playerUpgrade = Instantiate(upgrade.gameObject, transform.GetChild(0).transform).GetComponent<Upgrade>();
             playerUpgrade.level = 1;
             upgrades.Add(playerUpgrade);
-            
+        }
+        else
+        {
+            Debug.LogWarning("No upgrade slots available for a new unique upgrade.");
+            return;
         }
 
         if (GameSession.instance != null)

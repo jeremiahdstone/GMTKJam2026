@@ -5,7 +5,7 @@ using UnityEditor;
 public abstract class Upgrade : MonoBehaviour, IShoppable
 {
     public string id = "";
-    public string name = "Upgrade";
+    public new string name = "Upgrade";
     [TextArea(2, 5)] public string description = "An upgrade for the player";
     public Sprite sprite;
     public int cost;

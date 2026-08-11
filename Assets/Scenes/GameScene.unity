@@ -8927,7 +8927,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865910076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.00000021989737}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00000049994344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8936,8 +8936,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.7373276}
-  m_SizeDelta: {x: 0, y: -16.017}
+  m_AnchoredPosition: {x: 0, y: -8.496929}
+  m_SizeDelta: {x: 0, y: -25.536}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865910078
 MonoBehaviour:
@@ -16239,7 +16239,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323530501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000020853188}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000001932566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16247,8 +16247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -7.558365}
-  m_SizeDelta: {x: 0, y: 11.797}
+  m_AnchoredPosition: {x: 0, y: -10.154518}
+  m_SizeDelta: {x: 0, y: 16.989}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1323530503
 MonoBehaviour:
@@ -16270,7 +16270,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrades
+  m_text: 'Upgrades
+
+    (0/6)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73f9c919e521ba445a1c9a6e281c2413, type: 2}
   m_sharedMaterial: {fileID: -8661414838370653377, guid: 73f9c919e521ba445a1c9a6e281c2413, type: 2}
@@ -19620,6 +19622,7 @@ MonoBehaviour:
   shopOpenButton: {fileID: 544770989}
   nextDayButton: {fileID: 989885625}
   upgradesText: {fileID: 693777063}
+  numUpgradesText: {fileID: 0}
   upgradeList: {fileID: 332845225}
   buildUI: {fileID: 69666263}
   openingLetter: {fileID: 1789498668}
