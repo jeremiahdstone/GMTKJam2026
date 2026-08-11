@@ -24,8 +24,15 @@ public class PlayerManager : MonoBehaviour, IDamageable
     public PlayerMovement playerMovement { get; private set; }
     public PlayerStats playerStats { get; private set; }
 
+    [Header("Blood Collection")]
+    PointEffector2D pointEffector;
+    bool canCollectBlood = true;
+
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
+
+
+
 
 
     void Awake()
@@ -34,9 +41,23 @@ public class PlayerManager : MonoBehaviour, IDamageable
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<PlayerMovement>();
         playerStats = GetComponent<PlayerStats>();
+        pointEffector = GetComponentInChildren<PointEffector2D>();
 
         if (sr != null)
             originalVisualScale = sr.transform.localScale;
+    }
+
+    public void Update()
+    {
+        if (GameSession.instance.run.bloodCount < GameSession.instance.run.maxBloodCount)
+        {
+            canCollectBlood = true;
+        }
+        else
+        {
+            canCollectBlood = false;
+        }
+        pointEffector.enabled = canCollectBlood;
     }
 
 
