@@ -21,6 +21,8 @@ Shader "Custom/SpriteColorSwap"
 
         _FrozenColor ("Frozen Color", Color) = (1,1,1,1)
         _FrozenStrength ("Frozen Strength", Range(0,1)) = 1.0
+
+        _FrozenPixelSize ("Frozen Pixel Size", Range(1,4)) = 2
     }
 
     SubShader
@@ -81,6 +83,7 @@ Shader "Custom/SpriteColorSwap"
 
             float4 _FrozenColor;
             float _FrozenStrength;
+            float _FrozenPixelSize;
 
 
             Varyings vert(Attributes input)
@@ -162,61 +165,72 @@ Shader "Custom/SpriteColorSwap"
 
                 float2 texel = _MainTex_TexelSize.xy;
 
-
-                // ---------------------------------------------------------
-                // CHECK ABOVE - 2 PIXELS
-                // ---------------------------------------------------------
-
-                half alphaAbove1 = SAMPLE_TEXTURE2D(
-                    _MainTex,
-                    sampler_MainTex,
-                    input.uv + float2(0, texel.y)
-                ).a;
-
-                half alphaAbove2 = SAMPLE_TEXTURE2D(
-                    _MainTex,
-                    sampler_MainTex,
-                    input.uv + float2(0, texel.y * 2.0)
-                ).a;
+                // Convert the editor value to an integer number of pixels.
+                int pixelSize = (int)round(_FrozenPixelSize);
 
 
                 // ---------------------------------------------------------
-                // CHECK RIGHT - 2 PIXELS
+                // CHECK TOP EXPOSURE
                 // ---------------------------------------------------------
 
-                half alphaRight1 = SAMPLE_TEXTURE2D(
-                    _MainTex,
-                    sampler_MainTex,
-                    input.uv + float2(texel.x, 0)
-                ).a;
+                float exposedTop = 0.0;
 
-                half alphaRight2 = SAMPLE_TEXTURE2D(
-                    _MainTex,
-                    sampler_MainTex,
-                    input.uv + float2(texel.x * 2.0, 0)
-                ).a;
+                // Check each pixel above the current pixel.
+                //
+                // If ANY pixel within the selected distance is
+                // transparent, this pixel is considered exposed
+                // from the top.
+
+                for (int i = 1; i <= 4; i++)
+                {
+                    if (i > pixelSize)
+                        break;
+
+                    half alphaAbove = SAMPLE_TEXTURE2D(
+                        _MainTex,
+                        sampler_MainTex,
+                        input.uv + float2(
+                            0,
+                            texel.y * i
+                        )
+                    ).a;
+
+                    if (alphaAbove <= 0.001)
+                    {
+                        exposedTop = 1.0;
+                        break;
+                    }
+                }
 
 
                 // ---------------------------------------------------------
-                // DETERMINE TOP EXPOSURE
+                // CHECK RIGHT EXPOSURE
                 // ---------------------------------------------------------
 
-                float exposedTop =
-                    step(alphaAbove1, 0.001) +
-                    step(alphaAbove2, 0.001);
+                float exposedRight = 0.0;
 
-                exposedTop = saturate(exposedTop);
+                // Same check for the right side.
 
+                for (int i = 1; i <= 4; i++)
+                {
+                    if (i > pixelSize)
+                        break;
 
-                // ---------------------------------------------------------
-                // DETERMINE RIGHT EXPOSURE
-                // ---------------------------------------------------------
+                    half alphaRight = SAMPLE_TEXTURE2D(
+                        _MainTex,
+                        sampler_MainTex,
+                        input.uv + float2(
+                            texel.x * i,
+                            0
+                        )
+                    ).a;
 
-                float exposedRight =
-                    step(alphaRight1, 0.001) +
-                    step(alphaRight2, 0.001);
-
-                exposedRight = saturate(exposedRight);
+                    if (alphaRight <= 0.001)
+                    {
+                        exposedRight = 1.0;
+                        break;
+                    }
+                }
 
 
                 // ---------------------------------------------------------
