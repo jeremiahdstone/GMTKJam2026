@@ -19622,7 +19622,7 @@ MonoBehaviour:
   shopOpenButton: {fileID: 544770989}
   nextDayButton: {fileID: 989885625}
   upgradesText: {fileID: 693777063}
-  numUpgradesText: {fileID: 0}
+  numUpgradesText: {fileID: 1323530503}
   upgradeList: {fileID: 332845225}
   buildUI: {fileID: 69666263}
   openingLetter: {fileID: 1789498668}

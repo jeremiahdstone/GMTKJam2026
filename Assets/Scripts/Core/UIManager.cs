@@ -405,6 +405,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenShopPanel()
     {
+        RebuildUpgradeList(GameSession.instance.Player.GetComponent<PlayerStats>().upgrades);
         shopPanel.SetActive(true);
         upgradeList.SetActive(true);
         if (shopOpenButton.activeSelf)
