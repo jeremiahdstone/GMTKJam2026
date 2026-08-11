@@ -1,4 +1,4 @@
-Shader "Custom/SpriteColorSwap"
+Shader "Custom/SpriteColorsSwap"
 {
     Properties
     {
@@ -19,9 +19,7 @@ Shader "Custom/SpriteColorSwap"
 
         [Header(Frozen Corner)]
 
-        _FrozenColor ("Frozen Color", Color) = (1,1,1,1)
         _FrozenStrength ("Frozen Strength", Range(0,1)) = 1.0
-
         _FrozenPixelSize ("Frozen Pixel Size", Range(1,4)) = 2
     }
 
@@ -81,7 +79,6 @@ Shader "Custom/SpriteColorSwap"
             float _Contrast;
             float _Brightness;
 
-            float4 _FrozenColor;
             float _FrozenStrength;
             float _FrozenPixelSize;
 
@@ -141,21 +138,29 @@ Shader "Custom/SpriteColorSwap"
 
                 half3 finalColor;
 
+                // Keep track of which palette color this pixel belongs to.
+                int paletteIndex;
+
+
                 if (brightness < _Threshold1)
                 {
                     finalColor = _Color1.rgb;
+                    paletteIndex = 0;
                 }
                 else if (brightness < _Threshold2)
                 {
                     finalColor = _Color2.rgb;
+                    paletteIndex = 1;
                 }
                 else if (brightness < _Threshold3)
                 {
                     finalColor = _Color3.rgb;
+                    paletteIndex = 2;
                 }
                 else
                 {
                     finalColor = _Color4.rgb;
+                    paletteIndex = 3;
                 }
 
 
@@ -165,7 +170,6 @@ Shader "Custom/SpriteColorSwap"
 
                 float2 texel = _MainTex_TexelSize.xy;
 
-                // Convert the editor value to an integer number of pixels.
                 int pixelSize = (int)round(_FrozenPixelSize);
 
 
@@ -174,12 +178,6 @@ Shader "Custom/SpriteColorSwap"
                 // ---------------------------------------------------------
 
                 float exposedTop = 0.0;
-
-                // Check each pixel above the current pixel.
-                //
-                // If ANY pixel within the selected distance is
-                // transparent, this pixel is considered exposed
-                // from the top.
 
                 for (int i = 1; i <= 4; i++)
                 {
@@ -208,8 +206,6 @@ Shader "Custom/SpriteColorSwap"
                 // ---------------------------------------------------------
 
                 float exposedRight = 0.0;
-
-                // Same check for the right side.
 
                 for (int i = 1; i <= 4; i++)
                 {
@@ -242,12 +238,37 @@ Shader "Custom/SpriteColorSwap"
 
 
                 // ---------------------------------------------------------
-                // APPLY FROZEN COLOR
+                // SHIFT ONE COLOR BRIGHTER
+                // ---------------------------------------------------------
+
+                half3 brighterColor = finalColor;
+
+                if (paletteIndex == 0)
+                {
+                    brighterColor = _Color2.rgb;
+                }
+                else if (paletteIndex == 1)
+                {
+                    brighterColor = _Color3.rgb;
+                }
+                else if (paletteIndex == 2)
+                {
+                    brighterColor = _Color4.rgb;
+                }
+                else
+                {
+                    // Already the brightest palette color.
+                    brighterColor = _Color4.rgb;
+                }
+
+
+                // ---------------------------------------------------------
+                // APPLY FROZEN HIGHLIGHT
                 // ---------------------------------------------------------
 
                 finalColor = lerp(
                     finalColor,
-                    _FrozenColor.rgb,
+                    brighterColor,
                     frozenMask * _FrozenStrength
                 );
 

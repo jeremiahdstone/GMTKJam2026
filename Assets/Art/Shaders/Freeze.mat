@@ -43,15 +43,37 @@ Material:
     m_Floats:
     - _Brightness: 0
     - _Contrast: 1
+    - _CornerHeight: 0.5
+    - _CornerSize: 0.12
+    - _CornerWidth: 0.5
     - _EnableExternalAlpha: 0
+    - _FrozenPixelSize: 2
+    - _FrozenSize: 1
+    - _FrozenStrength: 1
     - _OutlineSize: 1
+    - _ShimmerAngle: 1
+    - _ShimmerDuration: 3
+    - _ShimmerPeriod: 8.82
+    - _ShimmerSize: 0.45
+    - _ShimmerStrength: 0.644
+    - _ShimmerWidth: 0.0324
     - _Threshold: 0.5
+    - _Threshold1: 0.01
+    - _Threshold2: 0.079
+    - _Threshold3: 0.562
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0.83137256}
+    - _Color1: {r: 0.015686275, g: 0.24313727, b: 0.36862746, a: 1}
+    - _Color2: {r: 0.1137255, g: 0.57254905, b: 0.654902, a: 1}
+    - _Color3: {r: 0.46274513, g: 0.8431373, b: 0.7568628, a: 1}
+    - _Color4: {r: 0.9960785, g: 0.9960785, b: 0.90196085, a: 1}
     - _ColorDark: {r: 0.10980386, g: 0.57254905, b: 0.654902, a: 1}
     - _ColorLight: {r: 0.462745, g: 0.83921576, b: 0.7568628, a: 1}
+    - _CornerColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FrozenColor: {r: 0.99607843, g: 0.99607843, b: 0.90196085, a: 1}
     - _OutlineColor: {r: 0.8509804, g: 0.14117628, b: 0.23529392, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShimmerColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
