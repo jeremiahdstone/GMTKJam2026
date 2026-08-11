@@ -9,5 +9,7 @@ AnimatorOverrideController:
   m_Name: VampireHunterAnimator
   m_Controller: {fileID: 9100000, guid: 987f41e9b93b9c9438affcbcb02488ce, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: e0851ee0799b8bf47ac6d1c27d86bc8b, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: ce65780e1e876e442ac6b10dd318457b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e95d5c9f41aacbb44a9deed317124e2d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5cb934b266c22f04fa87684897bd2b4d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 462a823a3be94e6428721e077b4e58f1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f8b598a03d8506542afed8b57788c364, type: 2}

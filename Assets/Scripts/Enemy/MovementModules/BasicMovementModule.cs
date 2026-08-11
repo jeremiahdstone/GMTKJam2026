@@ -104,6 +104,8 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
             return;
         }
 
+       
+
         Vector2 waypoint = path.vectorPath[currentWaypoint];
         Vector2 direction = (waypoint - rb.position).normalized;
 
@@ -119,6 +121,8 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
 
         if (rb != null)
             rb.linearVelocity = direction * enemy.currentSpeed;
+
+         enemy.anim.SetBool("isMoving", true);
     }
 
     private void UpdatePath()

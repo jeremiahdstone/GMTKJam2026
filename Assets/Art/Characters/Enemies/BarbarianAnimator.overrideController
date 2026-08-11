@@ -9,5 +9,7 @@ AnimatorOverrideController:
   m_Name: BarbarianAnimator
   m_Controller: {fileID: 9100000, guid: 987f41e9b93b9c9438affcbcb02488ce, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: e0851ee0799b8bf47ac6d1c27d86bc8b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e95d5c9f41aacbb44a9deed317124e2d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f3f3c87212899d349aefc49bd7b8df40, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 462a823a3be94e6428721e077b4e58f1, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: f3f3c87212899d349aefc49bd7b8df40, type: 2}
