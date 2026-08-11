@@ -123,7 +123,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -144,8 +144,8 @@ TextureImporter:
       name: VycountTraps_1
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
+        x: 16
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -166,8 +166,8 @@ TextureImporter:
       name: VycountTraps_2
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 32
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -188,8 +188,8 @@ TextureImporter:
       name: VycountTraps_3
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
+        x: 48
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -210,8 +210,8 @@ TextureImporter:
       name: VycountTraps_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 64
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -232,8 +232,8 @@ TextureImporter:
       name: VycountTraps_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
+        x: 0
+        y: 16
         width: 8
         height: 8
       alignment: 0
@@ -254,8 +254,8 @@ TextureImporter:
       name: VycountTraps_6
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
+        x: 16
+        y: 16
         width: 8
         height: 8
       alignment: 0
@@ -276,8 +276,8 @@ TextureImporter:
       name: VycountTraps_7
       rect:
         serializedVersion: 2
-        x: 56
-        y: 0
+        x: 32
+        y: 16
         width: 8
         height: 8
       alignment: 0
@@ -290,6 +290,94 @@ TextureImporter:
       bones: []
       spriteID: a2331dc11a0fc424cb5b5cded83cb116
       internalID: 308174290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 8
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f2931520610a4c4db80b534626f1f02
+      internalID: 1532918802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_9
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 8
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44613819364f91244a8be24afd87b450
+      internalID: 610503068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_10
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 8
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69da718250f215b458d06594fb85ef69
+      internalID: -644593235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VycountTraps_11
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd4eff9f060f3ab4582b77e5163ff601
+      internalID: -562183649
       vertices: []
       indices: 
       edges: []
@@ -312,12 +400,16 @@ TextureImporter:
     nameFileIdTable:
       VycountTraps_0: -5300929159689610213
       VycountTraps_1: 619983064346436887
+      VycountTraps_10: -644593235
+      VycountTraps_11: -562183649
       VycountTraps_2: -4129208072717313571
       VycountTraps_3: 2096048977
       VycountTraps_4: 1036157208
       VycountTraps_5: -1574959030
       VycountTraps_6: -1471009509
       VycountTraps_7: 308174290
+      VycountTraps_8: 1532918802
+      VycountTraps_9: 610503068
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

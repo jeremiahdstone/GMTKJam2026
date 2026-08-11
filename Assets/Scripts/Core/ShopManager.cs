@@ -62,8 +62,14 @@ public class ShopManager : MonoBehaviour
     {
         IShoppable[] shopList = new IShoppable[shopItemCount];
 
-        // ensure first item is always an upgrade
-        shopList[0] = upgradeDatabase.AllUpgrades[Random.Range(0, upgradeDatabase.AllUpgrades.Count)];
+        PlayerStats playerStats = GetPlayerStats();
+        List<IShoppable> upgradeOptions = GetAvailableUpgradeOptions(playerStats);
+        List<IShoppable> shopPool = GetShopPool(playerStats);
+
+        if (upgradeOptions.Count > 0)
+        {
+            shopList[0] = upgradeOptions[Random.Range(0, upgradeOptions.Count)];
+        }
 
         // ensure last item is always a trap
         shopList[shopItemCount-1] = trapDatabase.TrapPrefabs[Random.Range(0, trapDatabase.TrapPrefabs.Count)];
@@ -71,7 +77,7 @@ public class ShopManager : MonoBehaviour
         //pick random shop items for everything else (rn thats just the 1 middle item)
         for (int i = 1; i < shopItemCount-1; i++)
         {
-            shopList[i] = shopDatabase[Random.Range(0, shopDatabase.Count)];
+            shopList[i] = shopPool[Random.Range(0, shopPool.Count)];
         }
 
         DisplayShop(shopList);
@@ -123,8 +129,18 @@ public class ShopManager : MonoBehaviour
             IShoppable purchasedItem = item;
             button.onClick.AddListener(() =>
             {
+                PlayerStats playerStats = GetPlayerStats();
+                bool canPurchaseAsNewUpgrade = true;
+
+                if (purchasedItem is Upgrade upgradeItem)
+                {
+                    bool alreadyOwned = playerStats != null && playerStats.upgrades.Exists(u => u.id == upgradeItem.id || u.name == upgradeItem.name);
+                    bool hasOpenSlot = playerStats == null || playerStats.HasOpenUpgradeSlot();
+                    canPurchaseAsNewUpgrade = alreadyOwned || hasOpenSlot;
+                }
+
                 // SUBTRACT MONEY
-                if (GameSession.instance.run.bloodCount > purchasedItem.getCost())
+                if (canPurchaseAsNewUpgrade && GameSession.instance.run.bloodCount >= purchasedItem.getCost())
                 {
                     GameSession.instance.SubtractBlood(purchasedItem.getCost());
                     purchasedItem.OnPurchase();
@@ -177,6 +193,47 @@ public class ShopManager : MonoBehaviour
                 GridPlacementManager.instance.RegisterPlaceable(placeable);
             }
         }
+    }
+
+    private PlayerStats GetPlayerStats()
+    {
+        return GameSession.instance != null
+            ? GameSession.instance.Player?.GetComponent<PlayerStats>()
+            : PlayerStats.Instance;
+    }
+
+    private List<IShoppable> GetAvailableUpgradeOptions(PlayerStats playerStats)
+    {
+        List<IShoppable> upgradeOptions = new List<IShoppable>();
+
+        if (playerStats != null && !playerStats.HasOpenUpgradeSlot())
+        {
+            foreach (Upgrade upgrade in playerStats.upgrades)
+            {
+                upgradeOptions.Add(upgrade);
+            }
+            return upgradeOptions;
+        }
+
+        foreach (Upgrade upgrade in upgradeDatabase.AllUpgrades)
+        {
+            upgradeOptions.Add(upgrade);
+        }
+
+        return upgradeOptions;
+    }
+
+    private List<IShoppable> GetShopPool(PlayerStats playerStats)
+    {
+        if (playerStats != null && !playerStats.HasOpenUpgradeSlot())
+        {
+            List<IShoppable> ownedUpgradePool = new List<IShoppable>();
+            ownedUpgradePool.AddRange(playerStats.upgrades);
+            ownedUpgradePool.AddRange(trapDatabase.TrapPrefabs);
+            return ownedUpgradePool;
+        }
+
+        return shopDatabase;
     }
 
     //probably a better spot for this somewhere but its fineee

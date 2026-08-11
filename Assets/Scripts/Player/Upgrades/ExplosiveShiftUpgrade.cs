@@ -10,8 +10,9 @@ public class ExplosiveShiftUpgrade : Upgrade
 
     private Transform playerTransform;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         playerTransform = transform.parent.parent;
     }
 

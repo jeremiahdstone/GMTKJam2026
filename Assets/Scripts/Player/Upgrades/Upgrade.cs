@@ -5,17 +5,40 @@ using UnityEditor;
 public abstract class Upgrade : MonoBehaviour, IShoppable
 {
     public string id = "";
-    public string name = "Upgrade";
+    public new string name = "Upgrade";
     [TextArea(2, 5)] public string description = "An upgrade for the player";
     public Sprite sprite;
     public int cost;
+    [Range(0f, 2f)] public float costPercentIncrease = 0.2f;
 
     public string getName() => name;
     public string getDescription() => description;
-    public int getCost() => cost;
+    public int getCost() => GetCurrentCost();
     public Sprite getIcon() => sprite;
 
     public int level = 1;
+
+    public int GetCurrentLevel()
+    {
+        PlayerStats playerStats = GameSession.instance != null
+            ? GameSession.instance.Player?.GetComponent<PlayerStats>()
+            : PlayerStats.Instance;
+
+        if (playerStats == null)
+        {
+            return level;
+        }
+
+        Upgrade existing = playerStats.upgrades.Find(u => u.id == id || u.name == name);
+
+        return existing != null ? existing.level : 0;
+    }
+
+    public int GetCurrentCost()
+    {
+        int currentLevel = GetCurrentLevel();
+        return Mathf.RoundToInt(cost + (cost * currentLevel * costPercentIncrease));
+    }
 
     public virtual Upgrade Clone()
     {

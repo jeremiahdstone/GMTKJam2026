@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject nextDayButton;
 
     [SerializeField] private TMP_Text upgradesText;
+    [SerializeField] private TMP_Text numUpgradesText;
     [SerializeField] private GameObject upgradeList;
 
     [Header("UI Sections")]
@@ -404,6 +405,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenShopPanel()
     {
+        RebuildUpgradeList(GameSession.instance.Player.GetComponent<PlayerStats>().upgrades);
         shopPanel.SetActive(true);
         upgradeList.SetActive(true);
         if (shopOpenButton.activeSelf)
@@ -435,6 +437,7 @@ public class UIManager : MonoBehaviour
 
     public void RebuildUpgradeList(List<Upgrade> upgrades)
     {
+        numUpgradesText.text = "Upgrades\n(" + upgrades.Count.ToString() + "/" + GameSession.instance.Player.GetComponent<PlayerStats>().GetUpgradeSlotCount().ToString() + ")";
         upgradesText.text = "";
         foreach (Upgrade upgrade in upgrades)
         {

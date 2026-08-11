@@ -8927,7 +8927,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 865910076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.00000021989737}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00000049994344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8936,8 +8936,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.7373276}
-  m_SizeDelta: {x: 0, y: -16.017}
+  m_AnchoredPosition: {x: 0, y: -8.496929}
+  m_SizeDelta: {x: 0, y: -25.536}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865910078
 MonoBehaviour:
@@ -16239,7 +16239,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323530501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000020853188}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000001932566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16247,8 +16247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -7.558365}
-  m_SizeDelta: {x: 0, y: 11.797}
+  m_AnchoredPosition: {x: 0, y: -10.154518}
+  m_SizeDelta: {x: 0, y: 16.989}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1323530503
 MonoBehaviour:
@@ -16270,7 +16270,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrades
+  m_text: 'Upgrades
+
+    (0/6)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73f9c919e521ba445a1c9a6e281c2413, type: 2}
   m_sharedMaterial: {fileID: -8661414838370653377, guid: 73f9c919e521ba445a1c9a6e281c2413, type: 2}
@@ -19620,12 +19622,13 @@ MonoBehaviour:
   shopOpenButton: {fileID: 544770989}
   nextDayButton: {fileID: 989885625}
   upgradesText: {fileID: 693777063}
+  numUpgradesText: {fileID: 1323530503}
   upgradeList: {fileID: 332845225}
   buildUI: {fileID: 69666263}
   openingLetter: {fileID: 1789498668}
   loseScreen: {fileID: 1359058452}
   startingRefreshPrice: 5
-  refreshPriceIncrement: 3
+  refreshPriceIncrement: 5
   refreshPriceText: {fileID: 1826099018}
   bloodShakeStrength: 0.25
   bloodParticlePrefab: {fileID: 3389302165559390139, guid: 0c7ac907e8f83cd4f9b586334b01bc29, type: 3}
@@ -81828,38 +81831,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: possibleEnemies.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[0]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 9441ef78e65234d4ab3cfb06b7251dbb, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[1]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 07ac6ef6fcfd4fb4d98867645393bdaf, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[2]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[3]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[4]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[5]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: c3d5353e61e8367468849de7cb499ca2, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[6]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: db7fa3ee59fa4d143bffa0eec3dc751e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
