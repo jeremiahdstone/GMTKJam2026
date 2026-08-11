@@ -16,6 +16,11 @@ Shader "Custom/SpriteColorSwap"
 
         _Contrast ("Brightness Contrast", Range(0.1,5)) = 1.0
         _Brightness ("Brightness Offset", Range(-1,1)) = 0.0
+
+        [Header(Frozen Corner)]
+
+        _FrozenColor ("Frozen Color", Color) = (1,1,1,1)
+        _FrozenStrength ("Frozen Strength", Range(0,1)) = 1.0
     }
 
     SubShader
@@ -58,6 +63,8 @@ Shader "Custom/SpriteColorSwap"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
+            float4 _MainTex_TexelSize;
+
             float4 _Color;
 
             float4 _Color1;
@@ -72,6 +79,10 @@ Shader "Custom/SpriteColorSwap"
             float _Contrast;
             float _Brightness;
 
+            float4 _FrozenColor;
+            float _FrozenStrength;
+
+
             Varyings vert(Attributes input)
             {
                 Varyings output;
@@ -85,35 +96,46 @@ Shader "Custom/SpriteColorSwap"
                 return output;
             }
 
+
             half4 frag(Varyings input) : SV_Target
             {
+                // ---------------------------------------------------------
+                // SAMPLE SPRITE
+                // ---------------------------------------------------------
+
                 half4 sprite = SAMPLE_TEXTURE2D(
                     _MainTex,
                     sampler_MainTex,
                     input.uv
                 );
 
-                // Keep transparent pixels transparent.
                 if (sprite.a <= 0.001)
                     discard;
 
-                // Calculate perceived brightness.
-                half brightness =
-                    dot(
-                        sprite.rgb,
-                        half3(0.2126, 0.7152, 0.0722)
-                    );
 
-                // Adjust contrast.
+                // ---------------------------------------------------------
+                // FOUR COLOR PALETTE
+                // ---------------------------------------------------------
+
+                half brightness = dot(
+                    sprite.rgb,
+                    half3(
+                        0.2126,
+                        0.7152,
+                        0.0722
+                    )
+                );
+
                 brightness =
-                    (brightness - 0.5) * _Contrast + 0.5;
+                    (brightness - 0.5)
+                    * _Contrast
+                    + 0.5;
 
-                // Adjust overall brightness.
                 brightness += _Brightness;
 
                 brightness = saturate(brightness);
 
-                // Map source brightness to one of four colors.
+
                 half3 finalColor;
 
                 if (brightness < _Threshold1)
@@ -132,6 +154,89 @@ Shader "Custom/SpriteColorSwap"
                 {
                     finalColor = _Color4.rgb;
                 }
+
+
+                // ---------------------------------------------------------
+                // FROZEN TOP-RIGHT CORNER
+                // ---------------------------------------------------------
+
+                float2 texel = _MainTex_TexelSize.xy;
+
+
+                // ---------------------------------------------------------
+                // CHECK ABOVE - 2 PIXELS
+                // ---------------------------------------------------------
+
+                half alphaAbove1 = SAMPLE_TEXTURE2D(
+                    _MainTex,
+                    sampler_MainTex,
+                    input.uv + float2(0, texel.y)
+                ).a;
+
+                half alphaAbove2 = SAMPLE_TEXTURE2D(
+                    _MainTex,
+                    sampler_MainTex,
+                    input.uv + float2(0, texel.y * 2.0)
+                ).a;
+
+
+                // ---------------------------------------------------------
+                // CHECK RIGHT - 2 PIXELS
+                // ---------------------------------------------------------
+
+                half alphaRight1 = SAMPLE_TEXTURE2D(
+                    _MainTex,
+                    sampler_MainTex,
+                    input.uv + float2(texel.x, 0)
+                ).a;
+
+                half alphaRight2 = SAMPLE_TEXTURE2D(
+                    _MainTex,
+                    sampler_MainTex,
+                    input.uv + float2(texel.x * 2.0, 0)
+                ).a;
+
+
+                // ---------------------------------------------------------
+                // DETERMINE TOP EXPOSURE
+                // ---------------------------------------------------------
+
+                float exposedTop =
+                    step(alphaAbove1, 0.001) +
+                    step(alphaAbove2, 0.001);
+
+                exposedTop = saturate(exposedTop);
+
+
+                // ---------------------------------------------------------
+                // DETERMINE RIGHT EXPOSURE
+                // ---------------------------------------------------------
+
+                float exposedRight =
+                    step(alphaRight1, 0.001) +
+                    step(alphaRight2, 0.001);
+
+                exposedRight = saturate(exposedRight);
+
+
+                // ---------------------------------------------------------
+                // BOTH CONDITIONS MUST BE TRUE
+                // ---------------------------------------------------------
+
+                float frozenMask =
+                    exposedTop * exposedRight;
+
+
+                // ---------------------------------------------------------
+                // APPLY FROZEN COLOR
+                // ---------------------------------------------------------
+
+                finalColor = lerp(
+                    finalColor,
+                    _FrozenColor.rgb,
+                    frozenMask * _FrozenStrength
+                );
+
 
                 return half4(
                     finalColor,
