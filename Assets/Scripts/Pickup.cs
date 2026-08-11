@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Pickup : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Pickup : MonoBehaviour
     [Header("Value")]
     [SerializeField] private int bloodAmount = 1;
 
+    [SerializeField] private float destroyAfterTime = 5f;
+
     [Header("Spawn Movement")]
     [SerializeField] private float minSpawnForce = 0.5f;
     [SerializeField] private float maxSpawnForce = 1.5f;
@@ -17,6 +20,7 @@ public class Pickup : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        GameEventManager.instance.OnWaveEnd += OnWaveEnd;
     }
     void OnEnable()
     {
@@ -31,6 +35,13 @@ public class Pickup : MonoBehaviour
     {
         if ((playerLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
+            if(collision.gameObject.TryGetComponent<PlayerManager>(out PlayerManager player))
+            {
+                if (player.canCollectBlood == false)
+                {
+                    return;
+                }
+            }
             // add to blood
             GameSession.instance.AddBlood(bloodAmount);
             Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
@@ -39,4 +50,16 @@ public class Pickup : MonoBehaviour
             // pickup effect
         }
     }
+
+    public void OnWaveEnd()
+    {
+        StartCoroutine(DestroyAfterDelay(destroyAfterTime));
+    }
+
+    IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(this.gameObject);
+    }
+    
 }

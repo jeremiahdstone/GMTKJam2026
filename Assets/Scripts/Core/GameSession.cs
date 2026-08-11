@@ -109,7 +109,7 @@ public class GameSession : MonoBehaviour
 
     private Tween gameSpeedTween;
 
-    private void LoseGame()
+    public void LoseGame()
     {
         if (!runInProgress)
             return;
