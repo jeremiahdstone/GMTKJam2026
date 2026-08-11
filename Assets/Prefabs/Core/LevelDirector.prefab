@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
   - {fileID: 6396696151560761607, guid: c3d5353e61e8367468849de7cb499ca2, type: 3}
   - {fileID: 6396696151560761607, guid: db7fa3ee59fa4d143bffa0eec3dc751e, type: 3}
+  - {fileID: 6396696151560761607, guid: 9441ef78e65234d4ab3cfb06b7251dbb, type: 3}
   preparedEnemies: []
   EnemiesLeft: 0
   wavesPerEnemyUnlock: 2
