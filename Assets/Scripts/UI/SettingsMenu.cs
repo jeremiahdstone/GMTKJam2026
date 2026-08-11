@@ -12,8 +12,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private Slider musicSlider;
 
     [Header("Mixer Parameters")]
-    [SerializeField] private string soundVolumeParameter = "soundVolume";
-    [SerializeField] private string musicVolumeParameter = "musicVolume";
+    [SerializeField] private string soundVolumeParameter = "GameSound";
+    [SerializeField] private string musicVolumeParameter = "Music";
 
     [Header("Blood Effect")]
     [SerializeField] private float bloodShakeStrength = 0.1f;
@@ -57,16 +57,27 @@ public class SettingsMenu : MonoBehaviour
         float savedMusicVolume =
             PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
 
+        // Set the UI here
         soundSlider.SetValueWithoutNotify(savedSoundVolume);
         musicSlider.SetValueWithoutNotify(savedMusicVolume);
-
-        ApplyMixerVolume(soundVolumeParameter, savedSoundVolume);
-        ApplyMixerVolume(musicVolumeParameter, savedMusicVolume);
 
         soundSlider.onValueChanged.AddListener(SetSoundVolume);
         musicSlider.onValueChanged.AddListener(SetMusicVolume);
 
         isInitializing = false;
+    }
+
+    private void Start()
+    {
+        // Set the AudioMixer here instead of Awake
+        float savedSoundVolume =
+            PlayerPrefs.GetFloat(SoundVolumeKey, 1f);
+
+        float savedMusicVolume =
+            PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
+
+        ApplyMixerVolume(soundVolumeParameter, savedSoundVolume);
+        ApplyMixerVolume(musicVolumeParameter, savedMusicVolume);
     }
 
     private void ConfigureSlider(Slider slider)
@@ -126,9 +137,23 @@ public class SettingsMenu : MonoBehaviour
         string mixerParameter,
         float linearVolume)
     {
+        if (audioMixer == null)
+        {
+            Debug.LogWarning(
+                $"SettingsMenu audioMixer is not assigned. Cannot apply volume for '{mixerParameter}'."
+            );
+            return;
+        }
+
         float decibels = LinearToDecibel(linearVolume);
 
-        audioMixer.SetFloat(mixerParameter, decibels);
+        if (!audioMixer.SetFloat(mixerParameter, decibels))
+        {
+            Debug.LogWarning(
+                $"AudioMixer exposed parameter '{mixerParameter}' was not found. " +
+                "Make sure the parameter name matches the exposed mixer parameter."
+            );
+        }
     }
 
     private float LinearToDecibel(float linearVolume)
