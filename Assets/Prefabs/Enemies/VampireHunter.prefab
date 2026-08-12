@@ -90,7 +90,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19a8367a6750c504987a8dabc148c64b, type: 2}
+  - {fileID: 2100000, guid: 839480283812be04b8eddc314f038c29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,7 +320,7 @@ MonoBehaviour:
   damageIncreasePercentagePerDay: 0.15
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  materialInstance: {fileID: 2100000, guid: 19a8367a6750c504987a8dabc148c64b, type: 2}
+  materialInstance: {fileID: 0}
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 10
@@ -337,7 +337,6 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
-  freezeMaterial: {fileID: 2100000, guid: 2aa30f90c0977b74384b39563531804e, type: 2}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
