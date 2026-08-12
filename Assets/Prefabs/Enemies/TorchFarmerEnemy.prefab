@@ -172,8 +172,9 @@ MonoBehaviour:
   healthIncreasePercentagePerDay: 0.1
   speedIncreasePercentagePerDay: 0.005
   damageIncreasePercentagePerDay: 0.15
+  anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  materialInstance: {fileID: 0}
+  materialInstance: {fileID: 2100000, guid: 19a8367a6750c504987a8dabc148c64b, type: 2}
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 10
@@ -190,6 +191,7 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
+  freezeMaterial: {fileID: 2100000, guid: 2aa30f90c0977b74384b39563531804e, type: 2}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
