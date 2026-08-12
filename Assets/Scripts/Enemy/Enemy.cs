@@ -62,14 +62,10 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
 
-    //this will be gone as soon as i make the master material
-    [Header("Freeze")]
-    [SerializeField] private Material freezeMaterial;
-
     //freeze stuff
     private Coroutine freezeCoroutine;
     private bool isFrozen;
-
+    [SerializeField] private GameObject iceBreakParticlePrefab;
 
     private AudioSource audioSource;
 
@@ -312,10 +308,10 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             anim.enabled = false;
         }
 
-        // Apply freeze material
-        if (spriteRenderer != null && freezeMaterial != null)
+        // Enable color swap
+        if (spriteRenderer != null)
         {
-            spriteRenderer.material = freezeMaterial;
+            spriteRenderer.material.SetFloat("_EnableColorSwap", 1f);
         }
 
         // Start timer to call Unfreeze
@@ -343,10 +339,20 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             anim.enabled = true;
         }
 
-        // Restore original material
-        if (spriteRenderer != null && materialInstance != null)
+        // Disable color swap
+        if (spriteRenderer != null)
         {
-            spriteRenderer.material = materialInstance;
+            spriteRenderer.material.SetFloat("_EnableColorSwap", 0f);
+        }
+
+        // Spawn ice break particles
+        if (iceBreakParticlePrefab != null)
+        {
+            Instantiate(
+                iceBreakParticlePrefab,
+                transform.position,
+                Quaternion.identity
+            );
         }
     }
 }
