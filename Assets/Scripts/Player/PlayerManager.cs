@@ -70,6 +70,11 @@ public class PlayerManager : MonoBehaviour, IDamageable
         );
 
         PlayHitBounce();
+
+        GameEventManager.instance.PlayerHit(
+            this.gameObject,
+            attacker
+        );
     }
 
 

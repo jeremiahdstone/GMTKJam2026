@@ -26,7 +26,9 @@ public class GameEventManager : MonoBehaviour
     public event Action<GameObject, GameObject> OnEnemyHit;
     public event Action OnCastleHit;
     public event Action OnGameLose;
-    public event Action <GameObject, GameObject> OnPlayerHit; // not implemented
+    public event Action <GameObject, GameObject> OnPlayerHit;
+    public event Action <Upgrade> OnUpgradePurchased; // not implemented
+    public event Action <Trap> OnTrapPurchased; // not implemented
 
     public void WaveStart()
     {
@@ -75,5 +77,15 @@ public class GameEventManager : MonoBehaviour
     public void PlayerHit(GameObject player, GameObject attacker)
     {
         OnPlayerHit?.Invoke(player, attacker);
+    }
+
+    public void UpgradePurchased(Upgrade upgrade)
+    {
+        OnUpgradePurchased?.Invoke(upgrade);
+    }
+
+    public void TrapPurchased(Trap trap)
+    {
+        OnTrapPurchased?.Invoke(trap);
     }
 }

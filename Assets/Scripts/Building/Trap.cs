@@ -16,6 +16,36 @@ public abstract class Trap : Placeable, IShoppable
     public int getCost() => cost;
     public Sprite getIcon() => icon;
 
+    protected virtual void OnEnable()
+    {
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnTrapPurchased += OnTrapPurchased;
+            GameEventManager.instance.OnUpgradePurchased += OnUpgradePurchased;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnTrapPurchased -= OnTrapPurchased;
+            GameEventManager.instance.OnUpgradePurchased -= OnUpgradePurchased;
+        }
+    }
+
+    protected virtual void OnTrapPurchased(Trap trap)
+    {
+        
+    }
+
+    protected virtual void OnUpgradePurchased(Upgrade upgrade)
+    {
+        
+    }
+
+
+
     protected virtual void TriggerTrap(Enemy enemy)
     {
         if (singleUse)
