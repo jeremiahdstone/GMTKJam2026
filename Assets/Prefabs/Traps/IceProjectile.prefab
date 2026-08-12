@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5353719550924918900}
   - component: {fileID: 6747798536783028494}
   - component: {fileID: 3945882530927039110}
-  - component: {fileID: -9085802060308081717}
+  - component: {fileID: 8892388346915721830}
   - component: {fileID: 7883496344370599412}
   m_Layer: 0
   m_Name: IceProjectile
@@ -158,7 +158,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-9085802060308081717
+--- !u!114 &8892388346915721830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,20 +167,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1608296169501144579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c55f2f3dc8a1bd44a5c7c3764296e28, type: 3}
+  m_Script: {fileID: 11500000, guid: d6478a664c5b18b488cfab4a9c2212be, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
+  m_EditorClassIdentifier: Assembly-CSharp::FreezeProjectile
   team: 0
   friendlyFire: 0
   speed: 10
   damage: 0
   lifeTime: 5
-  spins: 1
+  spins: 0
   spinSpeed: 720
   smokePuff: {fileID: 6582616140547153052, guid: 9c725d1288cb2674ba5dc11c00f86c14, type: 3}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  freezeDuration: 2
 --- !u!82 &7883496344370599412
 AudioSource:
   m_ObjectHideFlags: 0

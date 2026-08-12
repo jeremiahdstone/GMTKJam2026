@@ -149,8 +149,8 @@ MonoBehaviour:
   cost: 16
   icon: {fileID: 1036157208, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   detectionRange: 5
-  cooldown: 4
+  cooldown: 8
   burstCount: 1
   burstDelay: 0.5
-  bonePrefab: {fileID: -9085802060308081717, guid: 34d5f779e42ad3845b3988ef3b0c4b65, type: 3}
+  bonePrefab: {fileID: 8892388346915721830, guid: 34d5f779e42ad3845b3988ef3b0c4b65, type: 3}
   firePoint: {fileID: 7241835442380247781}
