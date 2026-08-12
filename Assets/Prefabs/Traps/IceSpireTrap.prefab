@@ -147,7 +147,7 @@ MonoBehaviour:
   trapName: Ice Spire Trap
   description: Shoots a freezing snowball at nearby enemies.
   cost: 16
-  icon: {fileID: 1036157208, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
+  icon: {fileID: 1532918802, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   detectionRange: 5
   cooldown: 8
   burstCount: 1
