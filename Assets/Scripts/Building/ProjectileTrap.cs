@@ -13,8 +13,66 @@ public class ProjectileTrap : Trap
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
 
+    [Header("AOE Visual")]
+    [SerializeField] private Transform aoeVisual;
+
     private float cooldownTimer;
     private bool firing;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnWaveEnd += ShowAOE;
+            GameEventManager.instance.OnWaveStart += HideAOE;
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnWaveEnd -= ShowAOE;
+            GameEventManager.instance.OnWaveStart -= HideAOE;
+        }
+    }
+
+    protected override void OnTrapPurchased(Trap trap)
+    {
+        base.OnTrapPurchased(trap);
+        RefreshAOEVisual(trap);
+    }
+
+    protected override void OnUpgradePurchased(Upgrade upgrade)
+    {
+        base.OnUpgradePurchased(upgrade);
+        RefreshAOEVisual(null);
+    }
+
+    void RefreshAOEVisual(Trap trap)
+    {
+        if (aoeVisual != null)
+        {
+            aoeVisual.localScale = new Vector3(detectionRange * 2, detectionRange * 2, 1);
+        }
+    }
+
+    void ShowAOE()
+    {
+        if (aoeVisual == null)
+            return;
+        aoeVisual.localScale = new Vector3(detectionRange * 2, detectionRange * 2, 1);
+        aoeVisual.gameObject.SetActive(true);
+    }
+
+    void HideAOE()
+    {
+        if (aoeVisual == null)
+            return;
+        aoeVisual.gameObject.SetActive(false);
+    }
 
     private void Update()
     {

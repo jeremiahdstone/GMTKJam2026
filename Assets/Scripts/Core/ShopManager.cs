@@ -216,10 +216,12 @@ public class ShopManager : MonoBehaviour
                     if(purchasedItem is Trap)
                     {
                         GameSession.instance.run.trapsBought++;
+                        GameEventManager.instance.TrapPurchased(purchasedItem as Trap);
                     }
                     else if(purchasedItem is Upgrade)
                     {
                         GameSession.instance.run.upgradesBought++;
+                        GameEventManager.instance.UpgradePurchased(purchasedItem as Upgrade);
                     }
 
                     Destroy(panel);
