@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 public class ProjectileTrap : Trap
 {
@@ -15,6 +16,8 @@ public class ProjectileTrap : Trap
 
     [Header("AOE Visual")]
     [SerializeField] private Transform aoeVisual;
+    [SerializeField] private float aoeFadeDuration = 0.25f;
+    [SerializeField] private float aoeTargetAlpha = 1f;
 
     private float cooldownTimer;
     private bool firing;
@@ -27,6 +30,11 @@ public class ProjectileTrap : Trap
             GameEventManager.instance.OnWaveEnd += ShowAOE;
             GameEventManager.instance.OnWaveStart += HideAOE;
         }
+
+        if(GameSession.instance.phase == Phase.build)
+            ShowAOE();
+        else
+            HideAOE();
     }
 
     protected override void OnDisable()
@@ -42,16 +50,16 @@ public class ProjectileTrap : Trap
     protected override void OnTrapPurchased(Trap trap)
     {
         base.OnTrapPurchased(trap);
-        RefreshAOEVisual(trap);
+        RefreshAOEVisual();
     }
 
     protected override void OnUpgradePurchased(Upgrade upgrade)
     {
         base.OnUpgradePurchased(upgrade);
-        RefreshAOEVisual(null);
+        RefreshAOEVisual();
     }
 
-    void RefreshAOEVisual(Trap trap)
+    void RefreshAOEVisual()
     {
         if (aoeVisual != null)
         {
@@ -63,15 +71,55 @@ public class ProjectileTrap : Trap
     {
         if (aoeVisual == null)
             return;
-        aoeVisual.localScale = new Vector3(detectionRange * 2, detectionRange * 2, 1);
+        RefreshAOEVisual();
+
+        SpriteRenderer sr = aoeVisual.GetComponent<SpriteRenderer>();
+
+        if (sr == null)
+        {
+            aoeVisual.gameObject.SetActive(true);
+            return;
+        }
+
+        Material mat = sr.material;
+
+        if (mat.HasProperty("_Alpha"))
+            mat.SetFloat("_Alpha", 0f);
+        else
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0f);
+
         aoeVisual.gameObject.SetActive(true);
+
+        if (mat.HasProperty("_Alpha"))
+            mat.DOFloat(aoeTargetAlpha, "_Alpha", aoeFadeDuration).SetEase(Ease.Linear);
+        else
+            sr.DOFade(aoeTargetAlpha, aoeFadeDuration).SetEase(Ease.Linear);
     }
 
     void HideAOE()
     {
         if (aoeVisual == null)
             return;
-        aoeVisual.gameObject.SetActive(false);
+        SpriteRenderer sr = aoeVisual.GetComponent<SpriteRenderer>();
+
+        if (sr == null)
+        {
+            aoeVisual.gameObject.SetActive(false);
+            return;
+        }
+
+        Material mat = sr.material;
+
+        if (mat.HasProperty("_Alpha"))
+        {
+            mat.DOFloat(0f, "_Alpha", aoeFadeDuration).SetEase(Ease.Linear)
+                .OnComplete(() => aoeVisual.gameObject.SetActive(false));
+        }
+        else
+        {
+            sr.DOFade(0f, aoeFadeDuration).SetEase(Ease.Linear)
+                .OnComplete(() => aoeVisual.gameObject.SetActive(false));
+        }
     }
 
     private void Update()
