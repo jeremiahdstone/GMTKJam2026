@@ -151,9 +151,12 @@ public class ShopManager : MonoBehaviour
             {
                 if (iconTransform != null)
                 {
-                    RectTransform iconRect = iconTransform.GetComponent<RectTransform>();
-                    if (iconRect != null)
-                        iconRect.sizeDelta = new Vector2(8, 8);
+                    Image iconImage = iconTransform.GetComponent<Image>();
+
+                    if (iconImage != null)
+                    {
+                        iconImage.SetNativeSize();
+                    }
                 }
 
                 Image panelImage = panel.GetComponent<Image>();
