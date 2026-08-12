@@ -61,9 +61,6 @@ Shader "Custom/SpriteMaster"
         Lighting Off
         ZWrite Off
 
-        // We use normal alpha blending here.
-        // The fragment shader handles the outline compositing
-        // so the final result behaves like the original shaders.
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -155,12 +152,9 @@ Shader "Custom/SpriteMaster"
                     input.uv
                 );
 
-                if (sprite.a <= 0.001)
-                    discard;
-
 
                 // ---------------------------------------------------------
-                // START WITH ORIGINAL SPRITE COLOR
+                // SPRITE COLOR
                 // ---------------------------------------------------------
 
                 half3 finalColor = sprite.rgb;
@@ -191,31 +185,34 @@ Shader "Custom/SpriteMaster"
                     brightness = saturate(brightness);
 
 
-                    // Keep track of which palette color
-                    // this pixel belongs to.
+                    half3 paletteColor;
+
                     int paletteIndex;
 
 
                     if (brightness < _Threshold1)
                     {
-                        finalColor = _Color1.rgb;
+                        paletteColor = _Color1.rgb;
                         paletteIndex = 0;
                     }
                     else if (brightness < _Threshold2)
                     {
-                        finalColor = _Color2.rgb;
+                        paletteColor = _Color2.rgb;
                         paletteIndex = 1;
                     }
                     else if (brightness < _Threshold3)
                     {
-                        finalColor = _Color3.rgb;
+                        paletteColor = _Color3.rgb;
                         paletteIndex = 2;
                     }
                     else
                     {
-                        finalColor = _Color4.rgb;
+                        paletteColor = _Color4.rgb;
                         paletteIndex = 3;
                     }
+
+
+                    finalColor = paletteColor;
 
 
                     // -----------------------------------------------------
@@ -311,7 +308,6 @@ Shader "Custom/SpriteMaster"
                     }
                     else
                     {
-                        // Already the brightest palette color.
                         brighterColor = _Color4.rgb;
                     }
 
@@ -330,16 +326,9 @@ Shader "Custom/SpriteMaster"
 
                 // ---------------------------------------------------------
                 // OUTLINE
-                //
-                // IMPORTANT:
-                // The outline is calculated AFTER the color swap.
-                //
-                // However, the alpha samples below come directly from
-                // the original sprite, so the outline itself is never
-                // palette swapped.
                 // ---------------------------------------------------------
 
-                float outlineAlpha = 0.0;
+                float outline = 0.0;
 
                 if (_EnableOutline > 0.5)
                 {
@@ -353,11 +342,13 @@ Shader "Custom/SpriteMaster"
                         input.uv + float2(-offset.x, 0)
                     ).a;
 
+
                     float aRight = SAMPLE_TEXTURE2D(
                         _MainTex,
                         sampler_MainTex,
                         input.uv + float2(offset.x, 0)
                     ).a;
+
 
                     float aDown = SAMPLE_TEXTURE2D(
                         _MainTex,
@@ -366,60 +357,69 @@ Shader "Custom/SpriteMaster"
                     ).a;
 
 
-                    float outline =
-                        max(
-                            max(aLeft, aRight),
-                            aDown
-                        );
-
-
-                    outline = saturate(
-                        outline - sprite.a
+                    outline = max(
+                        max(aLeft, aRight),
+                        aDown
                     );
 
 
-                    outlineAlpha =
-                        outline * _OutlineColor.a;
+                    // Only show the outline where the current pixel
+                    // itself is transparent.
+                    outline = saturate(
+                        outline - sprite.a
+                    );
                 }
 
 
                 // ---------------------------------------------------------
-                // COMBINE SPRITE + OUTLINE
+                // SPRITE + OUTLINE
                 // ---------------------------------------------------------
+
+                // This is the original sprite's alpha, including
+                // SpriteRenderer tint.
+                float spriteAlpha =
+                    sprite.a * input.color.a;
+
+
+                float outlineAlpha =
+                    outline * _OutlineColor.a;
+
+
+                // The outline is composited AFTER the color swap.
+                // Therefore _OutlineColor is never passed through
+                // the palette swap.
+                half3 resultColor = finalColor;
+
+
+                // Match the behavior of the original outline shader:
                 //
-                // The sprite color has already been swapped at this point.
-                // The outline color is added afterward, so it remains
-                // completely unaffected by the palette swap.
-                // ---------------------------------------------------------
+                // sprite contribution
+                // +
+                // outline contribution
+                //
+                // Then convert back to normal alpha blending.
 
-                half finalAlpha = saturate(
-                    sprite.a * input.color.a
-                    + outlineAlpha
-                );
+                float resultAlpha =
+                    saturate(
+                        spriteAlpha + outlineAlpha
+                    );
 
 
-                // Convert the combined result back to the normal
-                // non-premultiplied format expected by our blend mode.
-                half3 combinedColor = finalColor;
-
-                if (finalAlpha > 0.001)
+                if (resultAlpha > 0.001)
                 {
-                    combinedColor =
+                    resultColor =
                         (
-                            finalColor
-                            * sprite.a
-                            * input.color.a
+                            finalColor * spriteAlpha
                             +
-                            _OutlineColor.rgb
-                            * outlineAlpha
+                            _OutlineColor.rgb * outlineAlpha
                         )
-                        / finalAlpha;
+                        / resultAlpha;
                 }
 
 
                 return half4(
-                    combinedColor,
-                    finalAlpha
+                    resultColor,
+                    resultAlpha
                 );
             }
 
