@@ -314,6 +314,12 @@ public class ShopManager : MonoBehaviour
         const int maxDistance = 4;
         const float overlapRadius = 0.35f;
 
+        // World bounds for trap spawning
+        const int worldMinX = -31;
+        const int worldMaxX = 31;
+        const int worldMinY = -31;
+        const int worldMaxY = 28;
+
         Vector2 playerPosition = manager.transform.position;
 
         Vector2Int playerTilePosition = new Vector2Int(
@@ -337,6 +343,10 @@ public class ShopManager : MonoBehaviour
                 playerTilePosition.y + y + 0.5f
             );
 
+            // Ensure the spawn position is within the allowed world bounds
+            if (spawnPosition.x < worldMinX || spawnPosition.x > worldMaxX || spawnPosition.y < worldMinY || spawnPosition.y > worldMaxY)
+                continue;
+
             Collider2D overlap = Physics2D.OverlapCircle(
     spawnPosition,
     overlapRadius,
@@ -351,7 +361,10 @@ public class ShopManager : MonoBehaviour
             "Couldn't find an empty spawn location near the player."
         );
 
-        return playerPosition + Vector2.right * minDistance;
+        float clampedX = Mathf.Clamp(playerPosition.x + minDistance, worldMinX, worldMaxX);
+        float clampedY = Mathf.Clamp(playerPosition.y, worldMinY, worldMaxY);
+
+        return new Vector2(clampedX, clampedY);
     }
 
 }
