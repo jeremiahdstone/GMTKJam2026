@@ -49,20 +49,17 @@ public class PlayerManager : MonoBehaviour, IDamageable
 
     public void Update()
     {
-        if(GameSession.instance == null)
+        if (GameSession.instance == null || GameSession.instance.run == null)
         {
             return;
         }
-        
-        if (GameSession.instance.run.bloodCount < GameSession.instance.run.maxBloodCount)
-        {
-            canCollectBlood = true;
-        }
-        else
-        {
-            canCollectBlood = false;
-        }
-        pointEffector.enabled = canCollectBlood;
+
+        var run = GameSession.instance.run;
+
+        canCollectBlood = run.bloodCount < run.maxBloodCount;
+
+        if (pointEffector != null)
+            pointEffector.enabled = canCollectBlood;
     }
 
 

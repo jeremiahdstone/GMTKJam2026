@@ -6888,7 +6888,6 @@ GameObject:
   m_Component:
   - component: {fileID: 716529797}
   - component: {fileID: 716529802}
-  - component: {fileID: 716529801}
   - component: {fileID: 716529800}
   - component: {fileID: 716529798}
   - component: {fileID: 716529803}
@@ -6972,14 +6971,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &716529801
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716529796}
-  m_Enabled: 1
 --- !u!20 &716529802
 Camera:
   m_ObjectHideFlags: 0
@@ -16358,6 +16349,7 @@ MonoBehaviour:
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
   col: {fileID: 1340283458}
+  canCollectBlood: 1
 --- !u!82 &1340283468
 AudioSource:
   m_ObjectHideFlags: 0
