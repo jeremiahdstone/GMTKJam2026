@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     //freeze stuff
     private Coroutine freezeCoroutine;
     private bool isFrozen;
-
+    [SerializeField] private GameObject iceBreakParticlePrefab;
 
     private AudioSource audioSource;
 
@@ -343,6 +343,16 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         if (spriteRenderer != null)
         {
             spriteRenderer.material.SetFloat("_EnableColorSwap", 0f);
+        }
+
+        // Spawn ice break particles
+        if (iceBreakParticlePrefab != null)
+        {
+            Instantiate(
+                iceBreakParticlePrefab,
+                transform.position,
+                Quaternion.identity
+            );
         }
     }
 }
