@@ -62,6 +62,10 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
 
+    //this will be gone as soon as i make the master material
+    [Header("Freeze")]
+    [SerializeField] private Material freezeMaterial;
+
     //freeze stuff
     private Coroutine freezeCoroutine;
     private bool isFrozen;
@@ -302,6 +306,18 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         // Stop movement
         currentSpeed = 0;
 
+        // Disable animation
+        if (anim != null)
+        {
+            anim.enabled = false;
+        }
+
+        // Apply freeze material
+        if (spriteRenderer != null && freezeMaterial != null)
+        {
+            spriteRenderer.material = freezeMaterial;
+        }
+
         // Start timer to call Unfreeze
         freezeCoroutine = StartCoroutine(FreezeCoroutine(cooldown));
     }
@@ -320,5 +336,17 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
         // Resume movement
         currentSpeed = speed;
+
+        // Restore animation
+        if (anim != null)
+        {
+            anim.enabled = true;
+        }
+
+        // Restore original material
+        if (spriteRenderer != null && materialInstance != null)
+        {
+            spriteRenderer.material = materialInstance;
+        }
     }
 }
