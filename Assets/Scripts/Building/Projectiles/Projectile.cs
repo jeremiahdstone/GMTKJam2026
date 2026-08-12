@@ -55,7 +55,11 @@ public class Projectile : MonoBehaviour
         {
             if (enemy.team == team && !friendlyFire)
                 return;
-            enemy.Damage(damage);
+            
+            if (damage != 0) { 
+                enemy.Damage(damage);
+            }
+
             OnHit(other);
         }
 
