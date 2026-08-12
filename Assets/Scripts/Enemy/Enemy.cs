@@ -1,12 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 public enum Team
 {
     good,
     bad
 }
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IFreezable
 {
     public Team team = Team.bad;
     [Header("Stats")]
@@ -61,7 +62,9 @@ public class Enemy : MonoBehaviour, IDamageable
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
 
-
+    //freeze stuff
+    private Coroutine freezeCoroutine;
+    private bool isFrozen;
 
 
     private AudioSource audioSource;
@@ -282,5 +285,40 @@ public class Enemy : MonoBehaviour, IDamageable
             // TEMPORARY: for now, when they reach it, they just die
             Die(0, true, collision.gameObject);
         }
+    }
+
+    // FREEZE FUNCTIONS
+
+    public void Freeze(float cooldown, GameObject attacker = null)
+    {
+        // If already frozen, restart the timer
+        if (freezeCoroutine != null)
+        {
+            StopCoroutine(freezeCoroutine);
+        }
+
+        isFrozen = true;
+
+        // Stop movement
+        currentSpeed = 0;
+
+        // Start timer to call Unfreeze
+        freezeCoroutine = StartCoroutine(FreezeCoroutine(cooldown));
+    }
+
+    private IEnumerator FreezeCoroutine(float cooldown)
+    {
+        yield return new WaitForSeconds(cooldown);
+
+        Unfreeze();
+    }
+
+    public void Unfreeze()
+    {
+        isFrozen = false;
+        freezeCoroutine = null;
+
+        // Resume movement
+        currentSpeed = speed;
     }
 }
