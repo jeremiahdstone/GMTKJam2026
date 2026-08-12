@@ -22,6 +22,15 @@ public class Pickup : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         GameEventManager.instance.OnWaveEnd += OnWaveEnd;
     }
+
+    void OnDestroy()
+    {
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnWaveEnd -= OnWaveEnd;
+        }
+    }
+
     void OnEnable()
     {
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
