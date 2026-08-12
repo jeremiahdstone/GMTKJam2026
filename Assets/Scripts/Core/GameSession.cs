@@ -11,6 +11,7 @@ public enum Phase
 public class GameSession : MonoBehaviour
 {
     private bool runInProgress = false;
+    private bool waveEnding = false;
     public static GameSession instance;
 
     public UIManager uiManager;
@@ -64,6 +65,11 @@ public class GameSession : MonoBehaviour
 
     public void EndWave()
     {
+        if (waveEnding)
+            return;
+        
+        waveEnding = true;
+        
         GameEventManager.instance.WaveEnd();
         uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
@@ -71,6 +77,7 @@ public class GameSession : MonoBehaviour
         MusicManager.instance.stopMusic();
         MusicManager.instance.startMusic(phase);
         // open shop
+        waveEnding = false;
         uiManager.ResetRefreshPrice();
         uiManager.OpenShopPanel();
     }

@@ -93,6 +93,12 @@ public class ShopManager : MonoBehaviour
 
         foreach (IShoppable item in shopList)
         {
+            if (item == null)
+            {
+                Debug.LogWarning("Null item in shopList, skipping");
+                continue;
+            }
+
             GameObject panel;
 
             // if (item is Trap)
@@ -102,29 +108,88 @@ public class ShopManager : MonoBehaviour
 
             panel = Instantiate(upgradePanelPrefab, shopRect);
 
-            panel.transform.Find("Title")
-                .GetComponent<TextMeshProUGUI>().text = item.getName();
-
-            panel.transform.Find("Description")
-                .GetComponent<TextMeshProUGUI>().text = item.getDescription();
-
-            panel.transform.Find("upgrade/icon")
-                .GetComponent<Image>().sprite = item.getIcon();
-            if (item is Trap)
+            if (panel == null)
             {
-                panel.transform.Find("upgrade/icon")
-                    .GetComponent<RectTransform>().sizeDelta = new Vector2(8, 8);
-
-                panel.GetComponent<Image>().sprite = trapNineSlice;
-
-                panel.GetComponentInChildren<Button>().image.sprite = trapBuyButtonNineSlice;
-
+                Debug.LogError("Failed to instantiate upgrade panel prefab");
+                continue;
             }
 
-            panel.transform.Find("Button/PriceText")
-                .GetComponent<TextMeshProUGUI>().text = item.getCost().ToString();
+            // Safely find and update Title
+            Transform titleTransform = panel.transform.Find("Title");
+            if (titleTransform != null)
+            {
+                TextMeshProUGUI titleText = titleTransform.GetComponent<TextMeshProUGUI>();
+                if (titleText != null)
+                    titleText.text = item.getName();
+            }
+            else
+                Debug.LogError("Panel missing 'Title' child element");
 
-            Button button = panel.transform.Find("Button").GetComponent<Button>();
+            // Safely find and update Description
+            Transform descTransform = panel.transform.Find("Description");
+            if (descTransform != null)
+            {
+                TextMeshProUGUI descText = descTransform.GetComponent<TextMeshProUGUI>();
+                if (descText != null)
+                    descText.text = item.getDescription();
+            }
+            else
+                Debug.LogError("Panel missing 'Description' child element");
+
+            // Safely find and update Icon
+            Transform iconTransform = panel.transform.Find("upgrade/icon");
+            if (iconTransform != null)
+            {
+                Image iconImage = iconTransform.GetComponent<Image>();
+                if (iconImage != null)
+                    iconImage.sprite = item.getIcon();
+            }
+            else
+                Debug.LogError("Panel missing 'upgrade/icon' child element");
+
+            if (item is Trap)
+            {
+                if (iconTransform != null)
+                {
+                    RectTransform iconRect = iconTransform.GetComponent<RectTransform>();
+                    if (iconRect != null)
+                        iconRect.sizeDelta = new Vector2(8, 8);
+                }
+
+                Image panelImage = panel.GetComponent<Image>();
+                if (panelImage != null)
+                    panelImage.sprite = trapNineSlice;
+
+                Button buttonComponent = panel.GetComponentInChildren<Button>();
+                if (buttonComponent != null && buttonComponent.image != null)
+                    buttonComponent.image.sprite = trapBuyButtonNineSlice;
+            }
+
+            // Safely find and update Price
+            Transform priceTransform = panel.transform.Find("Button/PriceText");
+            if (priceTransform != null)
+            {
+                TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
+                if (priceText != null)
+                    priceText.text = item.getCost().ToString();
+            }
+            else
+                Debug.LogError("Panel missing 'Button/PriceText' child element");
+
+            // Safely find Button
+            Transform buttonTransform = panel.transform.Find("Button");
+            if (buttonTransform == null)
+            {
+                Debug.LogError("Panel missing 'Button' child element");
+                continue;
+            }
+
+            Button button = buttonTransform.GetComponent<Button>();
+            if (button == null)
+            {
+                Debug.LogError("Button child missing Button component");
+                continue;
+            }
 
             IShoppable purchasedItem = item;
             button.onClick.AddListener(() =>
@@ -145,11 +210,11 @@ public class ShopManager : MonoBehaviour
                     GameSession.instance.SubtractBlood(purchasedItem.getCost());
                     purchasedItem.OnPurchase();
 
-                    if(item is Trap)
+                    if(purchasedItem is Trap)
                     {
                         GameSession.instance.run.trapsBought++;
                     }
-                    else if(item is Upgrade)
+                    else if(purchasedItem is Upgrade)
                     {
                         GameSession.instance.run.upgradesBought++;
                     }
