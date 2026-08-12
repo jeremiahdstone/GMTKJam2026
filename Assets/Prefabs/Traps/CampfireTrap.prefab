@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7241835442380247781}
   - component: {fileID: 3395542859665281808}
   - component: {fileID: 8414065832261783436}
-  - component: {fileID: -9106247222895990203}
+  - component: {fileID: 896115032435523116}
   m_Layer: 7
   m_Name: CampfireTrap
   m_TagString: Untagged
@@ -130,7 +130,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &-9106247222895990203
+--- !u!114 &896115032435523116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,9 +139,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3092212810465734139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1028da094842234d880c657b25d64f7, type: 3}
+  m_Script: {fileID: 11500000, guid: f0120ae9bba62044ab721fcc1130f7ce, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CampfireTrap
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileTrap
   canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 0
@@ -151,6 +151,8 @@ MonoBehaviour:
   icon: {fileID: -1574959030, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   detectionRange: 5
   cooldown: 8
+  burstCount: 1
+  burstDelay: 0.5
   projectilePrefab: {fileID: -5649296532427445323, guid: 0804d704be6f4aa4bb729903f69a2e98, type: 3}
   firePoint: {fileID: 7241835442380247781}
 --- !u!1 &4433394939563969923

@@ -1,16 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class BoneTrap : Trap
+public class ProjectileTrap : Trap
 {
     [Header("Attack")]
     [SerializeField] private float detectionRange = 5f;
     [SerializeField] private float cooldown = 4f;
-    [SerializeField] private int burstCount = 3;
+    [SerializeField] private int burstCount = 1;
     [SerializeField] private float burstDelay = 0.5f;
 
     [Header("Projectile")]
-    [SerializeField] private Projectile bonePrefab;
+    [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
 
     private float cooldownTimer;
@@ -54,15 +54,16 @@ public class BoneTrap : Trap
                 direction = (target.transform.position - firePoint.position).normalized;
             }
 
-            Projectile bone = Instantiate(
-                bonePrefab,
+            Projectile projectile = Instantiate(
+                projectilePrefab,
                 firePoint.position,
                 Quaternion.identity
             );
 
-            bone.Initialize(direction);
+            projectile.Initialize(direction);
 
-            yield return new WaitForSeconds(burstDelay);
+            if (i < burstCount - 1)
+                yield return new WaitForSeconds(burstDelay);
         }
 
         firing = false;
