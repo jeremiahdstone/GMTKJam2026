@@ -152,5 +152,5 @@ MonoBehaviour:
   cooldown: 4
   burstCount: 3
   burstDelay: 0.5
-  bonePrefab: {fileID: -9085802060308081717, guid: f3eeff0909819344d995280ea98e5faa, type: 3}
+  projectilePrefab: {fileID: -9085802060308081717, guid: f3eeff0909819344d995280ea98e5faa, type: 3}
   firePoint: {fileID: 7241835442380247781}
