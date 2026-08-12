@@ -177,7 +177,7 @@ MonoBehaviour:
   lifeTime: 5
   spins: 0
   spinSpeed: 720
-  smokePuff: {fileID: 6582616140547153052, guid: 9c725d1288cb2674ba5dc11c00f86c14, type: 3}
+  smokePuff: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0

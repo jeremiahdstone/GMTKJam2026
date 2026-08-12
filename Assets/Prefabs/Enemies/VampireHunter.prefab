@@ -337,6 +337,7 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
+  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
