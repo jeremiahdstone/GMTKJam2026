@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private bool spins = false;
     [SerializeField] private float spinSpeed = 720f;
-    [SerializeField] private GameObject smokePuff;
+    [SerializeField] protected GameObject smokePuff;
 
     [Header("Collision")]
     [SerializeField] private LayerMask obstacleLayer;

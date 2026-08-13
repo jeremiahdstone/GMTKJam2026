@@ -12,6 +12,8 @@ public class FreezeProjectile : Projectile
             freezable.Freeze(freezeDuration);
         }
 
+        Instantiate(smokePuff, transform.position, smokePuff.transform.rotation);
+
         base.OnHit(other);
     }
 }

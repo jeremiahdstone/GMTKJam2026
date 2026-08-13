@@ -351,7 +351,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             Instantiate(
                 iceBreakParticlePrefab,
                 transform.position,
-                Quaternion.identity
+                iceBreakParticlePrefab.transform.rotation
             );
         }
     }
