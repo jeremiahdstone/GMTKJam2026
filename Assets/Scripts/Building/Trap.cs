@@ -53,6 +53,11 @@ public abstract class Trap : Placeable, IShoppable
     [Header("Trap Stats")]
     [SerializeField] private List<TrapStatValue> baseStats = new();
 
+    // Runtime dictionary for fast stat lookups.
+    // ^ this makes it way faster since we're calling these all the time
+    // baseStats is just used for setting them up in the editor
+    private Dictionary<TrapStat, float> baseStatsDictionary = new();
+
     // Buffs currently affecting this trap.
     // Buffs modify stats when GetStat() is called.
     public List<TrapBuff> buffs = new();    
@@ -68,6 +73,24 @@ public abstract class Trap : Placeable, IShoppable
     public string getDescription() => description;
     public int getCost() => cost;
     public Sprite getIcon() => icon;
+
+    protected virtual void Awake()
+    {
+        // Transfer serialized stats into a dictionary for fast runtime lookups.
+        foreach (TrapStatValue stat in baseStats)
+        {
+            //just in case we flub somewhere
+            if (baseStatsDictionary.ContainsKey(stat.stat))
+            {
+                Debug.LogWarning(
+                    $"{name} has multiple values for TrapStat.{stat.stat}. " +
+                    $"Only the last value will be used."
+                );
+            }
+
+            baseStatsDictionary[stat.stat] = stat.value;
+        }
+    }
 
     protected virtual void OnEnable()
     {
@@ -118,9 +141,7 @@ public abstract class Trap : Placeable, IShoppable
 
     public float GetStat(TrapStat stat)
     {
-        TrapStatValue statValue = baseStats.Find(s => s.stat == stat);
-
-        if (statValue == null)
+        if (!baseStatsDictionary.TryGetValue(stat, out float value))
         {
             Debug.LogWarning(
                 $"{name} does not have TrapStat.{stat}"
@@ -128,8 +149,6 @@ public abstract class Trap : Placeable, IShoppable
 
             return 0f;
         }
-
-        float value = statValue.value;
 
         foreach (TrapBuff buff in buffs)
         {
@@ -145,7 +164,7 @@ public abstract class Trap : Placeable, IShoppable
     //could be useful for displaying in UI or smth, or maybe not increasing the stat if its not in the base stats
     public bool HasStat(TrapStat stat)
     {
-        return baseStats.Exists(s => s.stat == stat);
+        return baseStatsDictionary.ContainsKey(stat);
     }
 
 
