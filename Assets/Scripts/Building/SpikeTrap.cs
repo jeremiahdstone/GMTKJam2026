@@ -45,9 +45,9 @@ public class SpikeTrap : Trap
 
     private void DamageEnemy(Enemy enemy)
     {
-        enemy.Damage(damage);
+        enemy.Damage(GetStat(TrapStat.Damage));
         TriggerTrap(enemy);
 
-        nextDamageTimes[enemy] = Time.time + damageInterval;
+        nextDamageTimes[enemy] = Time.time + GetStat(TrapStat.Cooldown);
     }
 }
