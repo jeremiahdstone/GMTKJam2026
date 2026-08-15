@@ -34,6 +34,20 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
+    public virtual void InitializeFromFlatStats(Vector2 fireDirection, float givenSpeed, float givenDamage)
+    {
+        direction = fireDirection.normalized;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //grab relevant projectile stats from method call
+        speed = givenSpeed;
+        damage = givenDamage;
+
+        Destroy(gameObject, lifeTime);
+    }
+
     private void Update()
     {
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
