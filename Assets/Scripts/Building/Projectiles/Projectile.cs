@@ -20,12 +20,16 @@ public class Projectile : MonoBehaviour
 
     private Vector2 direction;
 
-    public void Initialize(Vector2 fireDirection)
+    public virtual void Initialize(Vector2 fireDirection, Trap sourceTrap)
     {
         direction = fireDirection.normalized;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //grab relevant trap stats from trap
+        speed = sourceTrap.GetStat(TrapStat.ProjectileSpeed);
+        damage = sourceTrap.GetStat(TrapStat.Damage);
 
         Destroy(gameObject, lifeTime);
     }

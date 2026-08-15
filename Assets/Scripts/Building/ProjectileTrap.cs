@@ -5,10 +5,7 @@ using DG.Tweening;
 public class ProjectileTrap : Trap
 {
     [Header("Attack")]
-    [SerializeField] private float detectionRange = 5f;
-    [SerializeField] private float cooldown = 4f;
-    [SerializeField] private int burstCount = 1;
-    [SerializeField] private float burstDelay = 0.5f;
+    // Range, Cooldown, BurstCount, and BurstDelay are now TrapStats
 
     [Header("Projectile")]
     [SerializeField] private Projectile projectilePrefab;
@@ -63,7 +60,13 @@ public class ProjectileTrap : Trap
     {
         if (aoeVisual != null)
         {
-            aoeVisual.localScale = new Vector3(detectionRange * 2, detectionRange * 2, 1);
+            float range = GetStat(TrapStat.Range);
+
+            aoeVisual.localScale = new Vector3(
+                range * 2,
+                range * 2,
+                1
+            );
         }
     }
 
@@ -143,13 +146,20 @@ public class ProjectileTrap : Trap
     private IEnumerator FireBurst(Enemy target)
     {
         firing = true;
+
+        float cooldown = GetStat(TrapStat.Cooldown);
+        int burstCount = Mathf.RoundToInt(GetStat(TrapStat.BurstCount));
+        float burstDelay = GetStat(TrapStat.BurstDelay);
+
         cooldownTimer = cooldown;
 
         Vector2 direction = Vector2.right;
 
         if (target != null)
         {
-            direction = (target.transform.position - firePoint.position).normalized;
+            direction = (
+                target.transform.position - firePoint.position
+            ).normalized;
         }
 
         for (int i = 0; i < burstCount; i++)
@@ -157,7 +167,9 @@ public class ProjectileTrap : Trap
             // Update aim if the target still exists.
             if (target != null)
             {
-                direction = (target.transform.position - firePoint.position).normalized;
+                direction = (
+                    target.transform.position - firePoint.position
+                ).normalized;
             }
 
             Projectile projectile = Instantiate(
@@ -166,7 +178,8 @@ public class ProjectileTrap : Trap
                 Quaternion.identity
             );
 
-            projectile.Initialize(direction);
+            //pass in the current direction to fire, and the trap itself so the projectile can grab the stats
+            projectile.Initialize(direction, this);
 
             if (i < burstCount - 1)
                 yield return new WaitForSeconds(burstDelay);
@@ -177,9 +190,11 @@ public class ProjectileTrap : Trap
 
     private Enemy FindNearestEnemy()
     {
+        float range = GetStat(TrapStat.Range);
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            detectionRange
+            range
         );
 
         Enemy closest = null;
@@ -209,7 +224,13 @@ public class ProjectileTrap : Trap
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        float range = GetStat(TrapStat.Range);
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            range
+        );
     }
 #endif
 }

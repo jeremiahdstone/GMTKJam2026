@@ -11,6 +11,9 @@ public enum TrapStat
     Cooldown,
 
     // Trap Specifc, keeping them in the same enum allows upgrades that buff all traps that have a stat (for example 'Duration')
+    BurstCount,
+    BurstDelay,
+    ProjectileSpeed,
     Duration,
     SlowDown,
     ExplosionRadius,
