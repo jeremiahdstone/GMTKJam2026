@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool friendlyFire = false;
     [Header("Stats")]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float damage = 5f;
+    [SerializeField] protected float damage = 5f;
     [SerializeField] private float lifeTime = 5f;
 
     [Header("Visuals")]
