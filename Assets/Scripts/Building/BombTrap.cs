@@ -17,6 +17,8 @@ public class BombTrap : Trap
 
     private void Awake()
     {
+        base.Awake();
+
         singleUse = true;
 
         if (player == null)
