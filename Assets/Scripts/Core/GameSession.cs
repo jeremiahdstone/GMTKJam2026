@@ -69,11 +69,11 @@ public class GameSession : MonoBehaviour
             return;
         
         waveEnding = true;
-        
+
+        phase = Phase.build;
         GameEventManager.instance.WaveEnd();
         uiManager.shopManager.GenerateShop();
         StopAllCoroutines();
-        phase = Phase.build;
         MusicManager.instance.stopMusic();
         MusicManager.instance.startMusic(phase);
         // open shop
@@ -86,12 +86,12 @@ public class GameSession : MonoBehaviour
     {
         run.day++;
 
+        phase = Phase.combat;
         GameEventManager.instance.WaveStart();
 
         //update max blood at the start of wave
         run.maxBloodCount = Mathf.RoundToInt(Player.playerStats.GetStat(PlayerStat.MaxBlood));
 
-        phase = Phase.combat;
         MusicManager.instance.stopMusic();
         MusicManager.instance.startMusic(phase);
         levelDirector.SpawnWave(run.day);

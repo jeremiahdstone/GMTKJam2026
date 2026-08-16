@@ -155,7 +155,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7218137489416784873}
   - component: {fileID: 8824075103866027010}
-  - component: {fileID: 3249854754892140824}
   m_Layer: 0
   m_Name: VampireHunter-Sheet_4
   m_TagString: Untagged
@@ -205,7 +204,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 839480283812be04b8eddc314f038c29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -238,30 +237,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3249854754892140824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426048010337592607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aee94ecd84ff196469c370c0d5addb38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  projectile: {fileID: 6396601061166939394, guid: 8366343e629048d4c8f68ead13b83e87, type: 3}
-  firePoint: {fileID: 8920499498310285984}
-  damage: 5
-  projectileSpeed: 18
-  range: 15
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  cooldown: 3
-  spriteRenderer: {fileID: 8824075103866027010}
-  flipY: 1
-  faceTarget: 1
 --- !u!1 &6396696151560761607
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8996303255971616909}
-  - component: {fileID: 8408001436895064682}
+  - component: {fileID: 3407140321881509366}
   - component: {fileID: 5968365646861851520}
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
@@ -300,7 +275,7 @@ Transform:
   - {fileID: 7218137489416784873}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8408001436895064682
+--- !u!114 &3407140321881509366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,13 +284,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6396696151560761607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472df89e88bd8aa43983bd1a839876cc, type: 3}
+  m_Script: {fileID: 11500000, guid: b3489d2e703dc3b4dad6d11087e57da6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   team: 1
   cost: 6
   maxHealth: 20
-  speed: 2
+  speed: 3
   attackDamage: 5
   healthIncreasePercentagePerDay: 0.1
   speedIncreasePercentagePerDay: 0.005
@@ -325,10 +300,11 @@ MonoBehaviour:
   materialInstance: {fileID: 0}
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
-  currentHealth: 10
+  currentHealth: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
+  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   fullOutlineDistance: 2
   maxOutlineDistance: 5
   outlineColor: {r: 0.8509804, g: 0.14117648, b: 0.23529412, a: 1}
@@ -339,7 +315,19 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
-  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
+  projectile: {fileID: 6396601061166939394, guid: 8366343e629048d4c8f68ead13b83e87, type: 3}
+  firePoint: {fileID: 8920499498310285984}
+  damage: 5
+  projectileSpeed: 18
+  range: 15
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  cooldown: 3
+  turretTransform: {fileID: 7218137489416784873}
+  turretSpriteRenderer: {fileID: 8824075103866027010}
+  flipY: 1
+  faceTarget: 1
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,7 +435,6 @@ MonoBehaviour:
   seeker: {fileID: 0}
   enemy: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  speed: 3
   nextWaypointDistance: 0.2
   arrivalDistance: 0.35
   preferredDistance: 5

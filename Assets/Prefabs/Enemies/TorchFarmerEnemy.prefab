@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8996303255971616909}
-  - component: {fileID: 8408001436895064682}
+  - component: {fileID: 4365200332958051660}
   - component: {fileID: 5968365646861851520}
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
@@ -152,7 +152,7 @@ Transform:
   - {fileID: 4539881626958603228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8408001436895064682
+--- !u!114 &4365200332958051660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,9 +161,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6396696151560761607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472df89e88bd8aa43983bd1a839876cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 395a9a767cc2e054d925b64941c4c0a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  m_EditorClassIdentifier: Assembly-CSharp::AOEEnemy
   team: 1
   cost: 4
   maxHealth: 8
@@ -177,10 +177,11 @@ MonoBehaviour:
   materialInstance: {fileID: 0}
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
-  currentHealth: 10
+  currentHealth: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
+  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   fullOutlineDistance: 2
   maxOutlineDistance: 5
   outlineColor: {r: 0.8509804, g: 0.14117648, b: 0.23529412, a: 1}
@@ -191,7 +192,8 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
-  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
+  radius: 3
+  aoeBehavior: {fileID: 6919582918010749282}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +390,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 70ee870e4079ff84cb49d35bc6f13680, type: 3}
-  m_Color: {r: 1, g: 0.84705883, b: 0.19607843, a: 0.13333334}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.13333334}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -445,6 +447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd566c1f9f7ec804ca2a3b7f523a5d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageTrigger
+  aoeFadeDuration: 0.25
+  aoeTargetAlpha: 0.5
+  showInCombat: 1
+  showInBuildPhase: 1
   damageAmount: 3
   damageInterval: 2
-  radius: 3
