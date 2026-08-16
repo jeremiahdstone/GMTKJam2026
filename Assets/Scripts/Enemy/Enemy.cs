@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     [SerializeField] private GameObject bloodSpillEffect;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private GameObject DamageNumEffect;
+    [SerializeField] private GameObject iceBreakParticlePrefab;
 
     [Header("Bite Range Outline")]
     [SerializeField] private float fullOutlineDistance = 2f;
@@ -65,7 +66,6 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     //freeze stuff
     private Coroutine freezeCoroutine;
     private bool isFrozen;
-    [SerializeField] private GameObject iceBreakParticlePrefab;
 
     private AudioSource audioSource;
 
@@ -289,7 +289,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     // FREEZE FUNCTIONS
 
-    public void Freeze(float cooldown, GameObject attacker = null)
+    public virtual void Freeze(float cooldown, GameObject attacker = null)
     {
         // If already frozen, restart the timer
         if (freezeCoroutine != null)
@@ -325,7 +325,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         Unfreeze();
     }
 
-    public void Unfreeze()
+    public virtual void Unfreeze()
     {
         isFrozen = false;
         freezeCoroutine = null;

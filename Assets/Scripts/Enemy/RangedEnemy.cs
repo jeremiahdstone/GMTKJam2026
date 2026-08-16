@@ -1,6 +1,8 @@
 using UnityEngine;
+using DG.Tweening;
+using System.Collections;
 
-public class Turret : MonoBehaviour
+public class RangedEnemy : Enemy
 {
     [Header("Projectile")]
     [SerializeField] private Projectile projectile;
@@ -18,6 +20,7 @@ public class Turret : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private float cooldown = 1f;
     private float cooldownTimer;
+    private bool canAttack = true;
 
     [Header("Turret Visual")]
     [SerializeField] private Transform turretTransform;
@@ -40,6 +43,10 @@ public class Turret : MonoBehaviour
 
     private void Update()
     {
+
+        if(!canAttack)
+            return;
+
         if (target == null)
             return;
 
@@ -124,5 +131,29 @@ public class Turret : MonoBehaviour
             turretSpriteRenderer.flipY =
                 direction.x < 0f;
         }
+    }
+    public override void Freeze(float cooldown, GameObject attacker = null)
+    {
+        base.Freeze(cooldown, attacker);
+
+        if (turretSpriteRenderer != null)
+        {
+            turretSpriteRenderer.material.SetFloat("_EnableColorSwap", 1f);
+        }
+
+        canAttack = false;
+
+    }
+
+    public override void Unfreeze()
+    {
+        base.Unfreeze();
+
+        if (turretSpriteRenderer != null)
+        {
+            turretSpriteRenderer.material.SetFloat("_EnableColorSwap", 0f);
+        }
+
+        canAttack = true;
     }
 }

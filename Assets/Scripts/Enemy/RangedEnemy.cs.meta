@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: b3489d2e703dc3b4dad6d11087e57da6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - anim: {instanceID: 0}
+  - spriteRenderer: {instanceID: 0}
+  - materialInstance: {instanceID: 0}
+  - movementModuleBehaviour: {instanceID: 0}
+  - bloodSpillEffect: {instanceID: 0}
+  - deathEffect: {instanceID: 0}
+  - DamageNumEffect: {instanceID: 0}
+  - DeathDrop: {instanceID: 0}
+  - freezeMaterial: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

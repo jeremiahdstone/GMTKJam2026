@@ -10,7 +10,6 @@ public class VantageMovementModule : MonoBehaviour, IMovementModule
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("Movement")]
-    [SerializeField] private float speed = 3f;
     [SerializeField] private float nextWaypointDistance = 0.2f;
     [SerializeField] private float arrivalDistance = 0.35f;
 
@@ -244,7 +243,7 @@ public class VantageMovementModule : MonoBehaviour, IMovementModule
                 {
                     rb.linearVelocity =
                         cachedSeparation.normalized *
-                        speed *
+                        enemy.currentSpeed *
                         0.45f;
                 }
                 else
@@ -802,11 +801,11 @@ public class VantageMovementModule : MonoBehaviour, IMovementModule
 
         rb.linearVelocity =
             steering *
-            speed;
+            enemy.currentSpeed;
 
         rb.linearVelocity =
             steering *
-            speed;
+            enemy.currentSpeed;
     }
 
 
