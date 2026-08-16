@@ -153,6 +153,7 @@ MonoBehaviour:
   description: Increases player stats while nearby
   cost: 14
   icon: {fileID: 610503068, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
+  playerBuffs: []
 --- !u!1001 &8529286401345583284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164,18 +165,6 @@ PrefabInstance:
     - target: {fileID: 3249625421109262744, guid: 929f0796dda50224f9684876d0304fbd, type: 3}
       propertyPath: m_Name
       value: VampireBuffAOE
-      objectReference: {fileID: 0}
-    - target: {fileID: 5019461165483498980, guid: 929f0796dda50224f9684876d0304fbd, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5019461165483498980, guid: 929f0796dda50224f9684876d0304fbd, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5019461165483498980, guid: 929f0796dda50224f9684876d0304fbd, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5019461165483498980, guid: 929f0796dda50224f9684876d0304fbd, type: 3}
       propertyPath: m_LocalPosition.x

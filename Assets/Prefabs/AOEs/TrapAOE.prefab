@@ -105,6 +105,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AOEBehavior
   aoeFadeDuration: 0.25
-  aoeTargetAlpha: 1
+  aoeTargetAlpha: 0.5
   showInCombat: 0
   showInBuildPhase: 1

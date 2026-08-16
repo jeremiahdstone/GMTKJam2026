@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 public class VampireBuffTrap : Trap
 {
+    [Header("Vampire Buff Trap Settings")]
+    [SerializeField]
+    private List<PlayerBuff> playerBuffs = new();
     private PlayerBuff biteDamageBuff;
     private PlayerBuff biteCooldownBuff;
     private PlayerBuff biteSpeedBuff;
     private PlayerBuff walkSpeedBuff;
 
-    private List<PlayerBuff> buffs = new();
+    
 
     protected override void Awake()
     {
@@ -18,29 +21,29 @@ public class VampireBuffTrap : Trap
         biteDamageBuff = gameObject.AddComponent<PlayerBuff>();
         biteDamageBuff.affectedStat = PlayerStat.BiteDamage;
         biteDamageBuff.percentBonus = 0.50f;
-        buffs.Add(biteDamageBuff);
+        playerBuffs.Add(biteDamageBuff);
 
         // Bite Cooldown -50%
         biteCooldownBuff = gameObject.AddComponent<PlayerBuff>();
         biteCooldownBuff.affectedStat = PlayerStat.BiteCooldown;
         biteCooldownBuff.percentBonus = -0.50f;
-        buffs.Add(biteCooldownBuff);
+        playerBuffs.Add(biteCooldownBuff);
 
         // Bite Speed +50%
         biteSpeedBuff = gameObject.AddComponent<PlayerBuff>();
         biteSpeedBuff.affectedStat = PlayerStat.BiteSpeedMultiplier;
         biteSpeedBuff.percentBonus = 0.50f;
-        buffs.Add(biteSpeedBuff);
+        playerBuffs.Add(biteSpeedBuff);
 
         // Walk Speed +50%
         walkSpeedBuff = gameObject.AddComponent<PlayerBuff>();
         walkSpeedBuff.affectedStat = PlayerStat.WalkSpeed;
         walkSpeedBuff.percentBonus = 0.50f;
-        buffs.Add(walkSpeedBuff);
+        playerBuffs.Add(walkSpeedBuff);
     }
 
     public List<PlayerBuff> GetPlayerBuffs()
     {
-        return buffs;
+        return playerBuffs;
     }
 }
