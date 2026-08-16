@@ -39,7 +39,7 @@ public class MultiStageEnemy : Enemy
 
         if (enemyToSpawn != null && shouldSpawnOnDeath)
         {
-            spawnedEnemy = Instantiate(
+            spawnedEnemy = PoolManager.instance.Spawn(
                 enemyToSpawn,
                 transform.position,
                 transform.rotation

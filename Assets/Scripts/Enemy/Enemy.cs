@@ -235,7 +235,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             LevelDirector.instance.NotifyEnemyRemoved(this);
         }
 
-        Destroy(gameObject);
+        PoolManager.instance.Release(gameObject);
     }
 
     private void PlayHitBounce()

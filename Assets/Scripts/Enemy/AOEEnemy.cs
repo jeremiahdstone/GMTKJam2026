@@ -14,6 +14,12 @@ public class AOEEnemy : Enemy
         aoeBehavior = GetComponentInChildren<AOEBehavior>();
         aoeBehavior.RefreshVisual(radius);
     }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        aoeBehavior.RefreshVisual(radius);
+    }
     public override void Freeze(float cooldown, GameObject attacker = null)
     {
         base.Freeze(cooldown, attacker);

@@ -236,7 +236,7 @@ public class LevelDirector : MonoBehaviour
             yPosition
         );
 
-        GameObject EnemyGameObject = Instantiate(
+        GameObject EnemyGameObject = PoolManager.instance.Spawn(
             enemyPrefab,
             spawnPosition,
             Quaternion.identity
@@ -311,7 +311,7 @@ public class LevelDirector : MonoBehaviour
         {
             if (enemyObj != null)
             {
-                EnemyArrow enemyArrow = Instantiate(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
+                EnemyArrow enemyArrow = PoolManager.instance.Spawn(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
                 enemyArrow.Initialize(enemyObj.transform);
             }
         }
@@ -355,7 +355,7 @@ public class LevelDirector : MonoBehaviour
             }
             else
             {
-                Destroy(enemy);
+                PoolManager.instance.Release(enemy);
             }
         }
     }

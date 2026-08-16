@@ -15,9 +15,9 @@ public class EnemyArrow : MonoBehaviour
         if (!initialized)
             return;
 
-        if (target == null)
+        if (!target.gameObject.activeInHierarchy)
         {
-            Destroy(gameObject);
+            PoolManager.instance.Release(gameObject);
             return;
         }
 
