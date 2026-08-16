@@ -16306,6 +16306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   upgrades: []
+  buffs: []
 --- !u!95 &1340283466
 Animator:
   serializedVersion: 7
@@ -81388,34 +81389,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[0]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 9441ef78e65234d4ab3cfb06b7251dbb, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[1]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 07ac6ef6fcfd4fb4d98867645393bdaf, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[2]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 48459779af142e84083285e5f56eb25b, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[3]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: 46d58add72a249b43b8922409ba73478, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[4]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: d7bdbcedf736c1a428e38a36918b5d24, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[5]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: c3d5353e61e8367468849de7cb499ca2, type: 3}
-    - target: {fileID: 6890249882470891793, guid: 7017954df154dbf41bd72ec5b88bd083, type: 3}
-      propertyPath: 'possibleEnemies.Array.data[6]'
-      value: 
-      objectReference: {fileID: 6396696151560761607, guid: db7fa3ee59fa4d143bffa0eec3dc751e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

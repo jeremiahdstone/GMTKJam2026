@@ -98,6 +98,7 @@ public abstract class Trap : Placeable, IShoppable
         }
 
         aoeBehavior = GetComponentInChildren<AOEBehavior>();
+        aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
     }
 
     protected virtual void OnEnable()

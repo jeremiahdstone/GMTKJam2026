@@ -9,7 +9,7 @@ public class AOEBehavior : MonoBehaviour
     [SerializeField] private bool showInCombat = false;
     [SerializeField] private bool showInBuildPhase = true;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         if (GameEventManager.instance != null)
         {
@@ -17,6 +17,7 @@ public class AOEBehavior : MonoBehaviour
             GameEventManager.instance.OnWaveStart += OnWaveStart;
         }
 
+        
         UpdateVisibilityForCurrentPhase();
     }
 

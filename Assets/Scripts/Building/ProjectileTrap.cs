@@ -11,11 +11,6 @@ public class ProjectileTrap : Trap
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
 
-    [Header("AOE Visual")]
-    [SerializeField] private Transform aoeVisual;
-    [SerializeField] private float aoeFadeDuration = 0.25f;
-    [SerializeField] private float aoeTargetAlpha = 1f;
-
     private float cooldownTimer;
     private bool firing;
 

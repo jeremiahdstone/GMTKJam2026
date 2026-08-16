@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class VampireBuffAOE : MonoBehaviour
+public class VampireBuffAOE : AOEBehavior
 {
     private VampireBuffTrap trap;
 
-    private void Awake()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         trap = GetComponentInParent<VampireBuffTrap>();
     }
 
