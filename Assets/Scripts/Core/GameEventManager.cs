@@ -20,6 +20,7 @@ public class GameEventManager : MonoBehaviour
     public event Action OnWaveStart;
     public event Action OnWaveEnd;
     public event Action<Transform, float> OnBite;
+    public event Action<Transform, float> OnStartBite;
     public event Action OnBatModeEnter;
     public event Action OnBatModeExit;
     public event Action<GameObject, GameObject> OnEnemyDeath;
@@ -42,6 +43,11 @@ public class GameEventManager : MonoBehaviour
     public void Bite(Transform bittenTransform, float chargeAmount = 0f)
     {
         OnBite?.Invoke(bittenTransform, chargeAmount);
+    }
+    
+    public void StartBite(Transform bitingTransform, float chargeAmount = 0f)
+    {
+        OnStartBite?.Invoke(bitingTransform, chargeAmount);
     }
 
     public void BatModeEnter()
