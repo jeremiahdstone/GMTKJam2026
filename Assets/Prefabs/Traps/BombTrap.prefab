@@ -144,6 +144,12 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 1
+  baseStats:
+  - stat: 0
+    value: 20
+  - stat: 1
+    value: 3
+  buffs: []
   trapName: Bomb Trap
   description: Explodes when enemies get close, one time use.
   cost: 10

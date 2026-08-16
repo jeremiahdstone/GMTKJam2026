@@ -237,14 +237,26 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 0
+  baseStats:
+  - stat: 0
+    value: 10
+  - stat: 8
+    value: 2
+  - stat: 5
+    value: 10
+  - stat: 3
+    value: 1
+  - stat: 4
+    value: 0.5
+  - stat: 2
+    value: 8
+  - stat: 1
+    value: 5
+  buffs: []
   trapName: Campfire Trap
   description: Shoots an explosive fireball at nearby enemies.
   cost: 18
   icon: {fileID: -1574959030, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
-  detectionRange: 5
-  cooldown: 8
-  burstCount: 1
-  burstDelay: 0.5
   projectilePrefab: {fileID: -5649296532427445323, guid: 0804d704be6f4aa4bb729903f69a2e98, type: 3}
   firePoint: {fileID: 7241835442380247781}
   aoeVisual: {fileID: 863152491238556045}

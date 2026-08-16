@@ -144,8 +144,15 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 2, y: 2}
   singleUse: 0
+  baseStats:
+  - stat: 2
+    value: 1
+  - stat: 0
+    value: 5
+  buffs: []
   trapName: Spike Trap
   description: Deals 10 damage to enemies that step on it.
   cost: 15
   icon: {fileID: 619983064346436887, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
   damage: 5
+  damageInterval: 1

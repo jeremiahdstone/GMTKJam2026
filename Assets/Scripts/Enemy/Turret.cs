@@ -5,6 +5,9 @@ public class Turret : MonoBehaviour
     [Header("Projectile")]
     [SerializeField] private Projectile projectile;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private float damage = 8f;
+    [SerializeField] private float projectileSpeed = 8f;
+
 
     [Header("Targeting")]
     [SerializeField] private float range = 8f;
@@ -90,7 +93,7 @@ public class Turret : MonoBehaviour
                 Quaternion.identity
             );
 
-        newProjectile.Initialize(direction);
+        newProjectile.InitializeFromFlatStats(direction, projectileSpeed, damage);
     }
 
 

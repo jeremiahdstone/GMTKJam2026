@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool friendlyFire = false;
     [Header("Stats")]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float damage = 5f;
+    [SerializeField] protected float damage = 5f;
     [SerializeField] private float lifeTime = 5f;
 
     [Header("Visuals")]
@@ -20,12 +20,30 @@ public class Projectile : MonoBehaviour
 
     private Vector2 direction;
 
-    public void Initialize(Vector2 fireDirection)
+    public virtual void Initialize(Vector2 fireDirection, Trap sourceTrap)
     {
         direction = fireDirection.normalized;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //grab relevant trap stats from trap
+        speed = sourceTrap.GetStat(TrapStat.ProjectileSpeed);
+        damage = sourceTrap.GetStat(TrapStat.Damage);
+
+        Destroy(gameObject, lifeTime);
+    }
+
+    public virtual void InitializeFromFlatStats(Vector2 fireDirection, float givenSpeed, float givenDamage)
+    {
+        direction = fireDirection.normalized;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        //grab relevant projectile stats from method call
+        speed = givenSpeed;
+        damage = givenDamage;
 
         Destroy(gameObject, lifeTime);
     }

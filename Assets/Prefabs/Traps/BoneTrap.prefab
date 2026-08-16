@@ -145,14 +145,24 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 0
+  baseStats:
+  - stat: 1
+    value: 5
+  - stat: 2
+    value: 4
+  - stat: 3
+    value: 3
+  - stat: 4
+    value: 0.5
+  - stat: 5
+    value: 10
+  - stat: 0
+    value: 5
+  buffs: []
   trapName: Bone Trap
   description: Shoots a burst of bones at nearby enemies.
   cost: 16
   icon: {fileID: 1036157208, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
-  detectionRange: 5
-  cooldown: 4
-  burstCount: 3
-  burstDelay: 0.5
   projectilePrefab: {fileID: -9085802060308081717, guid: f3eeff0909819344d995280ea98e5faa, type: 3}
   firePoint: {fileID: 7241835442380247781}
   aoeVisual: {fileID: 3744366641900086608}

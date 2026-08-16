@@ -3,9 +3,15 @@ using UnityEngine;
 public class ExplosiveProjectile : Projectile
 {
     [Header("Explosion")]
-    [SerializeField] private float explosionDamage = 10f;
     [SerializeField] private float explosionRadius = 2f;
     [SerializeField] private GameObject explosionEffect;
+
+    public override void Initialize(Vector2 fireDirection, Trap sourceTrap)
+    {
+        base.Initialize(fireDirection, sourceTrap);
+
+        explosionRadius = sourceTrap.GetStat(TrapStat.ExplosionRadius);
+    }
 
     protected override void OnHit(Collider2D other)
     {
@@ -18,7 +24,7 @@ public class ExplosiveProjectile : Projectile
         {
             if (hit.TryGetComponent(out Enemy enemy))
             {
-                enemy.Damage(explosionDamage);
+                enemy.Damage(damage);
             }
         }
 

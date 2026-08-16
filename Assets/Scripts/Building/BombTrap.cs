@@ -17,6 +17,8 @@ public class BombTrap : Trap
 
     private void Awake()
     {
+        base.Awake();
+
         singleUse = true;
 
         if (player == null)
@@ -40,13 +42,13 @@ public class BombTrap : Trap
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            radius
+            GetStat(TrapStat.Range)
         );
 
         foreach (Collider2D hit in hits)
         {
             if (hit.TryGetComponent(out Enemy nearbyEnemy))
-                nearbyEnemy.Damage(damage);
+                nearbyEnemy.Damage(GetStat(TrapStat.Damage));
         }
 
         Instantiate(
@@ -98,7 +100,7 @@ public class BombTrap : Trap
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireSphere(transform.position, GetStat(TrapStat.Range));
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, maxShakeDistance);

@@ -108,6 +108,10 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 2, y: 2}
   singleUse: 0
+  baseStats:
+  - stat: 7
+    value: 0.5
+  buffs: []
   trapName: Bramble Trap
   description: Slows enemies while they move through it.
   cost: 12

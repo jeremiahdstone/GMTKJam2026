@@ -145,14 +145,26 @@ MonoBehaviour:
   canPickUp: 1
   size: {x: 1, y: 1}
   singleUse: 0
+  baseStats:
+  - stat: 1
+    value: 5
+  - stat: 2
+    value: 8
+  - stat: 3
+    value: 1
+  - stat: 4
+    value: 0.5
+  - stat: 5
+    value: 10
+  - stat: 6
+    value: 2
+  - stat: 0
+    value: 0
+  buffs: []
   trapName: Ice Spire Trap
   description: Shoots a freezing snowball at nearby enemies.
   cost: 16
   icon: {fileID: 1532918802, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
-  detectionRange: 5
-  cooldown: 8
-  burstCount: 1
-  burstDelay: 0.5
   projectilePrefab: {fileID: 8892388346915721830, guid: 34d5f779e42ad3845b3988ef3b0c4b65, type: 3}
   firePoint: {fileID: 7241835442380247781}
   aoeVisual: {fileID: 1618627495104314267}
