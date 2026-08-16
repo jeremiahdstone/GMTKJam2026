@@ -34,6 +34,11 @@ public abstract class Upgrade : MonoBehaviour, IShoppable
         return existing != null ? existing.level : 0;
     }
 
+    //exists so upgrade subclasses can call this function
+    public virtual void OnLevelUp()
+    {
+    }
+
     public int GetCurrentCost()
     {
         int currentLevel = GetCurrentLevel();
@@ -82,15 +87,5 @@ public abstract class Upgrade : MonoBehaviour, IShoppable
         }
     }
 
-}
-
-// non standard upgrades are basically just 'flags' that can be checked for in the various other player files
-// this isnt great practice, but works for the jam timeline, ideally thered be some sort of event system in place
-public class DoubleBiteUpgrade : Upgrade
-{
-}
-
-public class BatExplosionUpgrade : Upgrade
-{
 }
 

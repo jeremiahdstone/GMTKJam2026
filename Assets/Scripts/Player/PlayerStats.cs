@@ -94,6 +94,7 @@ public class PlayerStats : MonoBehaviour
         if (existing != null)
         {
             existing.level++;
+            existing.OnLevelUp();
         }
         else if (HasOpenUpgradeSlot())
         {
