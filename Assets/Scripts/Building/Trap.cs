@@ -52,6 +52,7 @@ public abstract class Trap : Placeable, IShoppable
 {
     [Header("Trap Settings")]
     public bool singleUse = false;
+    
 
     [Header("Trap Stats")]
     [SerializeField] private List<TrapStatValue> baseStats = new();
@@ -77,6 +78,8 @@ public abstract class Trap : Placeable, IShoppable
     public int getCost() => cost;
     public Sprite getIcon() => icon;
 
+    private AOEBehavior aoeBehavior;
+
     protected virtual void Awake()
     {
         // Transfer serialized stats into a dictionary for fast runtime lookups.
@@ -93,6 +96,8 @@ public abstract class Trap : Placeable, IShoppable
 
             baseStatsDictionary[stat.stat] = stat.value;
         }
+
+        aoeBehavior = GetComponentInChildren<AOEBehavior>();
     }
 
     protected virtual void OnEnable()
@@ -115,12 +120,18 @@ public abstract class Trap : Placeable, IShoppable
 
     protected virtual void OnTrapPurchased(Trap trap)
     {
-        
+        if(aoeBehavior != null)
+        {
+            aoeBehavior.RefreshVisual(GetStat(TrapStat.Range));
+        }
     }
 
     protected virtual void OnUpgradePurchased(Upgrade upgrade)
     {
-        
+        if(aoeBehavior != null)
+        {
+            aoeBehavior.RefreshVisual(GetStat(TrapStat.Range));
+        }
     }
 
 
@@ -182,6 +193,8 @@ public abstract class Trap : Placeable, IShoppable
         {
             buffs.Add(buff);
         }
+
+        aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
     }
 
     public void RemoveBuff(TrapBuff buff)
@@ -190,10 +203,14 @@ public abstract class Trap : Placeable, IShoppable
             return;
 
         buffs.Remove(buff);
+
+        aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
     }
 
     public void ClearBuffs()
     {
         buffs.Clear();
+
+        aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
     }
 }
