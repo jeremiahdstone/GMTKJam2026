@@ -23,16 +23,16 @@ public class ShadowBiteUpgrade : Upgrade
 
     private void OnEnable()
     {
-        GameEventManager.instance.OnBite += ShadowBite;
+        GameEventManager.instance.OnStartBite += ShadowBite;
     }
 
     private void OnDisable()
     {
         if (GameEventManager.instance != null)
-            GameEventManager.instance.OnBite -= ShadowBite;
+            GameEventManager.instance.OnStartBite -= ShadowBite;
     }
 
-    private void ShadowBite(Transform bittenTransform, float chargeAmount)
+    private void ShadowBite(Transform bitingTransform, float chargeAmount)
     {
         if (bitingShadowPrefab == null)
             return;
@@ -40,8 +40,8 @@ public class ShadowBiteUpgrade : Upgrade
         if (manager == null || playerStats == null || playerAttacks == null)
             return;
 
-        Enemy currentEnemy = bittenTransform.GetComponent<Enemy>();
-        currentEnemy ??= bittenTransform.GetComponentInParent<Enemy>();
+        Enemy currentEnemy = bitingTransform.GetComponent<Enemy>();
+        currentEnemy ??= bitingTransform.GetComponentInParent<Enemy>();
 
         if (currentEnemy == null)
             return;
