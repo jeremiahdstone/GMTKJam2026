@@ -18,6 +18,25 @@ public enum PlayerStat
     UpgradeSlots,
 }
 
+//buffs for the stats
+public class PlayerBuff : MonoBehaviour
+{
+    public PlayerStat affectedStat;
+    public float flatBonus;
+    public float percentBonus;
+
+    public float Modify(PlayerStat targetStat, float value)
+    {
+        if (targetStat != affectedStat)
+            return value;
+
+        value += flatBonus;
+        value *= 1 + percentBonus;
+
+        return value;
+    }
+}
+
 public class PlayerStats : MonoBehaviour
 {
     //game object that houses all the instantiated upgrades
@@ -41,7 +60,11 @@ public class PlayerStats : MonoBehaviour
 
     };
 
+    //upgrades in the player's upgrade slots
     public List<Upgrade> upgrades = new();
+
+    //temp buffs for the player
+    public List<PlayerBuff> buffs = new();
 
     //singleton :3
     public static PlayerStats Instance { get; private set; }
@@ -63,13 +86,28 @@ public class PlayerStats : MonoBehaviour
     {
         float value = baseStats[stat];
 
+        //upgrades
         foreach (Upgrade upgrade in upgrades)
         {
             value = upgrade.Modify(stat, value);
         }
 
+        //buffs
+        foreach (PlayerBuff buff in buffs)
+        {
+            if (buff != null)
+            {
+                value = buff.Modify(stat, value);
+            }
+        }
+
+        //i kinda wanna make something similar here to the way i do it in my town game, 
+        //where all the flat increases are addded first, and then all the percent increases are applied 
+
         return value;
     }
+
+    //UPGRADES
 
     public int GetUpgradeSlotCount()
     {
@@ -94,6 +132,7 @@ public class PlayerStats : MonoBehaviour
         if (existing != null)
         {
             existing.level++;
+            existing.OnLevelUp();
         }
         else if (HasOpenUpgradeSlot())
         {
@@ -122,5 +161,32 @@ public class PlayerStats : MonoBehaviour
     public T GetUpgrade<T>() where T : Upgrade
     {
         return upgrades.Find(u => u is T) as T;
+    }
+
+
+    // BUFFS
+
+    public void AddBuff(PlayerBuff buff)
+    {
+        if (buff == null)
+            return;
+
+        if (!buffs.Contains(buff))
+        {
+            buffs.Add(buff);
+        }
+    }
+
+    public void RemoveBuff(PlayerBuff buff)
+    {
+        if (buff == null)
+            return;
+
+        buffs.Remove(buff);
+    }
+
+    public void ClearBuffs()
+    {
+        buffs.Clear();
     }
 }
