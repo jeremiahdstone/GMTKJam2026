@@ -270,7 +270,6 @@ public class PlayerAttacks : MonoBehaviour
         foreach (Collider2D hit in hits)
         {
             Enemy enemy = hit.GetComponent<Enemy>();
-            enemy ??= hit.GetComponentInParent<Enemy>();
 
             if (enemy == null)
                 continue;

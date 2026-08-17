@@ -315,9 +315,10 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         // Stop movement
         currentSpeed = 0;
 
-        // Disable animation
+        // Pause animation
         if (anim != null)
         {
+            anim.speed = 0;
             anim.enabled = false;
         }
 
@@ -350,6 +351,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         if (anim != null)
         {
             anim.enabled = true;
+            anim.speed = 1;
         }
 
         // Disable color swap

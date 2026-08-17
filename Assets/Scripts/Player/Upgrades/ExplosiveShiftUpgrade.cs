@@ -40,7 +40,6 @@ public class ExplosiveShiftUpgrade : Upgrade
         foreach (Collider2D hit in hits)
         {
             Enemy enemy = hit.GetComponent<Enemy>();
-            enemy ??= hit.GetComponentInParent<Enemy>();
 
             if (enemy != null)
             {
