@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     private Tween hitBounceTween;
     private Vector3 originalVisualScale;
+    private bool isDead;
 
     //freeze stuff
     private Coroutine freezeCoroutine;
@@ -143,12 +144,16 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     // For when object pooling is called.
     public virtual void OnEnable()
     {
+        isDead = false;
+
         // Recalculate stats on enable so day-based scaling is applied
         // (important for object pooling where Awake may have run earlier)
         if (GameSession.instance != null)
             CalculateStats(GameSession.instance.run.day);
 
         movementModule?.OnEnableModule();
+
+        if(isFrozen) Unfreeze();
     }
 
     private void FixedUpdate()
@@ -181,6 +186,9 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void Damage(float damage, GameObject attacker = null)
     {
+        if (isDead)
+            return;
+
         GameEventManager.instance.EnemyHit(this.gameObject, attacker?.gameObject);
         currentHealth -= damage;
 
@@ -218,6 +226,11 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void Die(float dropMultiplier, bool notifyDirector = true, GameObject attacker = null)
     {
+        if (isDead)
+            return;
+
+        isDead = true;
+
         GameEventManager.instance.EnemyDeath(this.gameObject, attacker?.gameObject);
 
         Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
@@ -235,7 +248,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             LevelDirector.instance.NotifyEnemyRemoved(this);
         }
 
-        PoolManager.instance.Release(gameObject);
+        PoolManager.instance?.Release(gameObject);
     }
 
     private void PlayHitBounce()

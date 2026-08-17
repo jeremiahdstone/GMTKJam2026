@@ -95,7 +95,7 @@ public class RangedEnemy : Enemy
             (target.position - firePoint.position).normalized;
 
         Projectile newProjectile =
-            Instantiate(
+            PoolManager.instance.Spawn(
                 projectile,
                 firePoint.position,
                 Quaternion.identity

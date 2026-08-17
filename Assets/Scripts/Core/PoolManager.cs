@@ -101,7 +101,18 @@ public class PoolManager : MonoBehaviour
             return;
         }
 
-        pools[prefab].Release(obj);
+        if (!pools.TryGetValue(prefab, out ObjectPool<GameObject> pool))
+        {
+            Debug.LogWarning(
+                $"Could not find pool for {obj.name}. Destroying instead."
+            );
+
+            prefabLookup.Remove(obj);
+            Destroy(obj);
+            return;
+        }
+
+        pool.Release(obj);
     }
 
     public void Release(GameObject obj, float delay)
