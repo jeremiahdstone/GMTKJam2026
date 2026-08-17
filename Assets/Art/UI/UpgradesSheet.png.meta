@@ -367,7 +367,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 164
+        y: 168
         width: 24
         height: 24
       alignment: 0
@@ -389,11 +389,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 40
-        y: 164
+        y: 168
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -411,11 +411,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 196
+        y: 200
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -433,7 +433,29 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 40
-        y: 196
+        y: 200
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e85eafd485fe04f94222fa2fe74283
+      internalID: -1379133172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_14
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 232
         width: 24
         height: 24
       alignment: 0
@@ -444,8 +466,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08e85eafd485fe04f94222fa2fe74283
-      internalID: -1379133172
+      spriteID: 10caefdda36eab1439d7f6f521f54263
+      internalID: 973470826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UpgradesSheet_15
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 232
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08bbc675dba195f45bad01a4b1bf7ab3
+      internalID: 673859623
       vertices: []
       indices: 
       edges: []
@@ -472,6 +516,8 @@ TextureImporter:
       UpgradesSheet_11: 625541929
       UpgradesSheet_12: 291803297
       UpgradesSheet_13: -1379133172
+      UpgradesSheet_14: 973470826
+      UpgradesSheet_15: 673859623
       UpgradesSheet_2: 6601659350291948420
       UpgradesSheet_3: -1939115216864295347
       UpgradesSheet_4: -5329516746257432617

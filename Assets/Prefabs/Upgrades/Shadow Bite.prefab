@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3489784368332026933, guid: ce5187616c710db43a1b233fadd98a3e, type: 3}
+  m_Sprite: {fileID: 973470826, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   id: shadow_bite
   name: Shadow Bite
   description: Chance to create a biting shadow when you bite.
-  sprite: {fileID: 3489784368332026933, guid: ce5187616c710db43a1b233fadd98a3e, type: 3}
+  sprite: {fileID: 973470826, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   cost: 0
   costPercentIncrease: 0.2
   level: 1

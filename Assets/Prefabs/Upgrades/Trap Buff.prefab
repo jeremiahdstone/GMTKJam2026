@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1574959030, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
+  m_Sprite: {fileID: 673859623, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   id: trap_buff
   name: Trap Buff
   description: Increase the damage and attack speed of all traps nearby.
-  sprite: {fileID: -1574959030, guid: c3a1261edb405a54e957af31b8b45db0, type: 3}
+  sprite: {fileID: 673859623, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   cost: 14
   costPercentIncrease: 0.2
   level: 1
