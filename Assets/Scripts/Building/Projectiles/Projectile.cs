@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
         speed = sourceTrap.GetStat(TrapStat.ProjectileSpeed);
         damage = sourceTrap.GetStat(TrapStat.Damage);
 
-        Destroy(gameObject, lifeTime);
+        PoolManager.instance.Release(gameObject, lifeTime);
     }
 
     public virtual void InitializeFromFlatStats(Vector2 fireDirection, float givenSpeed, float givenDamage)
@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
         speed = givenSpeed;
         damage = givenDamage;
 
-        Destroy(gameObject, lifeTime);
+        PoolManager.instance.Release(gameObject, lifeTime);
     }
 
     private void Update()
@@ -92,6 +92,6 @@ public class Projectile : MonoBehaviour
 
     protected virtual void OnHit(Collider2D other)
     {
-        Destroy(gameObject);
+        PoolManager.instance.Release(gameObject);
     }
 }

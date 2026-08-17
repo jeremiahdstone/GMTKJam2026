@@ -49,6 +49,22 @@ public class LevelDirector : MonoBehaviour
 
     private Coroutine spawnCoroutine;
 
+    private PoolManager GetPoolManager()
+    {
+        if (PoolManager.instance != null)
+            return PoolManager.instance;
+
+        PoolManager poolManager = FindFirstObjectByType<PoolManager>();
+
+        if (poolManager == null)
+        {
+            Debug.LogError("LevelDirector could not find a PoolManager in the scene.");
+            return null;
+        }
+
+        return poolManager;
+    }
+
     private void Awake()
     {
         if (LevelDirector.instance == null)
@@ -103,7 +119,7 @@ public class LevelDirector : MonoBehaviour
 
         foreach (GameObject enemy in enemiesToClear)
         {
-            if (enemy == null)
+            if (enemy == null || !enemy.activeInHierarchy)
                 continue;
 
             Enemy enemyComponent = enemy.GetComponent<Enemy>();
@@ -226,7 +242,17 @@ public class LevelDirector : MonoBehaviour
         if (preparedEnemies.Count == 0)
             return;
 
+        PoolManager poolManager = GetPoolManager();
+        if (poolManager == null)
+            return;
+
         GameObject enemyPrefab = preparedEnemies[0];
+
+        if (enemyPrefab == null)
+        {
+            preparedEnemies.RemoveAt(0);
+            return;
+        }
 
         Vector2 spawnPosition = new Vector2(
             Random.Range(
@@ -236,7 +262,7 @@ public class LevelDirector : MonoBehaviour
             yPosition
         );
 
-        GameObject EnemyGameObject = Instantiate(
+        GameObject EnemyGameObject = poolManager.Spawn(
             enemyPrefab,
             spawnPosition,
             Quaternion.identity
@@ -307,13 +333,31 @@ public class LevelDirector : MonoBehaviour
 
     private void SpawnArrows()
     {
-        foreach (GameObject enemyObj in LivingEnemies)
+        if (arrowObject == null)
+            return;
+
+        PoolManager poolManager = GetPoolManager();
+        if (poolManager == null)
+            return;
+
+        if (GameSession.instance == null || GameSession.instance.Player == null)
+            return;
+
+        for (int i = LivingEnemies.Count - 1; i >= 0; i--)
         {
-            if (enemyObj != null)
+            GameObject enemyObj = LivingEnemies[i];
+
+            if (enemyObj == null || !enemyObj.activeInHierarchy)
             {
-                EnemyArrow enemyArrow = Instantiate(arrowObject, GameSession.instance.Player.transform).GetComponent<EnemyArrow>();
-                enemyArrow.Initialize(enemyObj.transform);
+                LivingEnemies.RemoveAt(i);
+                continue;
             }
+
+            EnemyArrow enemyArrow = poolManager
+                .Spawn(arrowObject, GameSession.instance.Player.transform)
+                .GetComponent<EnemyArrow>();
+
+            enemyArrow.Initialize(enemyObj.transform);
         }
     }
 
@@ -331,6 +375,8 @@ public class LevelDirector : MonoBehaviour
 
     public void ClearEnemies()
     {
+        PoolManager poolManager = GetPoolManager();
+
         List<GameObject> enemiesToClear = new List<GameObject>(LivingEnemies);
         LivingEnemies.Clear();
 
@@ -344,7 +390,7 @@ public class LevelDirector : MonoBehaviour
 
         foreach (GameObject enemy in enemiesToClear)
         {
-            if (enemy == null)
+            if (enemy == null || !enemy.activeInHierarchy)
                 continue;
 
             Enemy enemyComponent = enemy.GetComponent<Enemy>();
@@ -353,9 +399,9 @@ public class LevelDirector : MonoBehaviour
             {
                 enemyComponent.Die(0, false);
             }
-            else
+            else if (poolManager != null)
             {
-                Destroy(enemy);
+                poolManager.Release(enemy);
             }
         }
     }

@@ -13,8 +13,7 @@ public class VampireBuffAOE : AOEBehavior
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.LogWarning("Player entered Vampire Buff AOE");
-        PlayerStats playerStats = other.GetComponentInParent<PlayerStats>();
+        PlayerStats playerStats = other.GetComponent<PlayerStats>();
 
         if (playerStats == null)
             return;
@@ -27,7 +26,7 @@ public class VampireBuffAOE : AOEBehavior
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        PlayerStats playerStats = other.GetComponentInParent<PlayerStats>();
+        PlayerStats playerStats = other.GetComponent<PlayerStats>();
 
         if (playerStats == null)
             return;

@@ -20,7 +20,7 @@ public class TrapBuffAOE : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Trap trap = other.GetComponentInParent<Trap>();
+        Trap trap = other.GetComponent<Trap>();
 
         if (trap == null)
             return;
@@ -31,7 +31,7 @@ public class TrapBuffAOE : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Trap trap = other.GetComponentInParent<Trap>();
+        Trap trap = other.GetComponent<Trap>();
 
         if (trap == null)
             return;
