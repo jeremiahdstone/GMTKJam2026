@@ -44,7 +44,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 0.6
-    - _BorderSize: 1.9
+    - _BorderSize: 0
     - _EnableExternalAlpha: 0
     - _EnableInnerFade: 0
     - _EnableOuterFade: 1
