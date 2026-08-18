@@ -131,6 +131,7 @@ public class PlayerAttacks : MonoBehaviour
         bool fullyCharged = biteTimer <= 0.05f;
 
 
+        GameEventManager.instance.StartBite(closestCollider.transform, chargeAmount);
 
         StartCoroutine(
             DoBite(
