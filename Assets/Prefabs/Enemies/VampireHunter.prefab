@@ -111,7 +111,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 570443797256695675, guid: 84a5dfd95b51f3444a7fd18c74daaa1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,7 +225,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 617111118626203648, guid: 84a5dfd95b51f3444a7fd18c74daaa1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -301,6 +301,7 @@ MonoBehaviour:
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 0
+  currentAttackDamage: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}

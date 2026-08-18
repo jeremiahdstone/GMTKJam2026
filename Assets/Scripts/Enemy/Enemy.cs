@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     [Header("In-Game Stats")]
     public float currentSpeed;
     public float currentHealth;
-    public float currentAttackDamage;
+    public int currentAttackDamage;
 
     [Header("Visuals")]
     [SerializeField] private GameObject bloodSpillEffect;

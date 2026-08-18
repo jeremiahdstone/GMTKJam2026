@@ -172,7 +172,7 @@ public class AstarPath : VersionedMonoBehaviour {
 	///
 	/// [Open online documentation to see images]
 	/// </summary>
-	public PathLog logPathResults = PathLog.Normal;
+	public PathLog logPathResults = PathLog.None;
 
 	/// <summary>@}</summary>
 	#endregion
@@ -354,6 +354,7 @@ public class AstarPath : VersionedMonoBehaviour {
 	///
 	/// See: graph-updates (view in online documentation for working links)
 	/// </summary>
+	/// 
 	public float graphUpdateBatchingInterval = 0.2F;
 
 	/// <summary>
