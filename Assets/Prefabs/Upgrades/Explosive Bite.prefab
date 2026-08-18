@@ -49,7 +49,8 @@ MonoBehaviour:
   name: Explosive Bite
   description: big explosion when you fully charge bite. kablooey!
   sprite: {fileID: -1379133172, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
-  cost: 14
+  cost: 18
+  costPercentIncrease: 0.2
   level: 1
   explosiveDamage: 8
   explosiveRadius: 2

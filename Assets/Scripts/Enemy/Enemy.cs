@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     [Header("In-Game Stats")]
     public float currentSpeed;
     public float currentHealth;
+    public float currentAttackDamage;
 
     [Header("Visuals")]
     [SerializeField] private GameObject bloodSpillEffect;
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void Awake()
     {
+        currentAttackDamage = attackDamage;
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
@@ -106,7 +108,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     {
         currentHealth = maxHealth + (maxHealth * day * healthIncreasePercentagePerDay);
         currentSpeed = speed + (speed * day * speedIncreasePercentagePerDay);
-        attackDamage = Mathf.RoundToInt(attackDamage + (attackDamage * day * damageIncreasePercentagePerDay));
+        currentAttackDamage = Mathf.RoundToInt(attackDamage + (attackDamage * day * damageIncreasePercentagePerDay));
     }
 
 
@@ -293,7 +295,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     {
         if (collision.gameObject.tag == "Objective")
         {
-            GameSession.instance.DamageCastle(attackDamage);
+            GameSession.instance.DamageCastle(currentAttackDamage);
 
             // TEMPORARY: for now, when they reach it, they just die
             Die(0, true, collision.gameObject);
