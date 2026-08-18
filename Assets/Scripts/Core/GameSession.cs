@@ -110,6 +110,7 @@ public class GameSession : MonoBehaviour
 
     public void DamageCastle(int damage)
     {
+        if(!runInProgress) return;
         GameEventManager.instance.CastleHit();
         SubtractBlood(damage);
     }
@@ -191,6 +192,8 @@ public class GameSession : MonoBehaviour
 
     public void SubtractBlood(int amt)
     {
+
+        if(!runInProgress) return;
         run.bloodCount -= amt;
 
         if (amt > bloodLossIntervalAmt)
@@ -209,6 +212,7 @@ public class GameSession : MonoBehaviour
 
     public void AddBlood(int amt)
     {
+        if(!runInProgress) return;
         run.bloodCount += amt;
         if (run.bloodCount > run.maxBloodCount) run.bloodCount = run.maxBloodCount;
 
