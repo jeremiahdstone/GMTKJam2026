@@ -14,6 +14,24 @@ public class ProjectileTrap : Trap
     private float cooldownTimer;
     private bool firing;
 
+    // protected override void OnEnable()
+    // {
+    //     base.OnEnable();
+    //     if (GameEventManager.instance != null)
+    //     {
+    //         GameEventManager.instance.OnWaveEnd += StopAllCoroutines;
+    //     }
+    // }
+
+    // protected override void OnDisable()
+    // {
+    //     base.OnDisable();
+    //     if (GameEventManager.instance != null)
+    //     {
+    //         GameEventManager.instance.OnWaveEnd -= StopAllCoroutines;
+    //     }
+    // }
+
 
     private void Update()
     {
@@ -28,9 +46,10 @@ public class ProjectileTrap : Trap
         Enemy target = FindNearestEnemy();
 
         if (target != null)
-        {
-            StartCoroutine(FireBurst(target));
-        }
+            if (target.gameObject.activeInHierarchy)
+            {
+                StartCoroutine(FireBurst(target));
+            }
     }
 
     private IEnumerator FireBurst(Enemy target)
@@ -43,24 +62,15 @@ public class ProjectileTrap : Trap
 
         cooldownTimer = cooldown;
 
-        Vector2 direction = Vector2.right;
-
-        if (target != null)
-        {
-            direction = (
-                target.transform.position - firePoint.position
-            ).normalized;
-        }
-
         for (int i = 0; i < burstCount; i++)
         {
-            // Update aim if the target still exists.
-            if (target != null)
-            {
-                direction = (
-                    target.transform.position - firePoint.position
-                ).normalized;
-            }
+            // Target died, got pooled, moved out of range, etc.
+            if (!IsTargetValid(target))
+                break;
+
+            Vector2 direction = (
+                target.transform.position - firePoint.position
+            ).normalized;
 
             Projectile projectile = Instantiate(
                 projectilePrefab,
@@ -68,7 +78,6 @@ public class ProjectileTrap : Trap
                 Quaternion.identity
             );
 
-            //pass in the current direction to fire, and the trap itself so the projectile can grab the stats
             projectile.Initialize(direction, this);
 
             if (i < burstCount - 1)
@@ -76,6 +85,16 @@ public class ProjectileTrap : Trap
         }
 
         firing = false;
+    }
+
+    private bool IsTargetValid(Enemy target)
+    {
+        if (target == null || !target.gameObject.activeInHierarchy)
+            return false;
+
+        float range = GetStat(TrapStat.Range);
+
+        return Vector2.Distance(transform.position, target.transform.position) <= range;
     }
 
     private Enemy FindNearestEnemy()
@@ -94,7 +113,7 @@ public class ProjectileTrap : Trap
         {
             Enemy enemy = hit.GetComponent<Enemy>();
 
-            if (enemy == null)
+            if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;
 
             float distance =
