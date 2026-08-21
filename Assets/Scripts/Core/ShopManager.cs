@@ -60,30 +60,31 @@ public class ShopManager : MonoBehaviour
 
     public void GenerateShop()
     {
-        IShoppable[] shopList = new IShoppable[shopItemCount];
+        List<IShoppable> shopList = new List<IShoppable>();
 
         PlayerStats playerStats = GetPlayerStats();
         List<IShoppable> upgradeOptions = GetAvailableUpgradeOptions(playerStats);
         List<IShoppable> shopPool = GetShopPool(playerStats);
 
+        // Ensure 1st option is alwyas an upgrade
         if (upgradeOptions.Count > 0)
         {
-            shopList[0] = upgradeOptions[Random.Range(0, upgradeOptions.Count)];
+            shopList.Add(upgradeOptions[Random.Range(0, upgradeOptions.Count)]);
+        }
+
+        //pick random shop items for everything else (rn thats just the 1 middle item)
+        for (int i = shopList.Count; i < shopItemCount-1; i++)
+        {
+            shopList.Add(shopPool[Random.Range(0, shopPool.Count)]);
         }
 
         // ensure last item is always a trap
-        shopList[shopItemCount-1] = trapDatabase.TrapPrefabs[Random.Range(0, trapDatabase.TrapPrefabs.Count)];
-
-        //pick random shop items for everything else (rn thats just the 1 middle item)
-        for (int i = 1; i < shopItemCount-1; i++)
-        {
-            shopList[i] = shopPool[Random.Range(0, shopPool.Count)];
-        }
+        shopList.Add(trapDatabase.TrapPrefabs[Random.Range(0, trapDatabase.TrapPrefabs.Count)]);
 
         DisplayShop(shopList);
     }
 
-    private void DisplayShop(IShoppable[] shopList)
+    private void DisplayShop(List<IShoppable> shopList)
     {
         // Remove old shop items
         foreach (Transform child in shopRect)
@@ -224,7 +225,13 @@ public class ShopManager : MonoBehaviour
                         GameEventManager.instance.UpgradePurchased(purchasedItem as Upgrade);
                     }
 
-                    Destroy(panel);
+                    // Destroy(panel);
+
+                    // Take item out of current shop list
+                    shopList.Remove(purchasedItem);
+
+                    // Re display shop after purchase (for duplicate upgrades)
+                    DisplayShop(shopList);
                 }
 
             });
