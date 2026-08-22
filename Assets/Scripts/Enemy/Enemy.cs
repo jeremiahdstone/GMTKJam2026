@@ -154,8 +154,6 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             CalculateStats(GameSession.instance.run.day);
 
         movementModule?.OnEnableModule();
-
-        if(isFrozen) Unfreeze();
     }
 
     private void FixedUpdate()
@@ -178,6 +176,8 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         }
 
         movementModule?.OnDisableModule();
+
+        if(isFrozen) Unfreeze();
     }
 
 

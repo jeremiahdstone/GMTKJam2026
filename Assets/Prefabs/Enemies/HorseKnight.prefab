@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5968365646861851520}
   - component: {fileID: 1386011033910730846}
   - component: {fileID: 7943237368480550481}
-  - component: {fileID: 2090970800905648150}
   - component: {fileID: -7977369495286338203}
   m_Layer: 8
   m_Name: HorseKnight
@@ -64,9 +63,11 @@ MonoBehaviour:
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 0
+  currentAttackDamage: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
+  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   fullOutlineDistance: 2
   maxOutlineDistance: 5
   outlineColor: {r: 0.8509804, g: 0.14117648, b: 0.23529412, a: 1}
@@ -77,7 +78,6 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
-  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   enemyToSpawn: {fileID: 8408001436895064682, guid: 48459779af142e84083285e5f56eb25b, type: 3}
   transferTarget: 1
 --- !u!114 &5968365646861851520
@@ -171,28 +171,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.89911276
---- !u!95 &2090970800905648150
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6396696151560761607}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: e1913ff33a46baa4fa103873ad24e4bc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-7977369495286338203
 MonoBehaviour:
   m_ObjectHideFlags: 0
