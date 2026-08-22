@@ -190,7 +190,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceRadius: 0.8
+  avoidanceRadius: 1.3
   avoidanceStrength: 1.25
 --- !u!1 &8277493543240117614
 GameObject:

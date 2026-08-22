@@ -75,7 +75,6 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         while (enemy != null && target != null)
         {
             UpdatePath();
-            ManeuverAroundNearbyEnemies();
             yield return new WaitForSeconds(pathUpdateTime);
         }
     }
@@ -89,40 +88,41 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         {
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
+
             return;
         }
 
-        while (currentWaypoint < path.vectorPath.Count && Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
+        while (currentWaypoint < path.vectorPath.Count &&
+               Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
         {
             currentWaypoint++;
         }
 
-        if (currentWaypoint >= path.vectorPath.Count || Vector2.Distance(rb.position, target.position) <= stoppingDistance)
+        if (currentWaypoint >= path.vectorPath.Count ||
+            Vector2.Distance(rb.position, target.position) <= stoppingDistance)
         {
-            if (rb != null)
-                rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
+            enemy.anim.SetBool("isMoving", false);
             return;
         }
 
-       
-
         Vector2 waypoint = path.vectorPath[currentWaypoint];
-        Vector2 direction = (waypoint - rb.position).normalized;
+        Vector2 pathDirection = (waypoint - rb.position).normalized;
+
+        // Local avoidance should update continuously
+        ManeuverAroundNearbyEnemies();
+
+        Vector2 direction = (pathDirection + avoidanceDirection * avoidanceStrength).normalized;
 
         if (Mathf.Abs(direction.x) > 0.01f)
-        {
             lastHorizontalDirection = Mathf.Sign(direction.x);
-        }
 
-        if (enemy != null && enemy.GetSpriteRenderer() != null)
-        {
+        if (enemy.GetSpriteRenderer() != null)
             enemy.GetSpriteRenderer().flipX = lastHorizontalDirection < 0f;
-        }
 
-        if (rb != null)
-            rb.linearVelocity = direction * enemy.currentSpeed;
+        rb.linearVelocity = direction * enemy.currentSpeed;
 
-         enemy.anim.SetBool("isMoving", true);
+        enemy.anim.SetBool("isMoving", true);
     }
 
     private void UpdatePath()
@@ -146,10 +146,10 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
         if (enemy == null || rb == null)
             return;
 
-        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(transform.position, avoidanceRadius, enemyLayers);
+        Collider2D[] nearbyEnemies =
+            Physics2D.OverlapCircleAll(rb.position, avoidanceRadius, enemyLayers);
 
         Vector2 totalAvoidance = Vector2.zero;
-        int nearbyCount = 0;
 
         foreach (Collider2D nearbyCollider in nearbyEnemies)
         {
@@ -162,7 +162,9 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
             if (nearbyEnemy == null || nearbyEnemy == enemy)
                 continue;
 
-            Vector2 awayDirection = rb.position - (Vector2)nearbyEnemy.transform.position;
+            Vector2 awayDirection =
+                rb.position - (Vector2)nearbyEnemy.transform.position;
+
             float distance = awayDirection.magnitude;
 
             if (distance <= 0.001f)
@@ -171,20 +173,14 @@ public class BasicMovementModule : MonoBehaviour, IMovementModule
                 distance = 0.001f;
             }
 
-            float closeness = 1f - Mathf.Clamp01(distance / avoidanceRadius);
+            float closeness =
+                1f - Mathf.Clamp01(distance / avoidanceRadius);
 
+            // Much stronger when another enemy is close
             totalAvoidance += awayDirection.normalized * closeness;
-            nearbyCount++;
         }
 
-        if (nearbyCount > 0)
-        {
-            avoidanceDirection = (totalAvoidance / nearbyCount).normalized;
-        }
-        else
-        {
-            avoidanceDirection = Vector2.zero;
-        }
+        avoidanceDirection = totalAvoidance;
     }
 
     private void OnPathComplete(Path newPath)

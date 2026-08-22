@@ -63,9 +63,11 @@ MonoBehaviour:
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 10
+  currentAttackDamage: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
+  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   fullOutlineDistance: 2
   maxOutlineDistance: 5
   outlineColor: {r: 0.8509804, g: 0.14117648, b: 0.23529412, a: 1}
@@ -76,7 +78,6 @@ MonoBehaviour:
   hitSquashDuration: 0.045
   hitRecoverDuration: 0.3
   hitRecoverEase: 24
-  iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
 --- !u!114 &5968365646861851520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +188,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceRadius: 0.8
+  avoidanceRadius: 1.3
   avoidanceStrength: 1.25
 --- !u!1 &6400774368700714030
 GameObject:

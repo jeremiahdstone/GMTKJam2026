@@ -178,6 +178,7 @@ MonoBehaviour:
   movementModuleBehaviour: {fileID: 0}
   currentSpeed: 0
   currentHealth: 0
+  currentAttackDamage: 0
   bloodSpillEffect: {fileID: 6983726029602833197, guid: 5bfb2fa42ba647f47a6d2be587f8909f, type: 3}
   deathEffect: {fileID: 6983726029602833197, guid: fec6d44faa8df1a45a99160d9ac98787, type: 3}
   DamageNumEffect: {fileID: 6374052882847191490, guid: 9fba67dc2db31b9468ebb2c0d9c92e68, type: 3}
@@ -304,7 +305,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
-  avoidanceRadius: 0.8
+  avoidanceRadius: 1.3
   avoidanceStrength: 1.25
 --- !u!1 &7805263832601134525
 GameObject:
