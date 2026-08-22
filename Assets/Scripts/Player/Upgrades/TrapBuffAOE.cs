@@ -4,6 +4,7 @@ public class TrapBuffAOE : MonoBehaviour
 {
     private TrapBuff damageBuff;
     private TrapBuff cooldownBuff;
+    private TrapBuff rangeBuff;
 
     private void Awake()
     {
@@ -16,6 +17,11 @@ public class TrapBuffAOE : MonoBehaviour
         cooldownBuff = gameObject.AddComponent<TrapBuff>();
         cooldownBuff.affectedStat = TrapStat.Cooldown;
         cooldownBuff.percentBonus = -0.50f;
+        
+        // Range +50%
+        rangeBuff = gameObject.AddComponent<TrapBuff>();
+        rangeBuff.affectedStat = TrapStat.Range;
+        rangeBuff.percentBonus = 0.50f;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -27,6 +33,7 @@ public class TrapBuffAOE : MonoBehaviour
 
         trap.AddBuff(damageBuff);
         trap.AddBuff(cooldownBuff);
+        trap.AddBuff(rangeBuff);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -38,5 +45,6 @@ public class TrapBuffAOE : MonoBehaviour
 
         trap.RemoveBuff(damageBuff);
         trap.RemoveBuff(cooldownBuff);
+        trap.RemoveBuff(rangeBuff);
     }
 }
