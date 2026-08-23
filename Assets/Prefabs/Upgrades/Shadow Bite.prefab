@@ -108,8 +108,8 @@ MonoBehaviour:
   name: Shadow Bite
   description: Chance to create a biting shadow when you bite.
   sprite: {fileID: 973470826, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
-  cost: 12
-  costPercentIncrease: 0.2
+  cost: 14
+  costPercentIncrease: 0.6
   level: 1
   bitingShadowPrefab: {fileID: 7573352910727844384, guid: 2906b40abf5b38243a499405a371b24b, type: 3}
   damageableLayers:
