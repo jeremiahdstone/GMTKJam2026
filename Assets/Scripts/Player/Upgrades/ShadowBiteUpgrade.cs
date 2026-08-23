@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ShadowBiteUpgrade : Upgrade
 {
@@ -12,6 +13,8 @@ public class ShadowBiteUpgrade : Upgrade
 
     private void Awake()
     {
+        base.Awake();
+
         manager = GetComponentInParent<PlayerManager>();
 
         if (manager != null)
@@ -55,8 +58,8 @@ public class ShadowBiteUpgrade : Upgrade
             damageableLayers
         );
 
-        Enemy closestEnemy = null;
-        float closestDistanceSqr = Mathf.Infinity;
+        // Get each unique enemy in range.
+        HashSet<Enemy> nearbyEnemies = new();
 
         foreach (Collider2D hit in hits)
         {
@@ -66,41 +69,31 @@ public class ShadowBiteUpgrade : Upgrade
             if (enemy == null)
                 continue;
 
-            // Don't bite the enemy the player just bit.
+            // Don't target the enemy the player just bit.
             if (enemy == currentEnemy)
                 continue;
 
-            float distanceSqr =
-                ((Vector2)manager.transform.position -
-                 (Vector2)enemy.transform.position).sqrMagnitude;
-
-            if (distanceSqr < closestDistanceSqr)
-            {
-                closestDistanceSqr = distanceSqr;
-                closestEnemy = enemy;
-            }
+            nearbyEnemies.Add(enemy);
         }
 
-        if (closestEnemy == null)
+        if (nearbyEnemies.Count == 0)
             return;
 
-        GameObject shadowObject = Instantiate(
-            bitingShadowPrefab,
-            manager.transform.position,
-            manager.transform.rotation
-        );
+        // Sort enemies by distance from the player.
+        List<Enemy> sortedEnemies = new(nearbyEnemies);
 
-        BitingShadow shadow = shadowObject.GetComponent<BitingShadow>();
+        Vector2 playerPosition = manager.transform.position;
 
-        if (shadow == null)
+        sortedEnemies.Sort((a, b) =>
         {
-            Debug.LogError(
-                "Shadow Bite prefab does not contain a BitingShadow component."
-            );
+            float distanceA =
+                ((Vector2)a.transform.position - playerPosition).sqrMagnitude;
 
-            Destroy(shadowObject);
-            return;
-        }
+            float distanceB =
+                ((Vector2)b.transform.position - playerPosition).sqrMagnitude;
+
+            return distanceA.CompareTo(distanceB);
+        });
 
         float damageMultiplier = Mathf.Lerp(
             GetMinimumBiteDamageMultiplier(),
@@ -116,15 +109,44 @@ public class ShadowBiteUpgrade : Upgrade
 
         bool fullyCharged = chargeAmount >= 0.95f;
 
-        shadow.Initialize(
-            playerStats,
-            closestEnemy,
-            biteDamage,
-            biteSpeed,
-            chargeAmount,
-            fullyCharged,
-            manager.transform
+        int shadowCount = Mathf.Min(
+            level,
+            sortedEnemies.Count
         );
+
+        for (int i = 0; i < shadowCount; i++)
+        {
+            Enemy target = sortedEnemies[i];
+
+            GameObject shadowObject = Instantiate(
+                bitingShadowPrefab,
+                manager.transform.position,
+                manager.transform.rotation
+            );
+
+            BitingShadow shadow =
+                shadowObject.GetComponent<BitingShadow>();
+
+            if (shadow == null)
+            {
+                Debug.LogError(
+                    "Shadow Bite prefab does not contain a BitingShadow component."
+                );
+
+                Destroy(shadowObject);
+                continue;
+            }
+
+            shadow.Initialize(
+                playerStats,
+                target,
+                biteDamage,
+                biteSpeed,
+                chargeAmount,
+                fullyCharged,
+                manager.transform
+            );
+        }
     }
 
     private float GetChargedBiteRange(float chargeAmount)
