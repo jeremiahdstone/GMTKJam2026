@@ -10,14 +10,20 @@ public enum Team
 public class Enemy : MonoBehaviour, IDamageable, IFreezable
 {
     public Team team = Team.bad;
-    [Header("Stats")]
+    [Header("Base Stats")]
     [SerializeField] public int cost = 1;
-    [SerializeField] public float maxHealth = 50f;
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private int attackDamage = 5;
+    [SerializeField] public float baseHealth = 50f;
+    [SerializeField] private float baseSpeed = 5f;
+    [SerializeField] private int baseAttackDamage = 5;
     [SerializeField] private float healthIncreasePercentagePerDay = 0.1f;
     [SerializeField] private float speedIncreasePercentagePerDay = 0f;
     [SerializeField] private float damageIncreasePercentagePerDay = 0.15f;
+
+
+    [Header("Scaled Stats")]
+    [SerializeField] public float maxHealth = 50f;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private int attackDamage = 5;
     [Header("References")]
     [SerializeField] public Animator anim;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -30,7 +36,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
 
 
-    [Header("In-Game Stats")]
+    [Header("Runtime Stats")]
     public float currentSpeed;
     public float currentHealth;
     public int currentAttackDamage;
@@ -78,7 +84,6 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void Awake()
     {
-        currentAttackDamage = attackDamage;
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
@@ -108,9 +113,13 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void CalculateStats(int day)
     {
-        currentHealth = maxHealth + (maxHealth * day * healthIncreasePercentagePerDay);
-        currentSpeed = speed + (speed * day * speedIncreasePercentagePerDay);
-        currentAttackDamage = Mathf.RoundToInt(attackDamage + (attackDamage * day * damageIncreasePercentagePerDay));
+        maxHealth = baseHealth + (baseHealth * day * healthIncreasePercentagePerDay);
+        speed = baseSpeed + (baseSpeed * day * speedIncreasePercentagePerDay);
+        attackDamage = Mathf.RoundToInt(baseAttackDamage + (baseAttackDamage * day * damageIncreasePercentagePerDay));
+
+        currentHealth = maxHealth;
+        currentSpeed = speed;
+        currentAttackDamage = attackDamage;
     }
 
 
