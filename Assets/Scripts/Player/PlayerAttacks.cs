@@ -278,7 +278,7 @@ public class PlayerAttacks : MonoBehaviour
             enemiesCurrentlyInRange.Add(enemy);
             highlightedEnemies.Add(enemy);
 
-            enemy.SetBiteRangeHighlight(true, transform.position);
+            enemy.SetBiteRangeHighlight(true, transform.position, biteRange);
         }
 
         highlightedEnemies.RemoveWhere(enemy =>

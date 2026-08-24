@@ -89,14 +89,10 @@ public class GameSession : MonoBehaviour
         phase = Phase.combat;
         GameEventManager.instance.WaveStart();
 
-        //update max blood at the start of wave
-        run.maxBloodCount = Mathf.RoundToInt(Player.playerStats.GetStat(PlayerStat.MaxBlood));
-
         MusicManager.instance.stopMusic();
         MusicManager.instance.startMusic(phase);
         levelDirector.SpawnWave(run.day);
 
-        uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount); //update slider to reflect max blood change
         uiManager.SetDay(run.day);
         uiManager.CloseBuildUI();
 
@@ -216,6 +212,12 @@ public class GameSession : MonoBehaviour
         run.bloodCount += amt;
         if (run.bloodCount > run.maxBloodCount) run.bloodCount = run.maxBloodCount;
 
+        uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount);
+    }
+
+    public void updateMaxBlood()
+    {
+        run.maxBloodCount = Mathf.RoundToInt(Player.playerStats.GetStat(PlayerStat.MaxBlood));
         uiManager.SetBloodSlider(run.bloodCount, run.maxBloodCount);
     }
 

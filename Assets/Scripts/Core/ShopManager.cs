@@ -232,6 +232,9 @@ public class ShopManager : MonoBehaviour
 
                     // Re display shop after purchase (for duplicate upgrades)
                     DisplayShop(shopList);
+
+                    // Redisplay max blood count (in case the purchased item had anything to do with max blood count)
+                    GameSession.instance.updateMaxBlood();
                 }
 
             });

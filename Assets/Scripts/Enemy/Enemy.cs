@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
     [Header("Bite Range Outline")]
     [SerializeField] private float fullOutlineDistance = 2f;
     [SerializeField] private float maxOutlineDistance = 5f;
+    [SerializeField] private float minimumAlpha = 0.5f;
 
     private MaterialPropertyBlock materialPropertyBlock;
     private static readonly int OutlineColorID = Shader.PropertyToID("_OutlineColor");
@@ -102,6 +103,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
         }
 
         CalculateStats(GameSession.instance.run.day);
+
     }
 
     public virtual void CalculateStats(int day)
@@ -113,7 +115,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
 
 
-    public void SetBiteRangeHighlight(bool highlighted, Vector3 playerPosition)
+    public void SetBiteRangeHighlight(bool highlighted, Vector3 playerPosition, float biteRange = 5f)
     {
         if (spriteRenderer == null)
             return;
@@ -128,10 +130,13 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
             );
 
             alpha = Mathf.InverseLerp(
-                maxOutlineDistance,
+                biteRange,
                 fullOutlineDistance,
                 distance
             );
+
+            // lerp from minimum alpha to 1
+            alpha = alpha * (1f - minimumAlpha) + minimumAlpha;
         }
 
         spriteRenderer.GetPropertyBlock(materialPropertyBlock);
