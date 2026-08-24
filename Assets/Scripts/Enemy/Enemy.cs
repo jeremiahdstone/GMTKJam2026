@@ -247,7 +247,7 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
         for (int i = 0; i < numDrops; i++)
         {
-            Instantiate(DeathDrop, transform.position, Quaternion.identity);
+            PoolManager.instance.Spawn(DeathDrop, transform.position, Quaternion.identity);
         }
 
         if (notifyDirector && LevelDirector.instance != null)

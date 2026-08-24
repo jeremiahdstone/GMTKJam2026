@@ -35,7 +35,7 @@ public class Pickup : MonoBehaviour
             minSpawnForce, maxSpawnForce);
 
         rb.AddForce(randomDirection * randomForce, ForceMode2D.Impulse);
-        
+
         StartCoroutine(DestroyAfterDelay(destroyAfterTime));
     }
 
@@ -54,7 +54,7 @@ public class Pickup : MonoBehaviour
             GameSession.instance.AddBlood(bloodAmount);
             Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
             
-            Destroy(this.gameObject);
+            PoolManager.instance.Release(this.gameObject);
             // pickup effect
         }
     }
@@ -62,7 +62,7 @@ public class Pickup : MonoBehaviour
     IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(this.gameObject);
+        PoolManager.instance.Release(this.gameObject);
     }
     
 }
