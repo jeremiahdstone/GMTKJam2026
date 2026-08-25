@@ -241,6 +241,13 @@ MonoBehaviour:
   batForm: 0
   batFormCooldownTimer: 0
   rb: {fileID: 1978370618108767408}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  humanCheckRadius: 0.4
+  humanSearchRadius: 3
+  humanSearchStep: 0.2
+  checksPerRing: 16
 --- !u!50 &1978370618108767408
 Rigidbody2D:
   serializedVersion: 5

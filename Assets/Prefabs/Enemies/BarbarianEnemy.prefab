@@ -51,12 +51,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   team: 1
   cost: 5
-  maxHealth: 40
-  speed: 1.5
-  attackDamage: 20
+  baseHealth: 40
+  baseSpeed: 1.5
+  baseAttackDamage: 20
   healthIncreasePercentagePerDay: 0.1
   speedIncreasePercentagePerDay: 0.01
   damageIncreasePercentagePerDay: 0.15
+  maxHealth: 40
+  speed: 1.5
+  attackDamage: 20
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
   materialInstance: {fileID: 0}
@@ -70,6 +73,7 @@ MonoBehaviour:
   iceBreakParticlePrefab: {fileID: 5197571157529455021, guid: 4bcde58c09e493440a3bdc78d963a5df, type: 3}
   fullOutlineDistance: 2
   maxOutlineDistance: 5
+  minimumAlpha: 0.5
   outlineColor: {r: 0.8509804, g: 0.14117648, b: 0.23529412, a: 1}
   DeathDrop: {fileID: 1608296169501144579, guid: cdae0225a063c2f4f91b4af7dd54f358, type: 3}
   RandomNumDrops: {x: 6, y: 10}

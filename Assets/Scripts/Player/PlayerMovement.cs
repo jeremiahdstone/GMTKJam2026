@@ -9,16 +9,24 @@ public class PlayerMovement : MonoBehaviour
     private PlayerManager manager;
     //where all the values for player stats are stored
     public PlayerStats playerStats;
-    
+
     public float speed;
     public bool batForm;
     public float batFormCooldownTimer;
-    
+
     public Rigidbody2D rb;
 
     public static string previousLevel = "NONE";
 
-    
+    [Header("Human Form Shift Obstacle Check")]
+    [SerializeField] private LayerMask obstacleLayer;
+
+    [SerializeField] private float humanCheckRadius = 0.4f;
+    [SerializeField] private float humanSearchRadius = 3f;
+    [SerializeField] private float humanSearchStep = 0.2f;
+    [SerializeField] private int checksPerRing = 16;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         // {
         //     //we just came from a level, set the position accordingly
         //     GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("Finish");
-            
+
         //     //find which door you came from
         //     foreach (GameObject spawnPoint in spawnPoints)
         //     {
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void ToggleFrozen(bool val)
     {
         isFrozen = val;
-        if(isFrozen) rb.linearVelocity = Vector2.zero;
+        if (isFrozen) rb.linearVelocity = Vector2.zero;
     }
 
     private void Update()
@@ -65,11 +73,12 @@ public class PlayerMovement : MonoBehaviour
             batFormCooldownTimer = Mathf.Max(0f, batFormCooldownTimer - Time.deltaTime);
         }
     }
-    
+
     //moves the player a small increment based on the inputted direction
     public void MovePlayer(Vector2 direction)
     {
-        if(isFrozen) {
+        if (isFrozen)
+        {
 
             return;
         }
@@ -108,35 +117,70 @@ public class PlayerMovement : MonoBehaviour
         Instantiate(manager.SmokePuffEffect, transform.position, Quaternion.identity);
         CameraShake.Instance.Shake(0.1f);
 
-        if (batForm) //bat form, entering human form
+        if (batForm) // bat form, entering human form
         {
-            // speed = walkSpeed;
+            Vector2 walkablePosition = FindNearestWalkablePosition(transform.position);
+
+            transform.position = walkablePosition;
+
             batForm = false;
             batFormCooldownTimer = playerStats.GetStat(PlayerStat.BatFormCooldown);
 
             GameEventManager.instance.BatModeExit();
 
-            //set sprite to bat
-
             manager.anim.SetBool("isBat", false);
 
             gameObject.layer = LayerMask.NameToLayer("Player");
             manager.sr.sortingOrder = 0;
-        } else  //human form, entering bat form
+        }
+        else // human form, entering bat form
         {
-            // speed = walkSpeed;
             batForm = true;
             batFormCooldownTimer = 0f;
 
             GameEventManager.instance.BatModeEnter();
-            //set sprite to human
-            //start velocity in direction of mouse?
-            
+
             manager.anim.SetBool("isBat", true);
 
             gameObject.layer = LayerMask.NameToLayer("Bat");
             manager.sr.sortingOrder = 3;
         }
+    }
+
+    private Vector2 FindNearestWalkablePosition(Vector2 startingPosition)
+    {
+        // Current position is already valid
+        if (!Physics2D.OverlapCircle(startingPosition, humanCheckRadius, obstacleLayer))
+            return startingPosition;
+
+        // Search outward in rings
+        for (float radius = humanSearchStep;
+             radius <= humanSearchRadius;
+             radius += humanSearchStep)
+        {
+            for (int i = 0; i < checksPerRing; i++)
+            {
+                float angle = i * Mathf.PI * 2f / checksPerRing;
+
+                Vector2 direction = new Vector2(
+                    Mathf.Cos(angle),
+                    Mathf.Sin(angle)
+                );
+
+                Vector2 checkPosition = startingPosition + direction * radius;
+
+                if (!Physics2D.OverlapCircle(
+                        checkPosition,
+                        humanCheckRadius,
+                        obstacleLayer))
+                {
+                    return checkPosition;
+                }
+            }
+        }
+
+        // No valid location found
+        return startingPosition;
     }
 
 }

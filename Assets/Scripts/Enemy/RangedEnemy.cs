@@ -7,8 +7,14 @@ public class RangedEnemy : Enemy
     [Header("Projectile")]
     [SerializeField] private Projectile projectile;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float damage = 8f;
+    [SerializeField] private float projectileDamage = 8f;
     [SerializeField] private float projectileSpeed = 8f;
+    [SerializeField] private float scaledProjectileDamage = 8f;
+    [SerializeField] private float scaledProjectileSpeed = 8f;
+    [SerializeField] private float projectileSpeedIncreasePercentagePerDay = 0.01f;
+    [SerializeField] private float projectileDamageIncreasePercentagePerDay = 0.05f;
+    
+
 
 
     [Header("Targeting")]
@@ -101,7 +107,14 @@ public class RangedEnemy : Enemy
                 Quaternion.identity
             );
 
-        newProjectile.InitializeFromFlatStats(direction, projectileSpeed, damage);
+        newProjectile.InitializeFromFlatStats(direction, scaledProjectileSpeed, scaledProjectileDamage);
+    }
+
+    public override void CalculateStats(int day)
+    {
+        base.CalculateStats(day);
+        scaledProjectileSpeed = projectileSpeed + (projectileSpeed * day * projectileSpeedIncreasePercentagePerDay);
+        scaledProjectileDamage = Mathf.RoundToInt(projectileDamage + (projectileDamage * day * projectileDamageIncreasePercentagePerDay));
     }
 
 

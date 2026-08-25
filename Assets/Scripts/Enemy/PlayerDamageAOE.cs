@@ -30,6 +30,11 @@ public class PlayerDamageAOE : AOEBehavior
         }
     }
 
+    public void SetDamageAmount(int newDamage)
+    {
+        damageAmount = newDamage;
+    }
+
     private IEnumerator DamagePlayer(PlayerManager player)
     {
         while (true)

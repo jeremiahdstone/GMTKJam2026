@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Pickup : MonoBehaviour
 {
@@ -20,15 +21,11 @@ public class Pickup : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        GameEventManager.instance.OnWaveEnd += OnWaveEnd;
     }
 
     void OnDestroy()
     {
-        if (GameEventManager.instance != null)
-        {
-            GameEventManager.instance.OnWaveEnd -= OnWaveEnd;
-        }
+        
     }
 
     void OnEnable()
@@ -38,6 +35,8 @@ public class Pickup : MonoBehaviour
             minSpawnForce, maxSpawnForce);
 
         rb.AddForce(randomDirection * randomForce, ForceMode2D.Impulse);
+
+        StartCoroutine(DestroyAfterDelay(destroyAfterTime));
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -55,20 +54,15 @@ public class Pickup : MonoBehaviour
             GameSession.instance.AddBlood(bloodAmount);
             Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
             
-            Destroy(this.gameObject);
+            PoolManager.instance.Release(this.gameObject);
             // pickup effect
         }
-    }
-
-    public void OnWaveEnd()
-    {
-        StartCoroutine(DestroyAfterDelay(destroyAfterTime));
     }
 
     IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(this.gameObject);
+        PoolManager.instance.Release(this.gameObject);
     }
     
 }

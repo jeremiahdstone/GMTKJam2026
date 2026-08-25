@@ -148,6 +148,7 @@ MonoBehaviour:
   rb: {fileID: 3945882530927039110}
   pickupEffect: {fileID: 6582616140547153052, guid: c4a18d7a28aae414ababf987411ddd2c, type: 3}
   bloodAmount: 1
+  destroyAfterTime: 10
   minSpawnForce: 0.5
   maxSpawnForce: 1.5
 --- !u!50 &3945882530927039110
