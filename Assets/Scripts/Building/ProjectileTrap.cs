@@ -68,13 +68,11 @@ public class ProjectileTrap : Trap
     {
         firing = true;
 
-        float cooldown = GetStat(TrapStat.Cooldown);
         int burstCount = Mathf.RoundToInt(GetStat(TrapStat.BurstCount));
         float burstDelay = GetStat(TrapStat.BurstDelay);
 
-        cooldownTimer = cooldown;
-
         Vector2 lastDirection = Vector2.zero;
+        bool firedSuccessfully = false;
 
         for (int i = 0; i < burstCount; i++)
         {
@@ -82,7 +80,6 @@ public class ProjectileTrap : Trap
 
             if (IsTargetValid(target))
             {
-                // Target is still alive/active, so update our direction.
                 direction = (
                     target.transform.position - firePoint.position
                 ).normalized;
@@ -96,19 +93,9 @@ public class ProjectileTrap : Trap
                 direction = lastDirection;
             }
 
-            // Safety check in case the target was invalid before
-            // we ever got a valid direction.
+            // We have no valid target and no previous direction.
             if (direction == Vector2.zero)
                 break;
-
-            Debug.Log(
-                $"[ProjectileTrap] TARGET SEARCH\n" +
-                $"Trap Position: {transform.position}\n" +
-                $"Range: {GetStat(TrapStat.Range):F2}\n" +
-                $"Found Target: {(target != null ? target.name : "NONE")}\n" +
-                $"Target Position: {(target != null ? target.transform.position.ToString() : "N/A")}\n" +
-                $"Target Distance: {(target != null ? Vector2.Distance(transform.position, target.transform.position).ToString("F2") : "N/A")}"
-            );
 
             Projectile projectile = Instantiate(
                 projectilePrefab,
@@ -116,7 +103,18 @@ public class ProjectileTrap : Trap
                 Quaternion.identity
             );
 
+            if (projectile == null)
+                break;
+
             projectile.Initialize(direction, this);
+
+            // Cooldown begins only after a projectile
+            // was actually instantiated successfully.
+            if (!firedSuccessfully)
+            {
+                cooldownTimer = GetStat(TrapStat.Cooldown);
+                firedSuccessfully = true;
+            }
 
             if (i < burstCount - 1)
                 yield return new WaitForSeconds(burstDelay);
@@ -127,7 +125,23 @@ public class ProjectileTrap : Trap
 
     private bool IsTargetValid(Enemy target)
     {
-        return (target != null && target.gameObject.activeInHierarchy);
+        if (target == null || !target.gameObject.activeInHierarchy)
+            return false;
+
+        float range = GetStat(TrapStat.Range);
+        float rangeSqr = range * range;
+
+        Collider2D collider = target.GetComponent<Collider2D>();
+
+        if (collider == null || !collider.enabled)
+            return false;
+
+        Vector2 closestPoint = collider.ClosestPoint(transform.position);
+
+        float distanceSqr =
+            (closestPoint - (Vector2)transform.position).sqrMagnitude;
+
+        return distanceSqr <= rangeSqr;
     }
 
     private Enemy FindNearestEnemy()
@@ -144,13 +158,15 @@ public class ProjectileTrap : Trap
 
         foreach (Collider2D hit in hits)
         {
-            Enemy enemy = hit.GetComponent<Enemy>();
+            Enemy enemy = hit.GetComponentInParent<Enemy>();
 
             if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;
 
+            Vector2 closestPoint = hit.ClosestPoint(transform.position);
+
             float distance =
-                (enemy.transform.position - transform.position).sqrMagnitude;
+                (closestPoint - (Vector2)transform.position).sqrMagnitude;
 
             if (distance < closestDistance)
             {
