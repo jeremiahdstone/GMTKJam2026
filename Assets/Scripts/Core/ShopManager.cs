@@ -209,7 +209,7 @@ public class ShopManager : MonoBehaviour
                 }
 
                 // SUBTRACT MONEY
-                if (canPurchaseAsNewUpgrade && GameSession.instance.run.bloodCount >= purchasedItem.getCost())
+                if (canPurchaseAsNewUpgrade && GameSession.instance.run.bloodCount > purchasedItem.getCost())
                 {
                     GameSession.instance.SubtractBlood(purchasedItem.getCost());
                     purchasedItem.OnPurchase();
