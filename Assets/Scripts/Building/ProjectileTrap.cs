@@ -14,27 +14,39 @@ public class ProjectileTrap : Trap
     private float cooldownTimer;
     private bool firing;
 
-    // protected override void OnEnable()
-    // {
-    //     base.OnEnable();
-    //     if (GameEventManager.instance != null)
-    //     {
-    //         GameEventManager.instance.OnWaveEnd += StopAllCoroutines;
-    //     }
-    // }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
 
-    // protected override void OnDisable()
-    // {
-    //     base.OnDisable();
-    //     if (GameEventManager.instance != null)
-    //     {
-    //         GameEventManager.instance.OnWaveEnd -= StopAllCoroutines;
-    //     }
-    // }
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnWaveEnd += HandleWaveEnd;
+        }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        if (GameEventManager.instance != null)
+        {
+            GameEventManager.instance.OnWaveEnd -= HandleWaveEnd;
+        }
+    }
+
+    private void HandleWaveEnd()
+    {
+        StopAllCoroutines();
+        firing = false;
+        cooldownTimer = 0f;
+    }
 
 
     private void Update()
     {
+        if (GameSession.instance.phase != Phase.combat)
+            return;
+
         if (firing)
             return;
 
@@ -46,10 +58,10 @@ public class ProjectileTrap : Trap
         Enemy target = FindNearestEnemy();
 
         if (target != null)
-            if (target.gameObject.activeInHierarchy)
-            {
-                StartCoroutine(FireBurst(target));
-            }
+        {
+            Debug.Log("Starting burst at " + target.name);
+            StartCoroutine(FireBurst(target));
+        }
     }
 
     private IEnumerator FireBurst(Enemy target)
@@ -62,15 +74,41 @@ public class ProjectileTrap : Trap
 
         cooldownTimer = cooldown;
 
+        Vector2 lastDirection = Vector2.zero;
+
         for (int i = 0; i < burstCount; i++)
         {
-            // Target died, got pooled, moved out of range, etc.
-            if (!IsTargetValid(target))
+            Vector2 direction;
+
+            if (IsTargetValid(target))
+            {
+                // Target is still alive/active, so update our direction.
+                direction = (
+                    target.transform.position - firePoint.position
+                ).normalized;
+
+                lastDirection = direction;
+            }
+            else
+            {
+                // Target died or left the range.
+                // Keep firing in the last direction we had.
+                direction = lastDirection;
+            }
+
+            // Safety check in case the target was invalid before
+            // we ever got a valid direction.
+            if (direction == Vector2.zero)
                 break;
 
-            Vector2 direction = (
-                target.transform.position - firePoint.position
-            ).normalized;
+            Debug.Log(
+                $"[ProjectileTrap] TARGET SEARCH\n" +
+                $"Trap Position: {transform.position}\n" +
+                $"Range: {GetStat(TrapStat.Range):F2}\n" +
+                $"Found Target: {(target != null ? target.name : "NONE")}\n" +
+                $"Target Position: {(target != null ? target.transform.position.ToString() : "N/A")}\n" +
+                $"Target Distance: {(target != null ? Vector2.Distance(transform.position, target.transform.position).ToString("F2") : "N/A")}"
+            );
 
             Projectile projectile = Instantiate(
                 projectilePrefab,
@@ -89,12 +127,7 @@ public class ProjectileTrap : Trap
 
     private bool IsTargetValid(Enemy target)
     {
-        if (target == null || !target.gameObject.activeInHierarchy)
-            return false;
-
-        float range = GetStat(TrapStat.Range);
-
-        return Vector2.Distance(transform.position, target.transform.position) <= range;
+        return (target != null && target.gameObject.activeInHierarchy);
     }
 
     private Enemy FindNearestEnemy()
