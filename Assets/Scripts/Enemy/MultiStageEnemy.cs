@@ -58,7 +58,7 @@ public class MultiStageEnemy : Enemy
         // so the director's enemy count should remain unchanged.
         base.Die(
             dropMultiplier,
-            notifyDirector: false,
+            notifyDirector: !shouldSpawnOnDeath,
             attacker: attacker
         );
     }
