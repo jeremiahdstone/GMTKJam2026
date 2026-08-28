@@ -158,7 +158,7 @@ public class ProjectileTrap : Trap
 
         foreach (Collider2D hit in hits)
         {
-            Enemy enemy = hit.GetComponentInParent<Enemy>();
+            Enemy enemy = hit.GetComponent<Enemy>();
 
             if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;

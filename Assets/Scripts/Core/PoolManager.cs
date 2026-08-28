@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,6 +10,8 @@ public class PoolManager : MonoBehaviour
 
     [SerializeField] private int defaultCapacity = 20;
     [SerializeField] private int maxSize = 200;
+    [Tooltip("A position outside the map for pooled objects to move to when released")]
+    [SerializeField] private Vector2 pooledPosition = new Vector2(100f,100f);
 
     private readonly Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
     private readonly Dictionary<GameObject, GameObject> prefabLookup = new();
@@ -161,6 +164,7 @@ public class PoolManager : MonoBehaviour
             {
                 obj.transform.SetParent(transform);
                 obj.SetActive(false);
+                obj.transform.position = pooledPosition;
             },
 
             actionOnDestroy: obj =>
