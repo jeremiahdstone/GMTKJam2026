@@ -20,7 +20,7 @@ public class UITween : MonoBehaviour
     [SerializeField] private float offscreenDistance = 800f;
 
     [Header("Open Tween")]
-    [SerializeField] private float showDuration = 0.4f;
+    [SerializeField] public float showDuration = 0.4f;
     [SerializeField] private Ease showEase = Ease.OutCubic;
 
     [Header("Hide Tween")]

@@ -26,9 +26,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopOpenButton;
     [SerializeField] private GameObject nextDayButton;
 
+    [Header("Upgrade List")]
     [SerializeField] private TMP_Text upgradesText;
     [SerializeField] private TMP_Text numUpgradesText;
     [SerializeField] private GameObject upgradeList;
+    [SerializeField] private GameObject UpgradePanelLayoutGroup;
+    [SerializeField] private GameObject UpgradeUIPrefab;
+    private readonly Dictionary<string, UpgradeUIPrefab> upgradeUIPrefabLookup = new Dictionary<string, UpgradeUIPrefab>();
+
+    private static string GetUpgradeKey(Upgrade upgrade)
+    {
+        if (upgrade == null)
+            return string.Empty;
+
+        if (!string.IsNullOrEmpty(upgrade.id))
+            return upgrade.id;
+
+        return upgrade.name;
+    }
 
     [Header("UI Sections")]
     [SerializeField] private GameObject buildUI;
@@ -408,16 +423,21 @@ public class UIManager : MonoBehaviour
         RebuildUpgradeList(GameSession.instance.Player.GetComponent<PlayerStats>().upgrades);
         shopPanel.SetActive(true);
         upgradeList.SetActive(true);
+
+        UpgradePanelLayoutGroup.SetActive(true);
+
         if (shopOpenButton.activeSelf)
             shopOpenButton.GetComponent<UITween>().Hide();
         if (nextDayButton.activeSelf)
             nextDayButton.GetComponent<UITween>().Hide();
         GameSession.instance.DisablePlayerMovement(true);
+
     }
     public void CloseShopPanel()
     {
         shopPanel.GetComponent<UITween>().Hide();
         upgradeList.GetComponent<UITween>().Hide();
+        UpgradePanelLayoutGroup.GetComponent<UITween>().Hide();
 
         shopOpenButton.SetActive(true);
         nextDayButton.SetActive(true);
@@ -437,11 +457,98 @@ public class UIManager : MonoBehaviour
 
     public void RebuildUpgradeList(List<Upgrade> upgrades)
     {
-        numUpgradesText.text = "Upgrades\n(" + upgrades.Count.ToString() + "/" + GameSession.instance.Player.GetComponent<PlayerStats>().GetUpgradeSlotCount().ToString() + ")";
+        if (upgrades == null)
+            return;
+
+        if (GameSession.instance == null || GameSession.instance.Player == null)
+            return;
+
+        PlayerStats playerStats = GameSession.instance.Player.GetComponent<PlayerStats>();
+        if (playerStats == null)
+            return;
+
+        numUpgradesText.text = "Upgrades\n(" + upgrades.Count.ToString() + "/" + playerStats.GetUpgradeSlotCount().ToString() + ")";
         upgradesText.text = "";
+
         foreach (Upgrade upgrade in upgrades)
         {
+            if (upgrade == null)
+                continue;
+
             upgradesText.text += upgrade.name + ":<color=#890027> LVL " + upgrade.level.ToString() + "</color>\n";
+        }
+
+        Dictionary<string, UpgradeUIPrefab> rebuiltLookup = new Dictionary<string, UpgradeUIPrefab>();
+
+        foreach (Upgrade upgrade in upgrades)
+        {
+            if (upgrade == null)
+                continue;
+
+            string upgradeKey = GetUpgradeKey(upgrade);
+            if (string.IsNullOrEmpty(upgradeKey))
+                continue;
+
+            if (upgradeUIPrefabLookup.TryGetValue(upgradeKey, out UpgradeUIPrefab existingPrefab))
+            {
+                existingPrefab.VerifyUpgrade(upgrade);
+                rebuiltLookup[upgradeKey] = existingPrefab;
+            }
+            else
+            {
+                UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, UpgradePanelLayoutGroup.transform).GetComponent<UpgradeUIPrefab>();
+                newUpgradeUIPrefab.SetUpgrade(upgrade);
+                rebuiltLookup[upgradeKey] = newUpgradeUIPrefab;
+            }
+        }
+
+        foreach (KeyValuePair<string, UpgradeUIPrefab> kvp in upgradeUIPrefabLookup)
+        {
+            if (kvp.Value == null)
+                continue;
+
+            if (!rebuiltLookup.ContainsKey(kvp.Key))
+            {
+                Destroy(kvp.Value.gameObject);
+            }
+        }
+
+        upgradeUIPrefabLookup.Clear();
+        foreach (KeyValuePair<string, UpgradeUIPrefab> kvp in rebuiltLookup)
+        {
+            if (!string.IsNullOrEmpty(kvp.Key) && kvp.Value != null)
+            {
+                upgradeUIPrefabLookup[kvp.Key] = kvp.Value;
+            }
+        }
+    }
+
+    public void AddUIUpgrade(Upgrade upgrade)
+    {
+        if (upgrade == null)
+            return;
+
+        string upgradeKey = GetUpgradeKey(upgrade);
+        if (string.IsNullOrEmpty(upgradeKey) || upgradeUIPrefabLookup.ContainsKey(upgradeKey))
+            return;
+
+        UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, UpgradePanelLayoutGroup.transform).GetComponent<UpgradeUIPrefab>();
+        newUpgradeUIPrefab.SetUpgrade(upgrade);
+        upgradeUIPrefabLookup[upgradeKey] = newUpgradeUIPrefab;
+    }
+
+    public void LevelUpUIUpgrade(Upgrade upgrade)
+    {
+        if (upgrade == null)
+            return;
+
+        string upgradeKey = GetUpgradeKey(upgrade);
+        if (string.IsNullOrEmpty(upgradeKey))
+            return;
+
+        if (upgradeUIPrefabLookup.TryGetValue(upgradeKey, out UpgradeUIPrefab uiPrefab))
+        {
+            uiPrefab.SetUpgrade(upgrade);
         }
     }
 
