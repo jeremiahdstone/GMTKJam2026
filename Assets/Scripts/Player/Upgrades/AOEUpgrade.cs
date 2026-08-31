@@ -8,7 +8,7 @@ public class AOEUpgrade : Upgrade
     [SerializeField] private float baseRange = 3f;
     [SerializeField] private float rangePerLevel = 0.5f;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         base.Awake();
         UpdateAOESize();
