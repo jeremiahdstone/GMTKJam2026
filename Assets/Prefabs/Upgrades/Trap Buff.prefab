@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7676866288643363827}
   - component: {fileID: 2889573139707109590}
-  - component: {fileID: 3980448029101459268}
+  - component: {fileID: 314803742828743282}
   m_Layer: 0
   m_Name: Trap Buff
   m_TagString: Untagged
@@ -88,12 +88,12 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3980448029101459268
+--- !u!114 &314803742828743282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,9 +102,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1980326058473676426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5d6486e980aa8341a87634a1636ade2, type: 3}
+  m_Script: {fileID: 11500000, guid: dda50c581b21dfc4c9935658f04252fc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AOEUpgrade
+  m_EditorClassIdentifier: Assembly-CSharp::TrapBuffAOEUpgrade
   id: trap_buff
   name: Trap Buff
   description: Increase the damage and attack speed of all traps nearby.
@@ -115,6 +115,8 @@ MonoBehaviour:
   aoe: {fileID: 2311747171893462404}
   baseRange: 3
   rangePerLevel: 0.5
+  baseBuffPercent: 0.2
+  buffPercentPerLevel: 0.1
 --- !u!1 &6417070741176302705
 GameObject:
   m_ObjectHideFlags: 0
