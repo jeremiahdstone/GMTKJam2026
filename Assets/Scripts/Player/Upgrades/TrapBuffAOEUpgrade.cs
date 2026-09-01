@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TrapBuffAOEUpgrade : AOEUpgrade
@@ -6,9 +7,7 @@ public class TrapBuffAOEUpgrade : AOEUpgrade
     [SerializeField] private float baseBuffPercent = 0.20f;
     [SerializeField] private float buffPercentPerLevel = 0.10f;
 
-    private TrapBuff damageBuff;
-    private TrapBuff cooldownBuff;
-    private TrapBuff rangeBuff;
+    private List<TrapBuff> buffs = new List<TrapBuff>();
 
     protected override void Awake()
     {
@@ -20,14 +19,17 @@ public class TrapBuffAOEUpgrade : AOEUpgrade
 
     private void CreateBuffs()
     {
-        damageBuff = gameObject.AddComponent<TrapBuff>();
+        TrapBuff damageBuff = gameObject.AddComponent<TrapBuff>();
         damageBuff.affectedStat = TrapStat.Damage;
+        buffs.Add(damageBuff);
 
-        cooldownBuff = gameObject.AddComponent<TrapBuff>();
+        TrapBuff cooldownBuff = gameObject.AddComponent<TrapBuff>();
         cooldownBuff.affectedStat = TrapStat.Cooldown;
+        buffs.Add(cooldownBuff);
 
-        rangeBuff = gameObject.AddComponent<TrapBuff>();
+        TrapBuff rangeBuff = gameObject.AddComponent<TrapBuff>();
         rangeBuff.affectedStat = TrapStat.Range;
+        buffs.Add(rangeBuff);
     }
 
     private void UpdateBuffValues()
@@ -35,26 +37,20 @@ public class TrapBuffAOEUpgrade : AOEUpgrade
         float buffPercent =
             baseBuffPercent + (buffPercentPerLevel * (level - 1));
 
-        damageBuff.percentBonus = buffPercent;
-        rangeBuff.percentBonus = buffPercent;
-
-        // Cooldown works in the opposite direction.
-        cooldownBuff.percentBonus = -buffPercent;
+        // this cooldown thing is a little odd
+        // maybe cooldown should be replaced with like "attack speed" so i can add to it like the others
+        // or, each buff has its own base % and per level %, not all the same, and it set them in the inspector.
+        foreach (TrapBuff buff in buffs)
+        {
+            buff.percentBonus = buff.affectedStat == TrapStat.Cooldown
+                ? -buffPercent
+                : buffPercent;
+        }
     }
 
-    public TrapBuff GetDamageBuff()
+    public List<TrapBuff> GetBuffs()
     {
-        return damageBuff;
-    }
-
-    public TrapBuff GetCooldownBuff()
-    {
-        return cooldownBuff;
-    }
-
-    public TrapBuff GetRangeBuff()
-    {
-        return rangeBuff;
+        return buffs;
     }
 
     public override void OnLevelUp()

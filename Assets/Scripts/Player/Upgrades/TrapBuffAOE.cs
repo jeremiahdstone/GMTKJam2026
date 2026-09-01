@@ -26,9 +26,10 @@ public class TrapBuffAOE : MonoBehaviour
         if (trap == null)
             return;
 
-        trap.AddBuff(upgrade.GetDamageBuff());
-        trap.AddBuff(upgrade.GetCooldownBuff());
-        trap.AddBuff(upgrade.GetRangeBuff());
+        foreach (TrapBuff buff in upgrade.GetBuffs())
+        {
+            trap.AddBuff(buff);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -41,8 +42,9 @@ public class TrapBuffAOE : MonoBehaviour
         if (trap == null)
             return;
 
-        trap.RemoveBuff(upgrade.GetDamageBuff());
-        trap.RemoveBuff(upgrade.GetCooldownBuff());
-        trap.RemoveBuff(upgrade.GetRangeBuff());
+        foreach (TrapBuff buff in upgrade.GetBuffs())
+        {
+            trap.RemoveBuff(buff);
+        }
     }
 }
