@@ -118,6 +118,11 @@ public abstract class Trap : Placeable, IShoppable
             GameEventManager.instance.OnTrapPurchased -= OnTrapPurchased;
             GameEventManager.instance.OnUpgradePurchased -= OnUpgradePurchased;
         }
+        if (popup != null)
+        {
+            PopupManager.instance.ReleasePopup(popup);
+            popup = null;
+        }
     }
 
     protected virtual void OnTrapPurchased(Trap trap)
@@ -125,16 +130,6 @@ public abstract class Trap : Placeable, IShoppable
         if(aoeBehavior != null)
         {
             aoeBehavior.RefreshVisual(GetStat(TrapStat.Range));
-        }
-        if(popup != null)
-        {
-            popup.Initialize(
-                transform,
-                Vector2.zero,
-                trapName,
-                GetStatsDescription(),
-                PopupManager.instance.GetComponent<Canvas>()
-            );
         }
     }
 
@@ -228,16 +223,7 @@ public abstract class Trap : Placeable, IShoppable
         }
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
-        if(popup != null)
-        {
-            popup.Initialize(
-                transform,
-                Vector2.zero,
-                trapName,
-                GetStatsDescription(),
-                PopupManager.instance.GetComponent<Canvas>()
-            );
-        }
+        refreshPopup();
     }
 
     public void RemoveBuff(TrapBuff buff)
@@ -248,16 +234,7 @@ public abstract class Trap : Placeable, IShoppable
         buffs.Remove(buff);
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
-        if(popup != null)
-        {
-            popup.Initialize(
-                transform,
-                Vector2.zero,
-                trapName,
-                GetStatsDescription(),
-                PopupManager.instance.GetComponent<Canvas>()
-            );
-        }
+        refreshPopup();
     }
 
     public void ClearBuffs()
@@ -265,16 +242,7 @@ public abstract class Trap : Placeable, IShoppable
         buffs.Clear();
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
-        if(popup != null)
-        {
-            popup.Initialize(
-                transform,
-                Vector2.zero,
-                trapName,
-                GetStatsDescription(),
-                PopupManager.instance.GetComponent<Canvas>()
-            );
-        }
+        refreshPopup();
     }
 
      private InfoPopup popup;
@@ -282,6 +250,8 @@ public abstract class Trap : Placeable, IShoppable
     //Hover to see stats?
     protected override void OnMouseHover()
     {
+        if (GameSession.instance.phase != Phase.build)
+            return;
         base.OnMouseHover();
         Debug.Log($"Hovering over {name} with description: {description}");
         if(IsBeingDragged) return;
@@ -291,6 +261,20 @@ public abstract class Trap : Placeable, IShoppable
             trapName,
             GetStatsDescription()
         );
+    }
+
+    private void refreshPopup()
+    {
+        if(popup != null)
+        {
+            popup.Initialize(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription(),
+                PopupManager.instance.GetComponent<Canvas>()
+            );
+        }
     }
 
     protected override void OnMouseUnhover()
@@ -316,7 +300,7 @@ public abstract class Trap : Placeable, IShoppable
     protected override void OnDragEnd()
     {
         base.OnDragEnd();
-        if(IsHovered)
+        if(IsHovered && GameSession.instance.phase == Phase.build)
         {
             popup = PopupManager.instance.SpawnPopup(
                 transform,

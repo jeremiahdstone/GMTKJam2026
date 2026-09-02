@@ -30,6 +30,7 @@ public class InfoPopup : MonoBehaviour
 
     private Transform anchor;
     private Vector3 anchorPoint;
+    private float currentHorizontalPadding;
 
     private Camera worldCamera;
 
@@ -44,11 +45,15 @@ public class InfoPopup : MonoBehaviour
         Vector3 anchorPoint,
         string title,
         string description,
-        Canvas canvas)
+        Canvas canvas,
+        PopupAnchorSpace anchorSpace = PopupAnchorSpace.World,
+        float extraHorizontalPadding = 0f)
     {
         this.anchor = anchor;
         this.anchorPoint = anchorPoint;
         this.canvas = canvas;
+        this.anchorSpace = anchorSpace;
+        currentHorizontalPadding = horizontalPadding + extraHorizontalPadding;
 
         canvasRect = canvas.transform as RectTransform;
         worldCamera = Camera.main;
@@ -172,12 +177,12 @@ public class InfoPopup : MonoBehaviour
 
         float rightCenterX =
             anchorPosition.x +
-            horizontalPadding +
+            currentHorizontalPadding +
             halfSize.x;
 
         float leftCenterX =
             anchorPosition.x -
-            horizontalPadding -
+            currentHorizontalPadding -
             halfSize.x;
 
         float rightEdge =

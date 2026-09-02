@@ -13,10 +13,12 @@ public class PopupManager : MonoBehaviour
     }
 
     public InfoPopup SpawnPopup(
-    Transform anchor,
-    Vector3 anchorPoint,
-    string title,
-    string description)
+        Transform anchor,
+        Vector3 anchorPoint,
+        string title,
+        string description,
+        PopupAnchorSpace anchorSpace = PopupAnchorSpace.World,
+        float extraHorizontalPadding = 0f)
     {
         InfoPopup popup = PoolManager.instance.Spawn(infoPopupPrefab, this.transform).GetComponent<InfoPopup>();
 
@@ -29,7 +31,9 @@ public class PopupManager : MonoBehaviour
             anchorPoint,
             title,
             description,
-            canvas
+            canvas,
+            anchorSpace,
+            extraHorizontalPadding
         );
 
         return popup;
