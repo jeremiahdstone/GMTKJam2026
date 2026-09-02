@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 // ALL POSSIBLE TRAP STATS GO HERE
 public enum TrapStat
@@ -125,6 +126,16 @@ public abstract class Trap : Placeable, IShoppable
         {
             aoeBehavior.RefreshVisual(GetStat(TrapStat.Range));
         }
+        if(popup != null)
+        {
+            popup.Initialize(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription(),
+                PopupManager.instance.GetComponent<Canvas>()
+            );
+        }
     }
 
     protected virtual void OnUpgradePurchased(Upgrade upgrade)
@@ -182,6 +193,27 @@ public abstract class Trap : Placeable, IShoppable
         return baseStatsDictionary.ContainsKey(stat);
     }
 
+    private string GetStatsDescription()
+    {
+        StringBuilder statsDescription = new();
+        HashSet<TrapStat> displayedStats = new();
+
+        foreach (TrapStatValue statValue in baseStats)
+        {
+            if (!displayedStats.Add(statValue.stat))
+                continue;
+
+            if (statsDescription.Length > 0)
+                statsDescription.AppendLine();
+
+            statsDescription.Append(statValue.stat);
+            statsDescription.Append(": ");
+            statsDescription.Append(GetStat(statValue.stat).ToString("0.##"));
+        }
+
+        return statsDescription.ToString();
+    }
+
 
     // BUFFS
 
@@ -196,6 +228,16 @@ public abstract class Trap : Placeable, IShoppable
         }
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
+        if(popup != null)
+        {
+            popup.Initialize(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription(),
+                PopupManager.instance.GetComponent<Canvas>()
+            );
+        }
     }
 
     public void RemoveBuff(TrapBuff buff)
@@ -206,6 +248,16 @@ public abstract class Trap : Placeable, IShoppable
         buffs.Remove(buff);
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
+        if(popup != null)
+        {
+            popup.Initialize(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription(),
+                PopupManager.instance.GetComponent<Canvas>()
+            );
+        }
     }
 
     public void ClearBuffs()
@@ -213,5 +265,65 @@ public abstract class Trap : Placeable, IShoppable
         buffs.Clear();
 
         aoeBehavior?.RefreshVisual(GetStat(TrapStat.Range));
+        if(popup != null)
+        {
+            popup.Initialize(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription(),
+                PopupManager.instance.GetComponent<Canvas>()
+            );
+        }
+    }
+
+     private InfoPopup popup;
+
+    //Hover to see stats?
+    protected override void OnMouseHover()
+    {
+        base.OnMouseHover();
+        Debug.Log($"Hovering over {name} with description: {description}");
+        if(IsBeingDragged) return;
+        popup = PopupManager.instance.SpawnPopup(
+            transform,
+            Vector2.zero,
+            trapName,
+            GetStatsDescription()
+        );
+    }
+
+    protected override void OnMouseUnhover()
+    {
+        base.OnMouseUnhover();
+        if (popup != null)
+        {
+            PopupManager.instance.ReleasePopup(popup);
+            popup = null;
+        }
+    }
+
+    protected override void OnDragStart()
+    {
+        base.OnDragStart();
+        if (popup != null)
+        {
+            PopupManager.instance.ReleasePopup(popup);
+            popup = null;
+        }
+    }
+
+    protected override void OnDragEnd()
+    {
+        base.OnDragEnd();
+        if(IsHovered)
+        {
+            popup = PopupManager.instance.SpawnPopup(
+                transform,
+                Vector2.zero,
+                trapName,
+                GetStatsDescription()
+            );
+        }
     }
 }

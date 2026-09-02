@@ -16,6 +16,7 @@ public class GridPlacementManager : MonoBehaviour
     private readonly Dictionary<Vector3Int, Placeable> occupiedCells = new();
 
     private Placeable heldObject;
+    private Placeable hoveredObject;
     private Vector3Int previousGridPosition;
 
     private void Awake()
@@ -30,6 +31,35 @@ public class GridPlacementManager : MonoBehaviour
 
         if (mainCamera == null)
             mainCamera = Camera.main;
+    }
+
+    private void Update()
+    {
+        RefreshHoveredObject();
+    }
+
+    private void RefreshHoveredObject()
+    {
+        Placeable nextHoveredObject = null;
+
+        if (EventSystem.current == null ||
+            !EventSystem.current.IsPointerOverGameObject())
+        {
+            Collider2D hit = Physics2D.OverlapPoint(
+                GetMouseWorldPosition(),
+                placeableLayer
+            );
+
+            if (hit != null)
+                nextHoveredObject = hit.GetComponentInParent<Placeable>();
+        }
+
+        if (hoveredObject == nextHoveredObject)
+            return;
+
+        hoveredObject?.SetHovered(false);
+        hoveredObject = nextHoveredObject;
+        hoveredObject?.SetHovered(true);
     }
 
     // private void Update()
@@ -86,6 +116,7 @@ public class GridPlacementManager : MonoBehaviour
 
         heldObject = placeable;
         previousGridPosition = heldObject.GridPosition;
+        heldObject.SetBeingDragged(true);
 
         if (heldObject.IsPlaced)
         {
@@ -107,16 +138,21 @@ public class GridPlacementManager : MonoBehaviour
 
     public void TryPlaceHeldObject()
     {
+        if (heldObject == null)
+            return;
+
         Vector3Int gridPosition = GetOriginCell(heldObject);
 
         if (CanPlaceObject(heldObject, gridPosition))
         {
             PlaceObject(heldObject, gridPosition);
+            heldObject.SetBeingDragged(false);
             heldObject = null;
             return;
         }
 
         PlaceObject(heldObject, previousGridPosition);
+        heldObject.SetBeingDragged(false);
         heldObject = null;
     }
 
