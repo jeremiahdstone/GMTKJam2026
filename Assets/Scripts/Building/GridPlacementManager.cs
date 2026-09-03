@@ -12,6 +12,7 @@ public class GridPlacementManager : MonoBehaviour
 
     [Header("Placement")]
     [SerializeField] private LayerMask placeableLayer;
+    [SerializeField] private int placementSearchRadius = 20;
 
     private readonly Dictionary<Vector3Int, Placeable> occupiedCells = new();
 
@@ -141,9 +142,14 @@ public class GridPlacementManager : MonoBehaviour
         if (heldObject == null)
             return;
 
-        Vector3Int gridPosition = GetOriginCell(heldObject);
+        Vector3Int droppedGridPosition = GetOriginCell(heldObject);
+        Vector3Int gridPosition = FindNearestValidOrigin(
+            heldObject,
+            droppedGridPosition
+        );
 
-        if (CanPlaceObject(heldObject, gridPosition))
+        if (gridPosition != previousGridPosition ||
+            CanPlaceObject(heldObject, gridPosition))
         {
             PlaceObject(heldObject, gridPosition);
             heldObject.SetBeingDragged(false);
@@ -154,6 +160,43 @@ public class GridPlacementManager : MonoBehaviour
         PlaceObject(heldObject, previousGridPosition);
         heldObject.SetBeingDragged(false);
         heldObject = null;
+    }
+
+    private Vector3Int FindNearestValidOrigin(
+        Placeable placeable,
+        Vector3Int droppedOrigin
+    )
+    {
+        if (CanPlaceObject(placeable, droppedOrigin))
+            return droppedOrigin;
+
+        Vector3Int nearestOrigin = previousGridPosition;
+        float nearestDistance = float.MaxValue;
+        int searchRadius = Mathf.Max(0, placementSearchRadius);
+
+        for (int x = -searchRadius; x <= searchRadius; x++)
+        {
+            for (int y = -searchRadius; y <= searchRadius; y++)
+            {
+                Vector3Int candidateOrigin = droppedOrigin +
+                    new Vector3Int(x, y, 0);
+
+                if (!CanPlaceObject(placeable, candidateOrigin))
+                    continue;
+
+                float distance = x * x + y * y;
+
+                if (distance < nearestDistance)
+                {
+                    nearestOrigin = candidateOrigin;
+                    nearestDistance = distance;
+                }
+            }
+        }
+
+        return nearestDistance < float.MaxValue
+            ? nearestOrigin
+            : previousGridPosition;
     }
 
     private bool CanPlaceObject(
