@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   team: 1
+  startingDay: 13
   cost: 6
   baseHealth: 20
   baseSpeed: 3
@@ -322,8 +323,12 @@ MonoBehaviour:
   hitRecoverEase: 24
   projectile: {fileID: 6396601061166939394, guid: 8366343e629048d4c8f68ead13b83e87, type: 3}
   firePoint: {fileID: 8920499498310285984}
-  damage: 5
+  projectileDamage: 8
   projectileSpeed: 18
+  scaledProjectileDamage: 8
+  scaledProjectileSpeed: 8
+  projectileSpeedIncreasePercentagePerDay: 0.01
+  projectileDamageIncreasePercentagePerDay: 0.05
   range: 15
   obstacleLayer:
     serializedVersion: 2

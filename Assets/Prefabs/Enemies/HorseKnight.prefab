@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiStageEnemy
   team: 1
+  startingDay: 9
   cost: 4
   baseHealth: 20
   baseSpeed: 3

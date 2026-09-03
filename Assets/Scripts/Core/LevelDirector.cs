@@ -24,10 +24,6 @@ public class LevelDirector : MonoBehaviour
     private List<GameObject> preparedEnemies = new List<GameObject>();
     public int EnemiesLeft;
 
-    [Header("Enemy Unlocking")]
-    [Tooltip("Set to 0 to unlock all enemy types immediately.")]
-    [SerializeField] private int wavesPerEnemyUnlock = 2;
-
     [Header("Runtime")]
     [SerializeField] private int currentEnemyCount;
     [SerializeField] private List<GameObject> LivingEnemies = new List<GameObject>();
@@ -195,25 +191,8 @@ public class LevelDirector : MonoBehaviour
     {
         List<GameObject> affordableEnemies = new List<GameObject>();
 
-        int unlockedEnemyCount;
-
-        if (wavesPerEnemyUnlock <= 0)
+        foreach (GameObject enemyObject in possibleEnemies)
         {
-            unlockedEnemyCount = possibleEnemies.Count;
-        }
-        else
-        {
-            unlockedEnemyCount = Mathf.Clamp(
-                1 + ((currentDifficulty - 1) / wavesPerEnemyUnlock),
-                1,
-                possibleEnemies.Count
-            );
-        }
-
-        for (int i = 0; i < unlockedEnemyCount; i++)
-        {
-            GameObject enemyObject = possibleEnemies[i];
-
             if (enemyObject == null)
                 continue;
 
@@ -227,6 +206,9 @@ public class LevelDirector : MonoBehaviour
 
                 continue;
             }
+
+            if (enemy.startingDay > currentDifficulty)
+                continue;
 
             if (enemy.cost <= currentBudget)
             {
