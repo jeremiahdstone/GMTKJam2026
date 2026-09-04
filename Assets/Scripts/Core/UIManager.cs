@@ -359,6 +359,16 @@ public class UIManager : MonoBehaviour
             DoBloodSliderPunchPositive();
     }
 
+    public void InitializeBloodSlider(int value, int maxValue)
+    {
+        bloodTween?.Kill();
+        bloodPunchTween?.Kill();
+
+        bloodAmountSlider.maxValue = maxValue;
+        bloodAmountSlider.value = value;
+        bloodAmountText.text = value + "/" + maxValue;
+    }
+
     public void DoBloodSliderPunchPositive()
     {
         if (CameraShake.Instance != null)

@@ -59,6 +59,8 @@ public class GameSession : MonoBehaviour
         run = new RunData();
         runInProgress = true;
 
+        uiManager.InitializeBloodSlider(run.bloodCount, run.maxBloodCount);
+
         StartWave();
 
     }
