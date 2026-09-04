@@ -10,6 +10,7 @@ public enum Team
 public class Enemy : MonoBehaviour, IDamageable, IFreezable
 {
     public Team team = Team.bad;
+    public int startingDay = 1;
     [Header("Base Stats")]
     [SerializeField] public int cost = 1;
     [SerializeField] public float baseHealth = 50f;
@@ -113,9 +114,10 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void CalculateStats(int day)
     {
-        maxHealth = baseHealth + (baseHealth * day * healthIncreasePercentagePerDay);
-        speed = baseSpeed + (baseSpeed * day * speedIncreasePercentagePerDay);
-        attackDamage = Mathf.RoundToInt(baseAttackDamage + (baseAttackDamage * day * damageIncreasePercentagePerDay));
+        int daysSinceStart = day - startingDay;
+        maxHealth = baseHealth + (baseHealth * daysSinceStart * healthIncreasePercentagePerDay);
+        speed = baseSpeed + (baseSpeed * daysSinceStart * speedIncreasePercentagePerDay);
+        attackDamage = Mathf.RoundToInt(baseAttackDamage + (baseAttackDamage * daysSinceStart * damageIncreasePercentagePerDay));
 
         currentHealth = maxHealth;
         currentSpeed = speed;

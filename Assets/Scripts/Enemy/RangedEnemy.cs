@@ -113,8 +113,9 @@ public class RangedEnemy : Enemy
     public override void CalculateStats(int day)
     {
         base.CalculateStats(day);
-        scaledProjectileSpeed = projectileSpeed + (projectileSpeed * day * projectileSpeedIncreasePercentagePerDay);
-        scaledProjectileDamage = Mathf.RoundToInt(projectileDamage + (projectileDamage * day * projectileDamageIncreasePercentagePerDay));
+        int daysSinceStart = day - startingDay;
+        scaledProjectileSpeed = projectileSpeed + (projectileSpeed * daysSinceStart * projectileSpeedIncreasePercentagePerDay);
+        scaledProjectileDamage = Mathf.RoundToInt(projectileDamage + (projectileDamage * daysSinceStart * projectileDamageIncreasePercentagePerDay));
     }
 
 

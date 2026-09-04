@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject upgradeList;
     [SerializeField] private GameObject UpgradePanelLayoutGroup;
     [SerializeField] private GameObject UpgradeUIPrefab;
+    [SerializeField] private Transform upgradeUIPrefabParent;
     private readonly Dictionary<string, UpgradeUIPrefab> upgradeUIPrefabLookup = new Dictionary<string, UpgradeUIPrefab>();
 
     private static string GetUpgradeKey(Upgrade upgrade)
@@ -358,6 +359,16 @@ public class UIManager : MonoBehaviour
             DoBloodSliderPunchPositive();
     }
 
+    public void InitializeBloodSlider(int value, int maxValue)
+    {
+        bloodTween?.Kill();
+        bloodPunchTween?.Kill();
+
+        bloodAmountSlider.maxValue = maxValue;
+        bloodAmountSlider.value = value;
+        bloodAmountText.text = value + "/" + maxValue;
+    }
+
     public void DoBloodSliderPunchPositive()
     {
         if (CameraShake.Instance != null)
@@ -436,8 +447,7 @@ public class UIManager : MonoBehaviour
     public void CloseShopPanel()
     {
         shopPanel.GetComponent<UITween>().Hide();
-        upgradeList.GetComponent<UITween>().Hide();
-        UpgradePanelLayoutGroup.GetComponent<UITween>().Hide();
+        HideUpgradePanel();
 
         shopOpenButton.SetActive(true);
         nextDayButton.SetActive(true);
@@ -453,6 +463,8 @@ public class UIManager : MonoBehaviour
         if (shopPanel.activeSelf)
             shopPanel.GetComponent<UITween>().Hide();
 
+        HideUpgradePanel();
+
     }
 
     public void RebuildUpgradeList(List<Upgrade> upgrades)
@@ -466,6 +478,8 @@ public class UIManager : MonoBehaviour
         PlayerStats playerStats = GameSession.instance.Player.GetComponent<PlayerStats>();
         if (playerStats == null)
             return;
+
+        Transform prefabParent = GetUpgradeUIPrefabParent();
 
         numUpgradesText.text = "Upgrades\n(" + upgrades.Count.ToString() + "/" + playerStats.GetUpgradeSlotCount().ToString() + ")";
         upgradesText.text = "";
@@ -491,12 +505,13 @@ public class UIManager : MonoBehaviour
 
             if (upgradeUIPrefabLookup.TryGetValue(upgradeKey, out UpgradeUIPrefab existingPrefab))
             {
+                existingPrefab.transform.SetParent(prefabParent, false);
                 existingPrefab.VerifyUpgrade(upgrade);
                 rebuiltLookup[upgradeKey] = existingPrefab;
             }
             else
             {
-                UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, UpgradePanelLayoutGroup.transform).GetComponent<UpgradeUIPrefab>();
+                UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, prefabParent).GetComponent<UpgradeUIPrefab>();
                 newUpgradeUIPrefab.SetUpgrade(upgrade);
                 rebuiltLookup[upgradeKey] = newUpgradeUIPrefab;
             }
@@ -532,9 +547,16 @@ public class UIManager : MonoBehaviour
         if (string.IsNullOrEmpty(upgradeKey) || upgradeUIPrefabLookup.ContainsKey(upgradeKey))
             return;
 
-        UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, UpgradePanelLayoutGroup.transform).GetComponent<UpgradeUIPrefab>();
+        UpgradeUIPrefab newUpgradeUIPrefab = Instantiate(UpgradeUIPrefab, GetUpgradeUIPrefabParent()).GetComponent<UpgradeUIPrefab>();
         newUpgradeUIPrefab.SetUpgrade(upgrade);
         upgradeUIPrefabLookup[upgradeKey] = newUpgradeUIPrefab;
+    }
+
+    private Transform GetUpgradeUIPrefabParent()
+    {
+        return upgradeUIPrefabParent != null
+            ? upgradeUIPrefabParent
+            : UpgradePanelLayoutGroup.transform;
     }
 
     public void LevelUpUIUpgrade(Upgrade upgrade)
@@ -593,6 +615,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowLoseScreen(RunData run)
     {
+        
         loseScreen.SetActive(true);
 
         GameOverStats.text = "Protected castle for <color=#d9243c>" + run.day + "</color> days\n\n";
@@ -622,6 +645,8 @@ public class UIManager : MonoBehaviour
         GameOverRestartButton.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
         GameOverMainMenuButton.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        ShowUpgradePanel();
 
     }
 
@@ -631,6 +656,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        ShowUpgradePanel();
         pauseMenuOpen = true;
         pauseTransitionVersion++;
 
@@ -654,10 +680,61 @@ public class UIManager : MonoBehaviour
             .SetEase(Ease.OutCubic)
             .SetUpdate(true)
             .OnComplete(() => pauseFadeTween = null);
+        
+        
+    }
+
+    private void ShowUpgradePanel()
+    {
+        if (GameSession.instance != null && GameSession.instance.Player != null)
+        {
+            PlayerStats playerStats = GameSession.instance.Player.GetComponent<PlayerStats>();
+
+            if (playerStats != null)
+                RebuildUpgradeList(playerStats.upgrades);
+        }
+
+        ShowUpgradeObject(upgradeList);
+        ShowUpgradeObject(UpgradePanelLayoutGroup);
+    }
+
+    private void ShowUpgradeObject(GameObject upgradeObject)
+    {
+        if (upgradeObject == null)
+            return;
+
+        if (upgradeObject.TryGetComponent(out UITween upgradeTween))
+        {
+            upgradeTween.Show();
+            return;
+        }
+
+        upgradeObject.SetActive(true);
+    }
+
+    private void HideUpgradePanel()
+    {
+        HideUpgradeObject(upgradeList);
+        HideUpgradeObject(UpgradePanelLayoutGroup);
+    }
+
+    private void HideUpgradeObject(GameObject upgradeObject)
+    {
+        if (upgradeObject == null)
+            return;
+
+        if (upgradeObject.TryGetComponent(out UITween upgradeTween))
+        {
+            upgradeTween.Hide();
+            return;
+        }
+
+        upgradeObject.SetActive(false);
     }
 
     public void ClosePauseMenu()
     {
+        HideUpgradePanel();
         pauseMenuOpen = false;
 
         int thisTransition = ++pauseTransitionVersion;

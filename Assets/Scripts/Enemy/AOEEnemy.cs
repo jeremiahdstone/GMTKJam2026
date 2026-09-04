@@ -24,9 +24,11 @@ public class AOEEnemy : Enemy
     {
         base.CalculateStats(day);
 
+        int daysSinceStart = day - startingDay;
+
         if(aoeBehavior is PlayerDamageAOE)
         {
-            scaledAoeDamage = aoeDamage + (aoeDamage * day * aoeDamageIncreasePercentagePerDay);
+            scaledAoeDamage = aoeDamage + (aoeDamage * daysSinceStart * aoeDamageIncreasePercentagePerDay);
 
             PlayerDamageAOE damageAOE = aoeBehavior as PlayerDamageAOE;
             
@@ -34,7 +36,7 @@ public class AOEEnemy : Enemy
 
         }
 
-        scaledRadius = radius + (radius * day * radiusIncreasePercentagePerDay);
+        scaledRadius = radius + (radius * daysSinceStart * radiusIncreasePercentagePerDay);
 
         aoeBehavior.RefreshVisual(scaledRadius);
     }
