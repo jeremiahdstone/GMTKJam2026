@@ -14,7 +14,7 @@ public enum UITweenDirection
 public class UITween : MonoBehaviour
 {
     [Header("Direction")]
-    [SerializeField] private UITweenDirection direction = UITweenDirection.Top;
+    [SerializeField] public UITweenDirection direction = UITweenDirection.Top;
 
     [Tooltip("Distance from the visible position to the hidden position.")]
     [SerializeField] private float offscreenDistance = 800f;

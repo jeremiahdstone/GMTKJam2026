@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class UpgradeUIPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Upgrade currentUpgrade;
+    public UITween uiTween;
     [SerializeField] private TMP_Text LevelText;
     [SerializeField] private Image icon;
 
@@ -61,6 +62,14 @@ public class UpgradeUIPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExit
         LevelText.text = "LVL " + level;
     }
 
+    public void SetTweenDirection(UITweenDirection newDirection)
+    {
+        if(uiTween != null)
+        {
+            uiTween.direction = newDirection;
+        }
+    }
+
     public void VerifyUpgrade(Upgrade upgrade)
     {
         if (upgrade == null)
@@ -73,11 +82,17 @@ public class UpgradeUIPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             SetUpgrade(upgrade);
         }
+
+        if(uiTween != null)
+        {
+            uiTween.showDuration = 0.5f + (0.2f * (float)transform.GetSiblingIndex());
+        }
     }
 
     void Awake()
     {
-        UITween uiTween = GetComponentInChildren<UITween>();
+        uiTween = GetComponentInChildren<UITween>();
+
         if(uiTween != null)
         {
             uiTween.showDuration = 0.5f + (0.2f * (float)transform.GetSiblingIndex());
