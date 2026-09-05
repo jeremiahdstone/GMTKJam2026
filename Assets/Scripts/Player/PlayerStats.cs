@@ -21,9 +21,17 @@ public enum PlayerStat
 //buffs for the stats
 public class PlayerBuff : MonoBehaviour
 {
+    [Header("Buff ID")]
+    public string id;
+
+    [Header("Stats")]
     public PlayerStat affectedStat;
     public float flatBonus;
     public float percentBonus;
+
+    // How many sources are currently applying this buff
+    [HideInInspector]
+    public int sourceCount = 0;
 
     public float Modify(PlayerStat targetStat, float value)
     {
@@ -171,10 +179,18 @@ public class PlayerStats : MonoBehaviour
         if (buff == null)
             return;
 
-        if (!buffs.Contains(buff))
+        PlayerBuff existing = buffs.Find(b => b != null && b.id == buff.id);
+
+        if (existing != null)
         {
-            buffs.Add(buff);
+            // Already have this buff, so just register another source
+            existing.sourceCount++;
+            return;
         }
+
+        // First source of this buff
+        buff.sourceCount = 1;
+        buffs.Add(buff);
     }
 
     public void RemoveBuff(PlayerBuff buff)
@@ -182,7 +198,18 @@ public class PlayerStats : MonoBehaviour
         if (buff == null)
             return;
 
-        buffs.Remove(buff);
+        PlayerBuff existing = buffs.Find(b => b != null && b.id == buff.id);
+
+        if (existing == null)
+            return;
+
+        existing.sourceCount--;
+
+        // Only actually remove the buff when no sources remain
+        if (existing.sourceCount <= 0)
+        {
+            buffs.Remove(existing);
+        }
     }
 
     public void ClearBuffs()
