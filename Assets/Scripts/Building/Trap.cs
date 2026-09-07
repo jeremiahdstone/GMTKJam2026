@@ -164,11 +164,18 @@ public abstract class Trap : Placeable, IShoppable
     {
         if (!baseStatsDictionary.TryGetValue(stat, out float value))
         {
-            Debug.LogWarning(
-                $"{name} does not have TrapStat.{stat}"
-            );
+            //default values for stats the trap doesnt have
+            switch (stat)
+            {
+                case TrapStat.BurstCount:
+                    return 1f;
 
-            return 0f;
+                case TrapStat.BurstDelay:
+                    return 0.5f;
+
+                default:
+                    return 0f;
+            }
         }
 
         foreach (TrapBuff buff in buffs)
