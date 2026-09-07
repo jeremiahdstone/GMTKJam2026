@@ -42,9 +42,7 @@ public class TrapBuffAOEUpgrade : AOEUpgrade
         // or, each buff has its own base % and per level %, not all the same, and it set them in the inspector.
         foreach (TrapBuff buff in buffs)
         {
-            buff.percentBonus = buff.affectedStat == TrapStat.Cooldown
-                ? -buffPercent
-                : buffPercent;
+            buff.percentBonus = buffPercent;
         }
     }
 

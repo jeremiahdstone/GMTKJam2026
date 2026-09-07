@@ -178,6 +178,25 @@ public abstract class Trap : Placeable, IShoppable
             }
         }
 
+        // cooldown is different than the other stats as it scales hyperbolically so it cant reach zero
+        // i might wanna redo this, maybe have stats keep track of their method of scaling to clean this up
+        // maybe just add a "hyperbolic scaling amount" or a "scaling type" to the TrapBuff class
+        if (stat == TrapStat.Cooldown)
+        {
+            float totalPercentBonus = 0f;
+
+            foreach (TrapBuff buff in buffs)
+            {
+                if (buff != null && buff.affectedStat == stat)
+                {
+                    value += buff.flatBonus;
+                    totalPercentBonus += buff.percentBonus;
+                }
+            }
+
+            return value / (1f + totalPercentBonus);
+        }
+
         foreach (TrapBuff buff in buffs)
         {
             if (buff != null)
