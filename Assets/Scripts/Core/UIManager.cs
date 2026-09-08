@@ -50,6 +50,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject buildUI;
     [SerializeField] private GameObject openingLetter;
     [SerializeField] private GameObject loseScreen;
+    [SerializeField] private GameObject UILinks;
 
     [Header("Shop Refresh")]
     [SerializeField] private int startingRefreshPrice = 5;
@@ -618,6 +619,8 @@ public class UIManager : MonoBehaviour
         
         loseScreen.SetActive(true);
 
+        UILinks.SetActive(true);
+
         GameOverStats.text = "Protected castle for <color=#d9243c>" + run.day + "</color> days\n\n";
         GameOverStats.text += "Feasted on <color=#d9243c>" + run.enemiesKilled + "</color> humans\n\n";
         GameOverStats.text += "Purchased <color=#d9243c>" + run.upgradesBought + "</color> upgrades ";
@@ -680,6 +683,8 @@ public class UIManager : MonoBehaviour
             .SetEase(Ease.OutCubic)
             .SetUpdate(true)
             .OnComplete(() => pauseFadeTween = null);
+
+        UILinks.SetActive(true);
         
         
     }
@@ -768,5 +773,7 @@ public class UIManager : MonoBehaviour
                 pauseMenuPanel.SetActive(false);
                 pauseFadeTween = null;
             });
+
+        UILinks.GetComponent<UITween>().Hide();
     }
 }
