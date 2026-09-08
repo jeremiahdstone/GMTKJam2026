@@ -5,6 +5,7 @@ public class ExplosiveProjectile : Projectile
     [Header("Explosion")]
     [SerializeField] private float explosionRadius = 2f;
     [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private LayerMask damageableLayers;
 
     public override void Initialize(Vector2 fireDirection, Trap sourceTrap)
     {
@@ -15,27 +16,17 @@ public class ExplosiveProjectile : Projectile
 
     protected override void OnHit(Collider2D other)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position,
-            explosionRadius
-        );
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.TryGetComponent(out Enemy enemy))
-            {
-                enemy.Damage(damage);
-            }
-        }
-
         if (explosionEffect != null)
         {
-            Instantiate(
+            Explosion explosion = Instantiate(
                 explosionEffect,
                 transform.position,
                 Quaternion.identity
-            );
+            ).GetComponent<Explosion>();
+
+            explosion.Explode(explosionRadius, damage, damageableLayers);
         }
+        
 
         Destroy(gameObject);
     }

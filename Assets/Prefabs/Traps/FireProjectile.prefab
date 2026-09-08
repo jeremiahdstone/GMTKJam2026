@@ -172,6 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e05278b03eba2c4c96f1c1eb2b2f17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveProjectile
+  team: 0
+  friendlyFire: 0
   speed: 10
   damage: 0
   lifeTime: 5
@@ -181,9 +183,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
-  explosionDamage: 10
   explosionRadius: 2
   explosionEffect: {fileID: 3999954187018070181, guid: 1a723e1e122c555449dcb9bc65f9229d, type: 3}
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!82 &6924711848120847244
 AudioSource:
   m_ObjectHideFlags: 0

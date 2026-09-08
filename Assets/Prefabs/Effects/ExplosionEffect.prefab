@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5485418114572418763}
   - component: {fileID: 1734753282289713234}
   - component: {fileID: -4676116675155045187}
+  - component: {fileID: 4007223040948258140}
   m_Layer: 0
   m_Name: ExplosionEffect
   m_TagString: Untagged
@@ -45,14 +46,14 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1.6
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5013,3 +5014,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RandomizeAudioPitch
   minimumPitchMultiplier: 0.9
   maximumPitchMultiplier: 1.1
+--- !u!114 &4007223040948258140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3999954187018070181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b10e527ee35a94da791788b5d94260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Explosion

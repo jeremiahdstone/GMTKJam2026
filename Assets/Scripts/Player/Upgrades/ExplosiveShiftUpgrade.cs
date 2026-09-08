@@ -31,38 +31,19 @@ public class ExplosiveShiftUpgrade : Upgrade
         float damage = explosiveDamage + ((level - 1) * 4f);
         float radius = explosiveRadius + ((level - 1) * 0.25f);
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            playerTransform.position,
-            radius,
-            damageableLayers
-        );
-
-        foreach (Collider2D hit in hits)
-        {
-            Enemy enemy = hit.GetComponent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.Damage(damage, gameObject);
-            }
-        }
-
-        Debug.Log("Trying to spawn explosion");
-
+        
         if (ExplosionEffect != null)
         {
-            Instantiate(
+            Explosion explosion = Instantiate(
                 ExplosionEffect,
                 playerTransform.position,
                 Quaternion.identity
-            );
+            ).GetComponent<Explosion>();
 
-            Debug.Log("Spawned explosion at " + playerTransform.position);
+            explosion.Explode(radius, damage, damageableLayers);
+
+            
 
         }
-
-        CameraShake.Instance?.Shake(
-            0.6f + 0.05f * level
-        );
     }
 }
