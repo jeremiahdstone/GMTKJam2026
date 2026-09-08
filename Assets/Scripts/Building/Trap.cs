@@ -164,11 +164,37 @@ public abstract class Trap : Placeable, IShoppable
     {
         if (!baseStatsDictionary.TryGetValue(stat, out float value))
         {
-            Debug.LogWarning(
-                $"{name} does not have TrapStat.{stat}"
-            );
+            //default values for stats the trap doesnt have
+            switch (stat)
+            {
+                case TrapStat.BurstCount:
+                    return 1f;
 
-            return 0f;
+                case TrapStat.BurstDelay:
+                    return 0.5f;
+
+                default:
+                    return 0f;
+            }
+        }
+
+        // cooldown is different than the other stats as it scales hyperbolically so it cant reach zero
+        // i might wanna redo this, maybe have stats keep track of their method of scaling to clean this up
+        // maybe just add a "hyperbolic scaling amount" or a "scaling type" to the TrapBuff class
+        if (stat == TrapStat.Cooldown)
+        {
+            float totalPercentBonus = 0f;
+
+            foreach (TrapBuff buff in buffs)
+            {
+                if (buff != null && buff.affectedStat == stat)
+                {
+                    value += buff.flatBonus;
+                    totalPercentBonus += buff.percentBonus;
+                }
+            }
+
+            return value / (1f + totalPercentBonus);
         }
 
         foreach (TrapBuff buff in buffs)

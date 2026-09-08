@@ -189,9 +189,9 @@ public class PlayerAttacks : MonoBehaviour
 
         if (targetCollider != null)
         {
-            damageable.Damage(biteDamage, gameObject);
 
             GameEventManager.instance.Bite(targetCollider.transform, chargeAmount);
+            damageable.Damage(biteDamage, gameObject);
         }
 
         CameraShake.Instance?.Shake(0.5f);
