@@ -72048,7 +72048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2271714355231321266, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: offscreenDistance
-      value: 120
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2636820290500926040, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
