@@ -84,15 +84,17 @@ public class BitingShadow : MonoBehaviour
         // was travelling toward it.
         if (target != null)
         {
+            GameEventManager.instance.Bite(
+                target.transform,
+                chargeAmount
+            );
+
             target.Damage(
                 biteDamage,
                 gameObject
             );
 
-            GameEventManager.instance.Bite(
-                target.transform,
-                chargeAmount
-            );
+            
         }
 
         CameraShake.Instance?.Shake(0.5f);
