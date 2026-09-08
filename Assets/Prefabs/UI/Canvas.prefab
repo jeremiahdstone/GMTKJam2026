@@ -2697,6 +2697,7 @@ MonoBehaviour:
   upgradeList: {fileID: 6418925214329341582}
   UpgradePanelLayoutGroup: {fileID: 4432869303485268603}
   UpgradeUIPrefab: {fileID: 2021788096076484544, guid: 1e71324002a8d58469876b0f34cbc9ef, type: 3}
+  upgradeUIPrefabParent: {fileID: 0}
   buildUI: {fileID: 4129060623401602557}
   openingLetter: {fileID: 2346376819159311591}
   loseScreen: {fileID: 8233039354483991022}
@@ -7414,15 +7415,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
-    m_Left: 4
-    m_Right: 4
+    m_Left: 10
+    m_Right: 10
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 3
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0

@@ -19647,6 +19647,7 @@ MonoBehaviour:
   placeableLayer:
     serializedVersion: 2
     m_Bits: 128
+  placementSearchRadius: 20
 --- !u!1001 &1802437347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72029,6 +72030,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 229107680778468577, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 229107680778468577, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 229107680778468577, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 229107680778468577, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 733530294392039799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: manager
       value: 
