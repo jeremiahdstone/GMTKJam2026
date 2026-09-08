@@ -114,10 +114,9 @@ public class Enemy : MonoBehaviour, IDamageable, IFreezable
 
     public virtual void CalculateStats(int day)
     {
-        int daysSinceStart = day - startingDay;
-        maxHealth = baseHealth + (baseHealth * daysSinceStart * healthIncreasePercentagePerDay);
-        speed = baseSpeed + (baseSpeed * daysSinceStart * speedIncreasePercentagePerDay);
-        attackDamage = Mathf.RoundToInt(baseAttackDamage + (baseAttackDamage * daysSinceStart * damageIncreasePercentagePerDay));
+        maxHealth = baseHealth + (baseHealth * day * healthIncreasePercentagePerDay);
+        speed = baseSpeed + (baseSpeed * day * speedIncreasePercentagePerDay);
+        attackDamage = Mathf.RoundToInt(baseAttackDamage + (baseAttackDamage * day * damageIncreasePercentagePerDay));
 
         currentHealth = maxHealth;
         currentSpeed = speed;
