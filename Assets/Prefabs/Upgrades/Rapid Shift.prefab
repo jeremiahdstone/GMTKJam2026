@@ -50,10 +50,12 @@ MonoBehaviour:
   description: Reduce the cooldown before entering bat form again.
   sprite: {fileID: -5329516746257432617, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   cost: 10
+  costPercentIncrease: 0.2
   level: 1
   affectedStat: 2
-  flatBonus: -0.25
+  flatBonus: 0
   percentBonus: 0
+  exponentialBonus: -0.125
 --- !u!212 &2889573139707109590
 SpriteRenderer:
   serializedVersion: 2

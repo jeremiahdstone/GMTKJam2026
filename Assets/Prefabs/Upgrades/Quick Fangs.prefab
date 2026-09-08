@@ -50,10 +50,12 @@ MonoBehaviour:
   description: Reduce the cooldown of Bite.
   sprite: {fileID: -1939115216864295347, guid: 012b59823a0473442a91353d37adfc6b, type: 3}
   cost: 14
+  costPercentIncrease: 0.2
   level: 1
   affectedStat: 5
-  flatBonus: -0.2
+  flatBonus: 0
   percentBonus: 0
+  exponentialBonus: -0.1
 --- !u!212 &2889573139707109590
 SpriteRenderer:
   serializedVersion: 2
