@@ -3468,7 +3468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITween
   direction: 1
-  offscreenDistance: 90
+  offscreenDistance: 120
   showDuration: 0.8
   showEase: 9
   hideDuration: 0.2
@@ -7710,7 +7710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1229539282974438345, guid: c8e2f846db58c74489ce3762a3c017b3, type: 3}
+  m_Sprite: {fileID: -1591467090, guid: c8e2f846db58c74489ce3762a3c017b3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

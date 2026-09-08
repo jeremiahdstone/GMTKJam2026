@@ -10,7 +10,7 @@ public enum Phase
 
 public class GameSession : MonoBehaviour
 {
-    private bool runInProgress = false;
+    public bool runInProgress {get; private set; } = false ;
     private bool waveEnding = false;
     public static GameSession instance;
 

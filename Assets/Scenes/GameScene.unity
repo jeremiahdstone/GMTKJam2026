@@ -72046,6 +72046,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2271714355231321266, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: offscreenDistance
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 2636820290500926040, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -72054,6 +72058,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 109892002}
+    - target: {fileID: 2636820290500926040, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoseGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636820290500926040, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TogglePauseGame
+      objectReference: {fileID: 0}
     - target: {fileID: 3322635279728942798, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -72066,30 +72078,6 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 1340283467}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093796682894016799, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 4331081865927732285, guid: 6751f7d85ad1f2b4a80f99fe846a89ff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 

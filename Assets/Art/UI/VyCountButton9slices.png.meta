@@ -181,6 +181,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: VyCountButton9slices_3
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 5, y: 7, z: 5, w: 5}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 886964b42fd666149b305cbc1c50d937
+      internalID: -1591467090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -200,6 +222,7 @@ TextureImporter:
       VyCountButton9slices_0: 5265514454885740128
       VyCountButton9slices_1: 1229539282974438345
       VyCountButton9slices_2: -1778105121
+      VyCountButton9slices_3: -1591467090
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

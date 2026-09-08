@@ -646,9 +646,9 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1f);
         GameOverRestartButton.SetActive(true);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.3f);
         GameOverMainMenuButton.SetActive(true);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.6f);
         ShowUpgradePanel();
 
     }
@@ -774,6 +774,7 @@ public class UIManager : MonoBehaviour
                 pauseFadeTween = null;
             });
 
-        UILinks.GetComponent<UITween>().Hide();
+        if(GameSession.instance.runInProgress)
+            UILinks.GetComponent<UITween>().Hide();
     }
 }
