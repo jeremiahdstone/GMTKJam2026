@@ -59,7 +59,6 @@ public class ProjectileTrap : Trap
 
         if (target != null)
         {
-            Debug.Log("Starting burst at " + target.name);
             StartCoroutine(FireBurst(target));
         }
     }

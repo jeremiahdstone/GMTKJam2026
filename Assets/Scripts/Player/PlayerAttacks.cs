@@ -144,10 +144,6 @@ public class PlayerAttacks : MonoBehaviour
             )
         );
 
-        Debug.Log(
-            $"Bite executed at {chargeAmount:P0} charge for {biteDamage} damage."
-        );
-
         biteTimer = biteCooldown;
 
 

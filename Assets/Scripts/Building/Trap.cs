@@ -279,7 +279,6 @@ public abstract class Trap : Placeable, IShoppable
         if (GameSession.instance.phase != Phase.build)
             return;
         base.OnMouseHover();
-        Debug.Log($"Hovering over {name} with description: {description}");
         if(IsBeingDragged) return;
         popup = PopupManager.instance.SpawnPopup(
             transform,
