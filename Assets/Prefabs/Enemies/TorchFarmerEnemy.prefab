@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageTrigger
   aoeFadeDuration: 0.25
-  aoeTargetAlpha: 0.5
+  aoeTargetAlpha: 1
   showInCombat: 1
   showInBuildPhase: 1
   damageAmount: 3

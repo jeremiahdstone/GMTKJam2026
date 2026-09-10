@@ -20,6 +20,8 @@ Shader "Custom/AOECircle"
         [Header(Pixelation)]
         _PixelSize ("Pixel Size", Range(1, 16)) = 1
         _FadeSteps ("Fade Steps", Range(1, 16)) = 4
+        _MinFadeAlpha ("Minimum Fade Alpha", Range(0, 1)) = 0.4
+        _MaxFadeAlpha ("Maximum Fade Alpha", Range(0, 1)) = 1.0
 
         [Header(UV Wobble)]
         [Toggle] _EnableWobble ("Enable Wobble", Float) = 1
@@ -86,6 +88,8 @@ Shader "Custom/AOECircle"
             float _WobbleFrequency;
 
             float _Alpha;
+            float _MinFadeAlpha;
+            float _MaxFadeAlpha;
 
 
             v2f vert(appdata v)
@@ -109,11 +113,20 @@ Shader "Custom/AOECircle"
 
                 if (_FadeSteps <= 1.0)
                 {
-                    return step(0.5, alpha);
+                    return _MaxFadeAlpha;
                 }
 
-                return floor(alpha * _FadeSteps)
-                    / _FadeSteps;
+                // Convert alpha into discrete fade steps.
+                float steppedAlpha =
+                    floor(alpha * (_FadeSteps - 1.0))
+                    / (_FadeSteps - 1.0);
+
+                // Lerp between minimum and maximum alpha.
+                return lerp(
+                    _MinFadeAlpha,
+                    _MaxFadeAlpha,
+                    steppedAlpha
+                );
             }
 
 

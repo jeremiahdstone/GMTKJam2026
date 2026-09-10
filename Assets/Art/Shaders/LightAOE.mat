@@ -44,15 +44,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.589
+    - _Alpha: 1
     - _BorderSize: 1
     - _EnableExternalAlpha: 0
     - _EnableInnerFade: 1
     - _EnableOuterFade: 1
     - _EnableWobble: 1
     - _FadeSize: 5
-    - _FadeSteps: 3
+    - _FadeSteps: 4
     - _InnerPercent: 100
+    - _MaxFadeAlpha: 0.84
+    - _MinFadeAlpha: 0.54
     - _OuterFade: 0
     - _OuterPercent: 0
     - _OutlineSize: 1
