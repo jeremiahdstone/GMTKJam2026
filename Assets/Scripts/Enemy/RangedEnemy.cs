@@ -13,6 +13,7 @@ public class RangedEnemy : Enemy
     [SerializeField] private float scaledProjectileSpeed = 8f;
     [SerializeField] private float projectileSpeedIncreasePercentagePerDay = 0.01f;
     [SerializeField] private float projectileDamageIncreasePercentagePerDay = 0.05f;
+    [SerializeField] private GameObject projectileChargeEffectPrefab;
     
 
 
@@ -72,7 +73,7 @@ public class RangedEnemy : Enemy
             CheckLineOfSight()
         )
         {
-            Shoot();
+            StartCoroutine(ShootCoroutine());
             cooldownTimer = cooldown;
         }
     }
@@ -108,6 +109,14 @@ public class RangedEnemy : Enemy
             );
 
         newProjectile.InitializeFromFlatStats(direction, scaledProjectileSpeed, scaledProjectileDamage);
+    }
+
+    public IEnumerator ShootCoroutine()
+    {
+        GameObject chargeEffect = PoolManager.instance.Spawn(projectileChargeEffectPrefab, firePoint.position, Quaternion.identity);
+        chargeEffect.transform.SetParent(firePoint);
+        yield return new WaitForSeconds(0.4f);
+        Shoot();
     }
 
     public override void CalculateStats(int day)

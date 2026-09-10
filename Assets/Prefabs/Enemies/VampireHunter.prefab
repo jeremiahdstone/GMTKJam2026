@@ -329,6 +329,7 @@ MonoBehaviour:
   scaledProjectileSpeed: 8
   projectileSpeedIncreasePercentagePerDay: 0.01
   projectileDamageIncreasePercentagePerDay: 0.05
+  projectileChargeEffectPrefab: {fileID: 4870498019317298278, guid: 37b2d051f8e17654db4faaee3c30392f, type: 3}
   range: 15
   obstacleLayer:
     serializedVersion: 2
