@@ -146,7 +146,12 @@ public class LevelDirector : MonoBehaviour
             preparedEnemies.Count > 0
         )
         {
+            
             SpawnEnemy();
+            if(GameSession.instance.run.day <= 3)
+            {
+                SpawnArrows();
+            }
 
             yield return new WaitForSeconds(spawnDelay);
         }
@@ -325,6 +330,17 @@ public class LevelDirector : MonoBehaviour
         if (GameSession.instance == null || GameSession.instance.Player == null)
             return;
 
+        HashSet<Transform> enemiesWithArrows = new HashSet<Transform>();
+        EnemyArrow[] activeArrows = FindObjectsByType<EnemyArrow>(FindObjectsSortMode.None);
+
+        foreach (EnemyArrow activeArrow in activeArrows)
+        {
+            if (activeArrow.target != null)
+            {
+                enemiesWithArrows.Add(activeArrow.target);
+            }
+        }
+
         for (int i = LivingEnemies.Count - 1; i >= 0; i--)
         {
             GameObject enemyObj = LivingEnemies[i];
@@ -335,11 +351,15 @@ public class LevelDirector : MonoBehaviour
                 continue;
             }
 
+            if (enemiesWithArrows.Contains(enemyObj.transform))
+                continue;
+
             EnemyArrow enemyArrow = poolManager
                 .Spawn(arrowObject, GameSession.instance.Player.transform)
                 .GetComponent<EnemyArrow>();
 
             enemyArrow.Initialize(enemyObj.transform);
+            enemiesWithArrows.Add(enemyObj.transform);
         }
     }
 

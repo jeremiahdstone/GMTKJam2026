@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyArrow : MonoBehaviour
 {
-    private Transform target;
+    public Transform target;
     private bool initialized;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
