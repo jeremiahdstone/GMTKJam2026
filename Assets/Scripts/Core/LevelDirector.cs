@@ -148,7 +148,7 @@ public class LevelDirector : MonoBehaviour
         {
             
             SpawnEnemy();
-            if(GameSession.instance.run.day <= 3)
+            if(GameSession.instance.run.day == 1)
             {
                 SpawnArrows();
             }
