@@ -10,6 +10,7 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Targeting")]
     [SerializeField] private float clickSelectionRadius = 1f;
     [SerializeField] private LayerMask damageableLayers;
+    [SerializeField] public IDamageable currentSelectedDamageable;
 
     [Header("Bat Explosion")]
     [SerializeField] private float batExplosionDamage = 8f;
@@ -56,6 +57,83 @@ public class PlayerAttacks : MonoBehaviour
             biteTimer -= Time.deltaTime;
 
         UpdateBiteRangeHighlights();
+
+        UpdateCurrentSelectedDamageable();
+    }
+
+    public void UpdateCurrentSelectedDamageable()
+    {
+        if (manager.playerMovement.batForm)
+        {
+            currentSelectedDamageable = null;
+            return;
+        }
+
+        float chargeAmount = GetBiteCharge();
+        float biteRange = GetChargedBiteRange(chargeAmount);
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (TryGetClosestDamageableInRange(
+                mousePosition,
+                biteRange,
+                biteRange,
+                out _,
+                out IDamageable closestDamageable))
+        {
+            currentSelectedDamageable = closestDamageable;
+            return;
+        }
+
+        currentSelectedDamageable = null;
+    }
+
+    private bool TryGetClosestDamageableInRange(
+        Vector2 searchCenter,
+        float searchRadius,
+        float maxDistanceFromPlayer,
+        out Collider2D closestCollider,
+        out IDamageable closestDamageable)
+    {
+        closestCollider = null;
+        closestDamageable = null;
+
+        float closestMouseDistanceSqr = Mathf.Infinity;
+        float maxDistanceSqr = maxDistanceFromPlayer * maxDistanceFromPlayer;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            searchCenter,
+            searchRadius,
+            damageableLayers
+        );
+
+        foreach (Collider2D hit in hits)
+        {
+            IDamageable damageable = hit.GetComponent<IDamageable>();
+            damageable ??= hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
+                continue;
+
+            Vector2 targetPosition = hit.transform.position;
+
+            float playerDistanceSqr =
+                ((Vector2)transform.position - targetPosition).sqrMagnitude;
+
+            if (playerDistanceSqr > maxDistanceSqr)
+                continue;
+
+            float mouseDistanceSqr =
+                (searchCenter - targetPosition).sqrMagnitude;
+
+            if (mouseDistanceSqr < closestMouseDistanceSqr)
+            {
+                closestMouseDistanceSqr = mouseDistanceSqr;
+                closestCollider = hit;
+                closestDamageable = damageable;
+            }
+        }
+
+        return closestCollider != null && closestDamageable != null;
     }
 
     public void BiteAttack(Vector2 mousePosition)
@@ -68,8 +146,6 @@ public class PlayerAttacks : MonoBehaviour
             return;
 
         if (currentlyBiting) return;
-
-
 
         float biteCooldown = playerStats.GetStat(PlayerStat.BiteCooldown);
         float chargeAmount = GetBiteCharge();
@@ -86,50 +162,17 @@ public class PlayerAttacks : MonoBehaviour
         float biteRange = GetChargedBiteRange(chargeAmount);
         float biteSpeed = GetChargedBiteSpeed(chargeAmount);
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            mousePosition,
-            clickSelectionRadius,
-            damageableLayers
-        );
-
-        Collider2D closestCollider = null;
-        IDamageable closestDamageable = null;
-
-        float closestMouseDistanceSqr = Mathf.Infinity;
-        float biteRangeSqr = biteRange * biteRange;
-
-        foreach (Collider2D hit in hits)
+        if (!TryGetClosestDamageableInRange(
+                mousePosition,
+                clickSelectionRadius,
+                biteRange,
+                out Collider2D closestCollider,
+                out IDamageable closestDamageable))
         {
-            IDamageable damageable = hit.GetComponent<IDamageable>();
-            damageable ??= hit.GetComponentInParent<IDamageable>();
-
-            if (damageable == null)
-                continue;
-
-            Vector2 targetPosition = hit.transform.position;
-
-            float playerDistanceSqr =
-                ((Vector2)transform.position - targetPosition).sqrMagnitude;
-
-            if (playerDistanceSqr > biteRangeSqr)
-                continue;
-
-            float mouseDistanceSqr =
-                (mousePosition - targetPosition).sqrMagnitude;
-
-            if (mouseDistanceSqr < closestMouseDistanceSqr)
-            {
-                closestMouseDistanceSqr = mouseDistanceSqr;
-                closestCollider = hit;
-                closestDamageable = damageable;
-            }
+            return;
         }
 
-        if (closestCollider == null || closestDamageable == null)
-            return;
-
         bool fullyCharged = biteTimer <= 0.05f;
-
 
         GameEventManager.instance.StartBite(closestCollider.transform, chargeAmount);
 
@@ -145,8 +188,6 @@ public class PlayerAttacks : MonoBehaviour
         );
 
         biteTimer = biteCooldown;
-
-
     }
 
 

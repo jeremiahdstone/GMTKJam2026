@@ -72,6 +72,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float cooldownReadyPunchStrength = 0.16f;
     [SerializeField] private float cooldownReadyPunchDuration = 0.3f;
 
+    [Header("Bite Indicator")]
+    [SerializeField] private RectTransform biteIndicator;
+    [SerializeField] private RectTransform biteIndicatorTopJaw;
+    [SerializeField] private RectTransform biteIndicatorBottomJaw;
+
     [Header("Lose Screen Opening")]
     [SerializeField] private float loseScreenFadeInTime = 1f;
     [SerializeField] private float loseScreenFadeOpacity = 0.43f;
@@ -124,9 +129,9 @@ public class UIManager : MonoBehaviour
         batFormCooldownRect = batFormCoolDownImage.rectTransform;
 
         attackCooldownFullHeight = attackCooldownRect.rect.height;
-        attackCooldownStartingY = attackCooldownRect.anchoredPosition.y;
+        attackCooldownStartingY = attackCooldownRect.localPosition.y;
         batFormCooldownFullHeight = batFormCooldownRect.rect.height;
-        batFormCooldownStartingY = batFormCooldownRect.anchoredPosition.y;
+        batFormCooldownStartingY = batFormCooldownRect.localPosition.y;
 
         attackCooldownDisplayedAmount = 1f;
         batFormCooldownDisplayedAmount = 1f;
@@ -142,6 +147,66 @@ public class UIManager : MonoBehaviour
     {
         SetAttackCooldown();
         SetBatFormCooldown();
+        UpdateBiteIndicator();
+    }
+
+    private void UpdateBiteIndicator()
+    {
+        Transform targetTransform = null;
+
+        if (playerManager != null &&
+            playerManager.playerAttacks != null &&
+            playerManager.playerAttacks.currentSelectedDamageable is Component component)
+        {
+            targetTransform = component.transform;
+        }
+
+        SetBiteIndicator(targetTransform);
+    }
+
+    private void SetBiteIndicator(Transform tf)
+    {
+        if (biteIndicator == null)
+            return;
+
+        if (tf == null)
+        {
+            biteIndicator.gameObject.SetActive(false);
+            return;
+        }
+
+        Canvas canvas = GetComponentInParent<Canvas>();
+        if (canvas == null)
+        {
+            biteIndicator.gameObject.SetActive(false);
+            return;
+        }
+
+        RectTransform canvasRect = biteIndicator.parent as RectTransform;
+        if (canvasRect == null)
+        {
+            biteIndicator.gameObject.SetActive(false);
+            return;
+        }
+
+        Camera uiCamera = canvas.renderMode == RenderMode.ScreenSpaceOverlay
+            ? null
+            : (canvas.worldCamera != null ? canvas.worldCamera : Camera.main);
+
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(uiCamera, tf.position);
+
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect,
+                screenPoint,
+                uiCamera,
+                out Vector2 localPoint))
+        {
+            biteIndicator.gameObject.SetActive(false);
+            return;
+        }
+
+        biteIndicator.anchoredPosition = localPoint;
+        biteIndicator.gameObject.SetActive(true);
     }
 
     private void SetAttackCooldown()
@@ -175,6 +240,21 @@ public class UIManager : MonoBehaviour
             attackCooldownDisplayedAmount
         );
 
+        ApplyCooldownHeight(
+            biteIndicatorTopJaw,
+            6,
+            4.5f,
+            attackCooldownDisplayedAmount,
+            false
+        );
+
+        ApplyCooldownHeight(
+            biteIndicatorBottomJaw,
+            6,
+            -4.5f,
+            attackCooldownDisplayedAmount
+        );
+
         bool cooldownIsActive = timer > 0f;
 
         // Trigger once when the cooldown becomes ready.
@@ -182,6 +262,18 @@ public class UIManager : MonoBehaviour
         {
             PlayCooldownReadyTween(
                 attackCooldownImage.transform,
+                ref attackCooldownReadyTween
+            );
+
+            
+
+            PlayCooldownReadyTween(
+                biteIndicatorBottomJaw.transform,
+                ref attackCooldownReadyTween
+            );
+
+            PlayCooldownReadyTween(
+                biteIndicatorTopJaw.transform,
                 ref attackCooldownReadyTween
             );
 
@@ -221,6 +313,9 @@ public class UIManager : MonoBehaviour
             batFormCooldownStartingY,
             batFormCooldownDisplayedAmount
         );
+        
+
+
 
         bool cooldownIsActive = timer > 0f;
 
@@ -241,7 +336,7 @@ public class UIManager : MonoBehaviour
     RectTransform cooldownRect,
     float fullHeight,
     float startingY,
-    float visibleAmount)
+    float visibleAmount, bool bottomToTop = true)
     {
         visibleAmount = Mathf.Clamp01(visibleAmount);
 
@@ -253,16 +348,19 @@ public class UIManager : MonoBehaviour
             newHeight
         );
 
-        Vector2 position = cooldownRect.anchoredPosition;
-        position.y = startingY - removedHeight * 0.5f;
-        cooldownRect.anchoredPosition = position;
+        Vector3 position = cooldownRect.localPosition;
+        float anchorOffset = removedHeight * 0.5f;
+        position.y = bottomToTop
+            ? startingY - anchorOffset
+            : startingY + anchorOffset;
+        cooldownRect.localPosition = position;
     }
 
     private void PlayCooldownReadyTween(
         Transform cooldownTransform,
         ref Tween cooldownTween)
     {
-        cooldownTween?.Kill();
+        //cooldownTween?.Kill();
 
         cooldownTransform.localScale = Vector3.one;
         cooldownTransform.localRotation = Quaternion.identity;
