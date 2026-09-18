@@ -365,14 +365,7 @@ public class LevelDirector : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            if (GameSession.instance != null)
-            {
-                ClearEnemies();
-                GameSession.instance.EndWave();
-            }
-        }
+
     }
 
     public void ClearEnemies()
